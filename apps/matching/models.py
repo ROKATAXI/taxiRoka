@@ -1,4 +1,5 @@
 from django.db import models
+from user.models import User
 
 # ERD CLOUD 링크: https://www.erdcloud.com/d/zB3wiAaQY7PxnzLyY
 
