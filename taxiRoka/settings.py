@@ -58,7 +58,7 @@ ROOT_URLCONF = 'taxiRoka.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'apps' / 'templates']
+        'DIRS': ['templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
