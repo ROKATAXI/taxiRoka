@@ -1,0 +1,9 @@
+.footer-custom {
+    height: 60px;
+    background-color: gray;
+}
+
+.footer-section > div > img {
+    height: 30px;
+    width: 30px;
+}
