@@ -13,6 +13,8 @@
 </head>
 <body>
     <!-- 네비게이션 바 -->
+    <!-- 비로그인 -->
+    {% if 1 == 1 %}
     <nav class="fixed-top">
         <div class="nav-container">
             <h1 class="title">Taxi ROKA</h1>
@@ -25,6 +27,21 @@
             </div>
         </div>
     </nav>
+    <!-- 로그인 -->
+    {% else %}
+    <nav class="fixed-top">
+        <div class="nav-container">
+            <h1 class="title">Taxi ROKA</h1>
+            <!-- 검색 -->
+            <div class="search-container">
+                <form class="d-flex search-room" role="search" method="POST">{% csrf_token %}
+                    <input class="form-control me-2" type="search" placeholder="부대를 검색하세요.">
+                    <button class="btn btn-outline-secondary" type="submit">검색</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
     <div class="main-container">
         {% block content %}
         {% endblock %}  

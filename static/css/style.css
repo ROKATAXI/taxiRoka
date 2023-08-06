@@ -24,6 +24,18 @@ html, body {
     width: 70px;
 }
 
+.search-container {
+    padding: 5px;
+}
+
+.search-room {
+    height: 30px;
+    width: 190px;
+}
+.search-room > input, .search-room > button {
+    font-size: 10px;
+}
+
 .footer-container {
     display: flex;
     align-items: center;
