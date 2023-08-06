@@ -3,6 +3,21 @@
 {% block title %}메인 페이지{% endblock %}
 
 {% block content %}
-  <h1>메인 페이지</h1>
-  <p>이곳에 메인 페이지 컨텐츠를 작성합니다.</p>
+    <div class="container">
+        <h1 class="text-center mt-3">주단위 달력</h1>
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10 col-12 calendar">
+                <!-- 날짜와 이벤트를 표시할 부분 -->
+                <div class="row">
+                <div class="col-2 day">일</div>
+                <div class="col-2 day">월</div>
+                <div class="col-2 day">화</div>
+                <div class="col-2 day">수</div>
+                <div class="col-2 day">목</div>
+                <div class="col-2 day">금</div>
+            </div>
+        </div>
+    </div>
+    <h1>메인 페이지</h1>
+    <p>이곳에 메인 페이지 컨텐츠를 작성합니다.</p>
 {% endblock %}
