@@ -2,6 +2,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 132px;
+}
+
+.date-container {
+    margin-top: 82px;
 }
 
 .calendar-scroll-container {
@@ -46,11 +51,29 @@
 
 .matchingroom-container {
     display: flex;
+    gap: 10px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    padding-top: 10px;
+    height: 500px;
+    overflow-y: auto;
 }
 
 .matching-room {
-    height: 100px;
+    height: 70px;
+    width: 90%;
+    background-color: gray;
+    border-radius: 20px;
+}
+
+
+.modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 240px;
+    margin: auto;
 }
