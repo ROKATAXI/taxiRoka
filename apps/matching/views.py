@@ -1,5 +1,5 @@
 from django.shortcuts import render
 
 # Create your views here.
-def main(request):
+def matching_list(request):
     return render(request, 'matching/matchinglist.html')
