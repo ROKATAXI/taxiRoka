@@ -50,10 +50,10 @@
 
     height: 50px;
     width: 90%;
-    background-color: aqua;
 }
 .matchinglist-info > h2 {
     font-size: 20px;
+    margin-bottom: 0;
 }
 .matchinglist-info > button {
     font-size: 10px;
