@@ -20,7 +20,7 @@ def login(request):
             
         else:
             auth.login(request, user)
-            user, _ = CustomUser.objects.get_or_create(user=user, name=user.username)
+            user = CustomUser.objects.get(username=user.username)
             return redirect('/')
     return render(request, 'user/login.html') 
 
