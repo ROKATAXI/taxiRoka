@@ -1,76 +1,155 @@
-<form method="POST" action="{% url 'user:signup' %}" class="signup-form">
-    {% csrf_token %}
-    <h1>회원가입</h1>
-    <div>
-      <label for="inputName">username</label>
-      <div>
-        <input class="form-control" id="inputName" name="username" />
-      </div>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* 기본 스타일 */
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: grey; /* 나머지 배경을 회색으로 설정 */
+        }
+
+        /* 회원가입 폼 스타일 */
+        .signup-form {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            text-align: center; /* 내용물 가운데 정렬 */
+            
+        }
+
+        .form-control {
+            width: 90%;
+            height: 30px; 
+            margin-bottom: 10px;
+            padding: 5px 8px; 
+            border: 1px solid #ccc;
+            border-radius: 15px;
+        }
+
+        .form-control:focus {
+            border-color: #5b646b;
+            outline: none;
+        }
+
+        .signup-form h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .signup-form .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            margin-left: 20px;
+        }
+
+        .signup-form .form-group label {
+            margin-bottom: 5px;
+        }
+
+        .signup-form button[type="submit"] {
+            background-color: #4b5054;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 50%;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .signup-form button[type="submit"]:hover {
+            background-color: #92a1b1;
+        }
+
+        @media screen and (max-width: 320px) {
+            .signup-form {
+                width: 100%;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+  <script src="{% static 'js/signup.js' %}"></script>
+    <div class="signup-form">
+        <form method="POST" action="{% url 'user:signup' %}">
+            {% csrf_token %}
+            <h1>회원가입</h1>
+            <div class="form-group">
+                <label for="inputName">Username</label>
+                <input class="form-control" id="inputName" name="username" />
+            </div>
+            <div class="form-group">
+              <label for="inputEmail3">Email</label>
+              <input type="email" class="form-control" id="inputEmail3" name="email" />
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="inputPassword3"
+                name="password"
+              />
+            </div>
+            <div class="form-group"><!--비밀번호 재입력 자바스크립트에서 동일하지 않으면 버튼 안눌리게 해야함-->
+              <label for="inputPassword3">Confirm_Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="inputPassword3"
+                name="confirm_password"
+              />
+            </div>
+            <div class="form-group">
+                <label for="id_first_name">이름</label>
+                <input type="text" class="form-control" id="id_first_name" name="first_name" />
+              </div>
+              <div class="form-group">
+                <label for="id_last_name">성</label>
+                <input type="text" class="form-control" id="id_last_name" name="last_name" />
+              </div>
+            <div class="form-group">
+              <label for="inputPhone">Phone</label>
+              <input type="tel" class="form-control" id="inputPhone" name="phone" />
+            </div>
+            <div class="form-group">
+              <label for="inputLocation">Location</label>
+              <input type="text" class="form-control" id="inputLocation" name="location" />
+            </div>
+            <div class="form-group">
+              <label for="inputInDate">In Date</label>
+              <input type="date" class="form-control" id="inputInDate" name="in_date" />
+            </div>
+            <div class="form-group">
+              <label for="inputOutDate">Out Date</label>
+              <input type="date" class="form-control" id="inputOutDate" name="out_date" />
+            </div>
+            <button type="submit">Sign up</button>
+          </form>
     </div>
-    <div>
-      <label for="inputEmail3">Email</label>
-      <div>
-        <input type="email" class="form-control" id="inputEmail3" name="email" />
-      </div>
-    </div>
-    <div>
-      <label for="inputPassword3">Password</label>
-      <div>
-        <input
-          type="password"
-          class="form-control"
-          id="inputPassword3"
-          name="password"
-        />
-      </div>
-    </div>
-    <div><!--비밀번호 재입력 자바스크립트에서 동일하지 않으면 버튼 안눌리게 해야함-->
-      <label for="inputPassword3">Confirm_Password</label>
-      <div>
-        <input
-          type="password"
-          class="form-control"
-          id="inputPassword3"
-          name="confirm_password"
-        />
-      </div>
-    </div>
-    <div>
-        <label for="id_first_name">이름</label>
-        <div>
-          <input type="text" class="form-control" id="id_first_name" name="first_name" />
-        </div>
-      </div>
-      <div>
-        <label for="id_last_name">성</label>
-        <div>
-          <input type="text" class="form-control" id="id_last_name" name="last_name" />
-        </div>
-      </div>
-    <div>
-      <label for="inputPhone">Phone</label>
-      <div class="col-sm-10">
-        <input type="tel" class="form-control" id="inputPhone" name="phone" />
-      </div>
-    </div>
-    <div>
-      <label for="inputLocation">Location</label>
-      <div>
-        <input type="text" class="form-control" id="inputLocation" name="location" />
-      </div>
-    </div>
-    <div>
-      <label for="inputInDate">In Date</label>
-      <div>
-        <input type="date" class="form-control" id="inputInDate" name="in_date" />
-      </div>
-    </div>
-    <div>
-      <label for="inputOutDate">Out Date</label>
-      <div>
-        <input type="date" class="form-control" id="inputOutDate" name="out_date" />
-      </div>
-    </div>
-    <button type="submit">Sign up</button>
-  </form>
-  
+
+    
+</body>
+</html>
