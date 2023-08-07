@@ -1,6 +1,9 @@
 from django.urls import path
-from .views import *
+from . import views
+
+app_name = 'matching'
 
 urlpatterns = [
-    path('', main),
+    path('', views.main, name = "main"),
+    path('create/', views.matching_create, name="create"),
 ]
