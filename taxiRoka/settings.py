@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'apps.matching',
     'apps.user',
     'apps.vacation',
+    'apps.payments',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
