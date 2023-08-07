@@ -14,7 +14,7 @@
 <body>
     <!-- 네비게이션 바 -->
     <!-- 비로그인 -->
-    {% if 1 == 1 %}
+    {% if 1 == 0 %}
     <nav class="fixed-top">
         <div class="nav-container">
             <h1 class="title">Taxi ROKA</h1>
@@ -33,11 +33,9 @@
         <div class="nav-container">
             <h1 class="title">Taxi ROKA</h1>
             <!-- 검색 -->
-            <div class="search-container">
-                <form class="d-flex search-room" role="search" method="POST">{% csrf_token %}
-                    <input class="form-control me-2" type="search" placeholder="부대를 검색하세요.">
-                    <button class="btn btn-outline-secondary" type="submit">검색</button>
-                </form>
+            <div class="login-nav-right">
+                <img src="/static/img/notice.png" alt="notice이미지" class="notice-img">
+                <img src="/static/img/hamburger.png" alt="hamburger이미지" class="hamburger-img">
             </div>
         </div>
     </nav>
