@@ -1,0 +1,25 @@
+<h2>매칭 방 신청</h2>
+<div>
+    <p>출발지점:</p> 
+    {{ matching_room.departure_area }}
+</div>
+<div>
+    <p>도착지점:</p> 
+    {{ matching_room.destination_area }}
+</div>
+<div>
+    <p>예약날짜:</p> 
+    {{ matching_room.departure_date }}
+</div>
+<div>
+    <p>예약시간:</p>
+    {{ matching_room.departure_time }}
+</div>
+<p>이미 선택된 좌석: {{ selected_seats }}</p>
+
+<form action="{% url 'matching:apply' matching_room.pk %}"method="post">
+  {% csrf_token %}
+  <label for="seat_num">좌석번호:</label>
+  <input type="number" name="seat_num" required>
+  <input type="submit" value="방 신청하기">
+</form>
