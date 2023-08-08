@@ -7,39 +7,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/matching_list.css' %}" type="text/css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     {% block title %}
     {% endblock %}
 </head>
 <body>
     <!-- 네비게이션 바 -->
-    <!-- 비로그인 -->
-    {% if 1 == 0 %}
     <nav class="fixed-top">
         <div class="nav-container">
+            <!-- 페이지별 네브바 변경 -->
+            {% if 1 == 0 %}
             <h1 class="title">Taxi ROKA</h1>
+            {% elif 1 == 1 %}
+            <img src="/static/img/beforepage.png" alt="hamburger이미지" class="beforepage-img">
+            {% else %}
+            <h1></h1>
+            {% endif %}
+            
             <!-- 검색 -->
+            <!-- 비로그인 -->
+            {% if 1 == 0 %}
             <div class="search-container">
                 <form class="d-flex search-room" role="search" method="POST">{% csrf_token %}
                     <input class="form-control me-2" type="search" placeholder="부대를 검색하세요.">
                     <button class="btn btn-outline-secondary" type="submit">검색</button>
                 </form>
             </div>
-        </div>
-    </nav>
-    <!-- 로그인 -->
-    {% else %}
-    <nav class="fixed-top">
-        <div class="nav-container">
-            <h1 class="title">Taxi ROKA</h1>
-            <!-- 검색 -->
+            {% else %}
+            <!-- 로그인 -->
             <div class="login-nav-right">
                 <img src="/static/img/notice.png" alt="notice이미지" class="notice-img">
                 <img src="/static/img/hamburger.png" alt="hamburger이미지" class="hamburger-img">
             </div>
+            {% endif %}
         </div>
     </nav>
-    {% endif %}
+    
     <div class="main-container">
         {% block content %}
         {% endblock %}  
