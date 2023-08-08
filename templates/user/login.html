@@ -14,11 +14,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             background-color: gray;
         }
 
-        /* 로그인 폼 스타일 */
+  
         .login-form {
             width: 300px;
             padding: 20px;
@@ -26,7 +26,7 @@
             border-radius: 5px;
             background-color: #D9D9D9;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            max-height: 100vh; 
+            min-height: 100vh; 
             text-align: center;
         }
 
@@ -34,29 +34,30 @@
             display: block;
             margin: 0 auto;
             max-width: 250px;
-            margin-bottom: 20px; 
-            margin-top: 30px; 
+            
         }
 
         .login-form .input-group {
             display: flex;
             align-items: center;
             justify-content: center; 
-            margin-bottom: 0px; 
+           
+        
         }
 
         .login-form .icon {
             margin-right: 8px; 
+            margin-bottom: 10px;
+          
         }
 
         .login-form .icon img {
             width: 35px; 
-            height: 55px; 
+            height: 35px; 
         }
 
         .login-form .form-control {
             padding: 10px;
-            margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 15px;
             flex: 1; 
@@ -79,7 +80,26 @@
             background-color: #92a1b1;
         }
 
-      
+        .container{
+            display: flex;
+            flex-direction: column;
+            gap:10px;
+            margin-top: 80px;
+            height: 100%; 
+               max-height: 100vh;
+         
+        }
+        
+       
+         
+        @media screen and (max-width: 320px) {
+            .login-form {
+                height: 85vh; 
+            
+            }
+        }
+
+
     </style>
 </head>
 <body>
@@ -88,31 +108,35 @@
 
         <img src="{% static 'img/loginlogo.png' %}" alt="로그인 로고사진">
 
-        <div class="input-group">
-            <div class="icon">
-                <img src="{% static 'img/login_id.png' %}" alt="id 로고사진">
-            </div>
-            <input
-                type="text"
-                class="form-control"
-                name="id"
-                placeholder="아이디를 입력하세요"
-            />
-        </div>
+       
+        <div class="container">
+                <div class="input-group">
+                    <div class="icon">
+                        <img src="{% static 'img/login_idd.png' %}" alt="id 로고사진">
+                    </div>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="id"
+                        placeholder="아이디를 입력하세요"
+                    />
+                </div>
 
-        <div class="input-group">
-            <div class="icon">
-                <img src="{% static 'img/login_pw.png' %}" alt="pw 로고사진">
-            </div>
-            <input
-                type="password"
-                class="form-control"
-                name="password"
-                placeholder="비밀번호를 입력하세요"
-            />
-        </div>
+                <div class="input-group">
+                    <div class="icon">
+                        <img src="{% static 'img/login_pww.png' %}" alt="pw 로고사진">
+                    </div>
+                    <input
+                        type="password"
+                        class="form-control"
+                        name="password"
+                        placeholder="비밀번호를 입력하세요"
+                    />
+                </div>
+            </div> 
 
-        <button type="submit">로그인</button>
+            <button type="submit">로그인</button>
+       
     </form>
 </body>
 </html>
