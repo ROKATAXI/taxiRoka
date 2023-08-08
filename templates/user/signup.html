@@ -1,3 +1,5 @@
+{% load socialaccount %}
+{% providers_media_js %}
 <form method="POST" action="{% url 'user:signup' %}" class="signup-form">
     {% csrf_token %}
     <h1>회원가입</h1>
