@@ -1,6 +1,10 @@
 from django.urls import path
-from .views import *
+from . import views
+
+app_name = 'matching'
 
 urlpatterns = [
-    path('', ),
+    path('', views.main, name = "main"),
+    path('create/', views.matching_create, name="create"),
+    path('apply/<int:pk>', views.matching_apply, name="apply"),
 ]
