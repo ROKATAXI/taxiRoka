@@ -24,6 +24,7 @@ urlpatterns = [
     path('matching/', include('apps.matching.urls')),
     path('user/', include('apps.user.urls')),
     path('vacation/', include('apps.vacation.urls')),
+    path('report/', include('apps.report.urls')),
 ]
 
 

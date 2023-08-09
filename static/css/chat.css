@@ -96,13 +96,13 @@
     cursor: pointer;
 }
 
-.modal-header {
+.report-modal .modal-header {
     border-bottom: none;
 }
-.modal-body {
+.report-modal .modal-body {
     text-align: center;
     font-size: 18px;
 } 
-.modal-footer {
+.report-modal .modal-footer {
     border-top: none;
 }
