@@ -88,11 +88,11 @@
             <!-- 부대위치와 방생성 -->
             <div class="matchinglist-info">
                 <h2>상무대</h2>
-                <button class="btn btn-secondary">방 만들기</button>
+                <a href="/matching/create/"><button class="btn btn-secondary">방 만들기</button></a>
             </div>
         
             {% for room in rooms %}
-            <button type="button" class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <div class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <div>
                     {{ room.departure_date }}
                     {{ room.departure_time }}
@@ -104,7 +104,7 @@
                 <div>
                     {{ room.current_num }} / {{ room.max_num }}
                 </div>
-            </button>
+            </div>
             {% endfor %}
 
             <!-- Modal -->
