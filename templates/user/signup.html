@@ -136,6 +136,8 @@
  
   <div class="form-container">
     <div class="signup-form">
+    {% load socialaccount %}
+    {% providers_media_js %}
         <form method="POST" action="{% url 'user:signup' %}">
             {% csrf_token %}
             <h1>회원가입</h1>
@@ -194,8 +196,6 @@
             <button type="submit" id="signupBtn">Sign up</button>
 
           </form>
-{% load socialaccount %}
-{% providers_media_js %}
     </div>
 
     <div id="myModal" class="modal">
