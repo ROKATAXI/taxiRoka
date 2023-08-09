@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import CustomUser
 
-# Register your models here.
+# 아래 코드에서 User를 CustomUser로 변경
+admin.site.register(CustomUser)

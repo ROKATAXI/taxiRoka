@@ -1,0 +1,33 @@
+<form action="{% url 'matching:create' %}" method="post">
+    {% csrf_token %}
+    <div>
+        <div>
+            <p>출발지점</p>
+            <input name="departure_area">
+        </div>
+        <div>
+            <p>도착지점</p>
+            <input name="destination_area">
+        </div>
+        <div>
+            <label for="matching-reservation-date">예약 날짜</label>
+            <input type="date" name="departure_date">
+        </div>
+            <label for="matching-reservation-time">예약 시간</label>
+            <input type="time" name="departure_time">
+        <div>
+            <p>좌석선택</p>
+            <input type="radio" id="seat1" value="1" name="seat_num">1
+            <input type="radio" id="seat2" value="2" name="seat_num">2           
+            <input type="radio" id="seat3" value="3" name="seat_num">3            
+            <input type="radio" id="seat4" value="4" name="seat_num">4            
+        </div>
+        <div>            
+            <input type="radio" id="choice1" value="4" name="max_num"><label for="person_four">최대 4인 매칭(추천)</label>
+            <input type="radio" id="choice2" value="3" name="max_num"><label for="person_three">최대 3인 매칭</label>            
+        </div>
+        <div>
+            <input type="submit" value="방 생성하기">
+        </div>
+    </div>
+</form>

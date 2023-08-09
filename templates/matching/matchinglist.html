@@ -91,30 +91,22 @@
                 <button class="btn btn-secondary">방 만들기</button>
             </div>
         
+            {% for room in rooms %}
             <button type="button" class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <h7>test</h7>
-                <h7>test</h7>
-                <h7>test</h7>
+                <div>
+                    {{ room.departure_date }}
+                    {{ room.departure_time }}
+                </div>
+                <div>
+                    {{ room.departure_area }}
+                    {{ room.destination_area }}
+                </div>
+                <div>
+                    {{ room.current_num }} / {{ room.max_num }}
+                </div>
             </button>
-            <button type="button" class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Put data here!
-            </button>
-            <button type="button" class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Put data here!
-            </button>
-            <button type="button" class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Put data here!
-            </button>
-            <button type="button" class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Put data here!
-            </button>
-            <button type="button" class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Put data here!
-            </button>
-            <button type="button" class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Put data here!
-            </button>
-            
+            {% endfor %}
+
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
