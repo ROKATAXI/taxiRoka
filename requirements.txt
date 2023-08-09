@@ -9,3 +9,4 @@ daphne==4.0.0
 channels-redis==4.1.0
 redis==4.6.0
 msgpack==1.0.5
+dotenv==0.0.5

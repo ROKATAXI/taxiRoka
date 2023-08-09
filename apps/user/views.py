@@ -39,7 +39,7 @@ def login(request):
             print('login')
             auth.login(request, user)
             user = CustomUser.objects.get(username=user.username)
-            return redirect('/')
+            return redirect('matching:main')
     return render(request, 'user/login.html') 
 
 def logout(request) :
@@ -49,7 +49,7 @@ def logout(request) :
 def google_login(request):
     scope = "https://www.googleapis.com/auth/userinfo.email"
     client_id = os.environ.get("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
-    redirect_uri = GOOGLE_CALLBACK_URI
+    # redirect_uri = GOOGLE_CALLBACK_URI
     print(2)
     return redirect(f"https://accounts.google.com/o/oauth2/v2/auth?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scope}")
 
@@ -68,7 +68,7 @@ def signup(request):
 
         try:
             existing_user = CustomUser.objects.get(username=username)
-            return redirect('/login/') 
+            return redirect('login/') 
         except CustomUser.DoesNotExist:
             user = CustomUser.objects.create_user(
                 username=username,
@@ -135,7 +135,7 @@ def google_callback(request):
         "client_secret": client_secret,
         "code": code,
         "grant_type": "authorization_code",
-        "redirect_uri": GOOGLE_CALLBACK_URI,
+        # "redirect_uri": GOOGLE_CALLBACK_URI,
     })
     
     try:
@@ -172,7 +172,7 @@ def google_callback(request):
 
 class GoogleLogin(SocialLoginView):
     adapter_class = google_view.GoogleOAuth2Adapter
-    callback_url = GOOGLE_CALLBACK_URI
+    # callback_url = GOOGLE_CALLBACK_URI    
     client_class = OAuth2Client
 
 def send_email(request):
@@ -238,5 +238,5 @@ def kakao_Auth_Redirect(request):
 
 
 def kakao(request):
-   return render(request, 'user/kakao.html')
+    return render(request, 'user/kakao.html')
 
