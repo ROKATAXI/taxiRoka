@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import datetime
 
+
 # 매칭 방 리스트
 @login_required
 def main(request):
@@ -42,7 +43,7 @@ def matching_create(request):
 
         return redirect('/matching/')
     
-    return render(request, "matching/matching_create.html")
+    return render(request, "matching/createroom.html")
 
 # 매칭 신청하기
 @login_required
@@ -188,3 +189,4 @@ def matching_delete(request, pk):
 
 
     return redirect('/matching/')
+

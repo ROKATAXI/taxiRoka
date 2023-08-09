@@ -1,0 +1,69 @@
+.direction-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    margin: auto;
+    gap: 20px;
+}
+
+
+.create-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    width: 95%;
+    margin: auto;
+    padding-top: 20px;
+    /* background-color: gray; */
+}
+
+
+
+.create-option {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.seat-option > img {
+    height: 30px;
+    width: 30px;
+}
+
+.hidden-radio {
+    display: none;
+}
+
+.seat-option > img {
+    cursor: pointer;
+    opacity: 0.5
+}
+
+.seat-option > img:hover {
+    opacity: 1
+}
+
+.create-option-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.img-direction {
+    height: 10px;
+    width: 10px;
+}
+
+.locations {
+    width: 45%;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+.locations > label {
+    font-size: 10px;
+}

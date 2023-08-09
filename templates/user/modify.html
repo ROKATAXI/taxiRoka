@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입</title>
-    <script src="{% static 'js/user_signup_modal.js' %}"></script>
+    <title>회원정보수정</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         /* 기본 스타일 */
@@ -136,11 +135,9 @@
  
   <div class="form-container">
     <div class="signup-form">
-    {% load socialaccount %}
-    {% providers_media_js %}
         <form method="POST" action="{% url 'user:signup' %}">
             {% csrf_token %}
-            <h1>회원가입</h1>
+            <h1>회원정보수정</h1>
             <div class="form-group">
                 <label for="inputName">Username</label>
                 <input class="form-control" id="inputName" name="username" />
@@ -159,7 +156,7 @@
               />
             </div>
             <div class="form-group">
-            
+              
               <label for="inputPassword3">Confirm_Password</label>
               <input
                 type="password"
@@ -193,17 +190,11 @@
               <input type="date" class="form-control" id="inputOutDate" name="out_date" />
             </div>
             
-            <button type="submit" id="signupBtn">Sign up</button>
+            <button type="submit" id="signupBtn">수정하기</button>
 
           </form>
     </div>
 
-    <div id="myModal" class="modal">
-      <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>회원가입이 완료되었습니다!</p>
-      </div>
-    </div>
   </div>
   </div>
 

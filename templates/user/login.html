@@ -1,19 +1,142 @@
-<form method="POST" action="{% url 'user:login' %}" class="signup-form">
-    {% csrf_token %}
-    <div>
-        <input
-            type="text"
-            class="form-control"
-            name="id"
-            placeholder="아이디를 입력하세요"
-        />
-    </div>
-    <div>
-        <input
-            type="password"
-            class="form-control"
-            name="password"
-        />
-    </div>
-    <button type="submit">로그인</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인하기</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: gray;
+        }
+
+  
+        .login-form {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #D9D9D9;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            min-height: 100vh; 
+            text-align: center;
+        }
+
+        .login-form img {
+            display: block;
+            margin: 0 auto;
+            max-width: 250px;
+            
+        }
+
+        .login-form .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+           
+        
+        }
+
+        .login-form .icon {
+            margin-right: 8px; 
+            margin-bottom: 10px;
+          
+        }
+
+        .login-form .icon img {
+            width: 35px; 
+            height: 35px; 
+        }
+
+        .login-form .form-control {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            flex: 1; 
+            width: 60%; 
+            display: inline-block;
+        }
+
+        .login-form button {
+            padding: 10px;
+            background-color: #464f58;
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 30px;
+            width: 50%;
+        }
+
+        .login-form button:hover {
+            background-color: #92a1b1;
+        }
+
+        .container{
+            display: flex;
+            flex-direction: column;
+            gap:10px;
+            margin-top: 80px;
+            height: 100%; 
+               max-height: 100vh;
+         
+        }
+        
+       
+         
+        @media screen and (max-width: 320px) {
+            .login-form {
+                height: 85vh; 
+            
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <form method="POST" action="{% url 'user:login' %}" class="login-form">
+        {% csrf_token %}
+
+        <img src="{% static 'img/loginlogo.png' %}" alt="로그인 로고사진">
+
+       
+        <div class="container">
+                <div class="input-group">
+                    <div class="icon">
+                        <img src="{% static 'img/login_idd.png' %}" alt="id 로고사진">
+                    </div>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="id"
+                        placeholder="아이디를 입력하세요"
+                    />
+                </div>
+
+                <div class="input-group">
+                    <div class="icon">
+                        <img src="{% static 'img/login_pww.png' %}" alt="pw 로고사진">
+                    </div>
+                    <input
+                        type="password"
+                        class="form-control"
+                        name="password"
+                        placeholder="비밀번호를 입력하세요"
+                    />
+                </div>
+            </div> 
+
+            <button type="submit">로그인</button>
+       
+    </form>
+</body>
+</html>
