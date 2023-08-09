@@ -1,103 +1,69 @@
-/*for the pen*/
-html, body{
-    background-color:#ddd;
-    width:100%;
-    height:100%;
-    overflow-x:hidden;
-    position:relative;
-    margin:0;
-    padding:0;
-  }
-  body *{
-    font-size:16px;
-    font-family:"Roboto";
-  }
-  body{
-    transition:0.4s background ease-out;
-  }
-  body.valid{
-    background:#47cf73 !important;
-  }
-  body.invalid{
-    background:#ff3c41 !important;
-  }
-  h2{
-      font-weight: 300;
-      font-size: 30px;
-      margin: 20px 0 0 0;
-      border-bottom: 1px solid #ccc;
-      padding: 20px;
-      color: #0095de;
-      background: #ffffff;
-  }
-  p{
-    padding:10px 20px;
-  }
-  .main{
-    width:100%;
-    display:block;
-    overflow:hidden;
-  }
-  .container{
-    width:200px;
-    margin:100px auto;
-    background:#ffffff;
-    box-shadow:0 12px 22px -12px rgba(0,0,0,0.4);
-    border-radius:5px;
-  }
-  .center{
-    text-align:center;
-  }
-  .black{
-    color:#000;
-  }
-  .tiny{
-    font-size:0.8em;
-  }
-  #footer{
-    background:#fff;
-    position:absolute;
-    bottom:0px;
-    width:100%;
-    bottom:0;
-    box-shadow:inset 0 1px 1px rgba(0,0,0,0.2);
-    padding:6px 0 0 0;
-  }
-  #footer .footer-main{
-    width:300px;
-    margin:0 auto;
-    text-align:center;
-  }
-  #footer .footer-main a{
-    display:inline-block;
-    width:200px;
-  }
-  #footer .footer-main a img{
-    width:200px;
-    display:block;
-  }
-  /*the form*/
-  form{
-    padding:20px 0;
-  }
-  .form-group{
-      padding: 0;
-  }
-  .form-group:first-child{
-    margin-bottom:0;
-  }
-  .btn-primary{
-    cursor:pointer;
-  }
-  .margin-top-20{
-    margin-top:20px;
-  }
-  input#releasdate{
-    padding-right:100px;
-  }
-  .btn.dvalidate{
-      position: absolute;
-      top: 22px;
-      z-index: 100;
-      right: 17px;
-  }
+.direction-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    margin: auto;
+    gap: 20px;
+}
+
+
+.create-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    width: 95%;
+    margin: auto;
+    padding-top: 20px;
+    /* background-color: gray; */
+}
+
+
+
+.create-option {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.seat-option > img {
+    height: 30px;
+    width: 30px;
+}
+
+.hidden-radio {
+    display: none;
+}
+
+.seat-option > img {
+    cursor: pointer;
+    opacity: 0.5
+}
+
+.seat-option > img:hover {
+    opacity: 1
+}
+
+.create-option-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.img-direction {
+    height: 10px;
+    width: 10px;
+}
+
+.locations {
+    width: 45%;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+.locations > label {
+    font-size: 10px;
+}
