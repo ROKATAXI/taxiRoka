@@ -7,3 +7,23 @@
     height: 30px;
     width: 30px;
 }
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: white; /* Set the background color to white */
+    display: flex;
+    justify-content: center; /* Center the container horizontally */
+    align-items: center; /* Center the container vertically */
+    min-height: 100vh; /* Set the container height to at least the viewport height */
+}
+
+.container {
+    /* Set the width to match the desired iPhone SE width */
+    width: 320px;
+    /* Add padding on the left and right sides to create the white spaces */
+    padding: 0 20px;
+    /* You can add other styling to the container here */
+}
+
+/* Add your other CSS styles for content within the container if needed */
