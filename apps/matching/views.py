@@ -11,6 +11,7 @@ from datetime import datetime
 def main(request):
     user_location = request.user.location
     rooms = MatchingRoom.objects.filter(matching__host_yn = True, matching__user_id__location = user_location)
+    rooms = rooms.order_by("departure_date", "departure_time", "create_date")
 
     ctx = {
         'rooms':rooms,
