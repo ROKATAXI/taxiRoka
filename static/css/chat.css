@@ -96,6 +96,16 @@
     cursor: pointer;
 }
 
+
+.modal-header {
+    border-bottom: none;
+}
+.modal-body {
+    text-align: center;
+    font-size: 18px;
+} 
+.modal-footer {
+
 .report-modal .modal-header {
     border-bottom: none;
 }

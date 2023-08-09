@@ -11,6 +11,7 @@
 <input id="chat-room-leave" type="button" value="채팅방 나가기">
 
 <!-- Modal -->
+
 <div class="modal fade report-modal" id="exampleModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -18,6 +19,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
+
                     <span class="receiver-name">xxxxxx</span> 님을 신고하시겠습니까?
                 </div>
                 <div class="modal-footer">
@@ -27,6 +29,7 @@
                         <input type="hidden" class="room-name-hidden" name="room_url" value="xxxxxx">
                         <input type="submit" value="신고하기" class="btn btn-primary" onclick="sendReceiverInfo()">
                     </form>
+
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                 </div>
         </div>
@@ -56,7 +59,9 @@
         } else if (data.me == true) {
             document.querySelector('#chat-log').innerHTML += ('<div class="msg-div mine-div"><p class="msg mine">' + data.message + '</p></div>');
         } else {
+
             document.querySelector('#chat-log').innerHTML += ('<div class="msg-div"><span class="name" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clickName(this)">' + data.name + '</span><p class="msg">' + data.message + '</p></div');
+
         }
         
         makeBtnInActive();
@@ -113,6 +118,7 @@
             chatMsgSubmit.disabled = false;
     }
 </script>
+
 <script>
     function clickName(spanName) {
         const receiverName = document.querySelector('.receiver-name');
@@ -128,4 +134,5 @@
         roomNameHidden.setAttribute('value', window.location.pathname);
     }
 </script>
+
 {% endblock %}

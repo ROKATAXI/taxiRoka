@@ -1,23 +1,131 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}메인 페이지{% endblock %}
+
+{% block title %}
+<!-- <link rel="stylesheet" href="{% static 'css/matching_list.css' %}" type="text/css"/> -->
+{% endblock %}
 
 {% block content %}
-  <h1>메인 페이지</h1>
-  <p>이곳에 메인 페이지 컨텐츠를 작성합니다.</p>
-  {% for room in rooms %}
-  <div>
-      <div>
-          {{ room.departure_date }}
-          {{ room.departure_time }}
-      </div>
-      <div>
-          {{ room.departure_area }}
-          {{ room.destination_area }}
-      </div>
-      <div>
-          {{ room.current_num }} / {{ room.max_num }}
-      </div>
-  </div>
-  {% endfor %}
+<div class="mainpage">
+    <!-- 날짜 -->
+    <div class="container date-container fixed-top">
+        <!-- 날짜 -->
+        <div class="row justify-content-center">
+            <div class="calendar-scroll-container">
+                <!-- 날짜와 이벤트를 표시할 부분 -->
+                <div class="calendar-content">
+                    <!-- 일단 하드코딩 해놓음. 오늘 날짜 받아와서 그거 기준으로 요일이랑 날짜 변경 -->
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                    <div>
+                        <span>5</span><span>일</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <h1>메인 페이지</h1>
+        <p>이곳에 메인 페이지 컨텐츠를 작성합니다.</p> -->
+    </div>
+    
+    
+    <!-- 방목록 -->
+    <div class="matchinglist-container">
+        <div class="container matchingroom-container">
+            <!-- 부대위치와 방생성 -->
+            <div class="matchinglist-info">
+                <h2>상무대</h2>
+                <a href="/matching/create/"><button class="btn btn-secondary">방 만들기</button></a>
+            </div>
+        
+            {% for room in rooms %}
+            <div class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ room.id }}">
+                <div>
+                    {{ room.departure_date }}
+                    {{ room.departure_time }}
+                </div>
+                <div>
+                    {{ room.departure_area }}
+                    {{ room.destination_area }}
+                </div>
+                <div>
+                    {{ room.current_num }} / {{ room.max_num }}
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Modals -->
+            {% for room in rooms %}
+            <div class="modal fade" id="exampleModal-{{ room.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="/matching/apply/room/{{ room.id }}"><button type="button" class="btn btn-primary">매칭 참여하기</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+</div>
 {% endblock %}

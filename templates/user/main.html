@@ -1,4 +1,6 @@
 {% load static %}
+{% load socialaccount %}
+{% providers_media_js %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -137,16 +139,38 @@
             </div>
 
             <div class="social-btn-group">
+                    <button class="social-btn">
+                        <a id="kakao-login-btn" href="javascript:loginWithKakao()">
+                            <img src="{% static 'img/kakao.png' %}" alt="카카오 소셜 로그인">
+                        </a>
+                        <script
+                            src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js"
+                            integrity="sha384-70k0rrouSYPWJt7q9rSTKpiTfX6USlMYjZUtr1Du+9o4cGvhPAWxngdtVZDdErlh"
+                            crossorigin="anonymous"
+                        ></script>
+                        <script>
+                            Kakao.init("84e76cfc6609805ff7d488ed7c33f4f9"); // 사용하려는 앱의 JavaScript 키 입력
+                            Kakao.isInitialized();
+                        </script>
+                    
+                        <p id="token-result"></p>
+                    
+                        <script>
+                            function loginWithKakao() {
+                            Kakao.Auth.authorize({
+                                redirectUri: "http://127.0.0.1:8000/user/kakao/redirect",
+                            });
+                            }
+                        </script>
+                    </button>
+                <a href="{% provider_login_url 'google' %}">
                 <button class="social-btn">
-                    <img src="{% static 'img/kakao.png' %}" alt="카카오 소셜 로그인">
+                    <img src="{% static 'img/google.png' %}" alt="구글소셜 로그인">
                 </button>
-
-                <!-- 구글 소셜 로그인 버튼 -->
-                <button class="social-btn">
-                    <img src="{% static 'img/google.png' %}" alt="구글 소셜 로그인">
-                </button>
+                </a>
             </div>
         </div>
     </div>
 </body>
 </html>
+
