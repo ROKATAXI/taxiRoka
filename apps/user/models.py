@@ -10,6 +10,6 @@ class CustomUser(AbstractUser):
     location = models.CharField(max_length=10)
     count = models.IntegerField(default=0)
     join_date = models.DateTimeField(default=timezone.now)
-    in_date = models.DateField(default=timezone.now)
-    out_date = models.DateField(default=timezone.now)
+    in_date = models.DateField(null=True,blank=True)
+    out_date = models.DateField(null=True,blank=True)
     kakaoId = models.IntegerField(null=True,blank=True)
