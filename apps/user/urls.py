@@ -15,5 +15,5 @@ urlpatterns = [
     # 구글 소셜로그인
     path('google/login', views.google_login, name='google_login'),
     path('google/callback/', views.google_callback, name='google_callback'),
-    path('kakao/redirect/',views.kakao_Auth_Redirect,name="kakaoAuth")
+    path('kakao/redirect/',views.kakao_Auth_Redirect,name="kakaoAuth"),
 ]
