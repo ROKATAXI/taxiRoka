@@ -142,15 +142,11 @@
             {% csrf_token %}
             <h1>회원가입</h1>
             <div class="form-group">
-                <label for="inputName">Username</label>
-                <input class="form-control" id="inputName" name="username" />
-            </div>
-            <div class="form-group">
-              <label for="inputEmail3">Email</label>
+              <label for="inputEmail3">이메일</label>
               <input type="email" class="form-control" id="inputEmail3" name="email" />
             </div>
             <div class="form-group">
-              <label for="inputPassword3">Password</label>
+              <label for="inputPassword3">비밀번호</label>
               <input
                 type="password"
                 class="form-control"
@@ -159,8 +155,7 @@
               />
             </div>
             <div class="form-group">
-            
-              <label for="inputPassword3">Confirm_Password</label>
+              <label for="inputPassword3">비밀번호 확인</label>
               <input
                 type="password"
                 class="form-control"
@@ -169,14 +164,18 @@
               />
             </div>
             <div class="form-group">
-              <label for="inputPhone">Phone</label>
+                <label for="inputName">이름</label>
+                <input class="form-control" id="inputName" name="username" />
+            </div>
+            <div class="form-group">
+              <label for="inputPhone">전화번호</label>
               <input type="tel" class="form-control" id="inputPhone" name="phone" />
             </div>
             <div class="form-group">
-              <label for="inputLocation">Location</label>
+              <label for="inputLocation">부대위치</label>
               <input type="text" class="form-control" id="inputLocation" name="location" />
             </div>
-            <button type="submit" id="signupBtn">Sign up</button>
+            <button type="submit" id="signupBtn">회원가입</button>
 
           </form>
     </div>
