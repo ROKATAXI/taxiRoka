@@ -96,6 +96,7 @@
     cursor: pointer;
 }
 
+
 .modal-header {
     border-bottom: none;
 }
@@ -104,5 +105,14 @@
     font-size: 18px;
 } 
 .modal-footer {
+
+.report-modal .modal-header {
+    border-bottom: none;
+}
+.report-modal .modal-body {
+    text-align: center;
+    font-size: 18px;
+} 
+.report-modal .modal-footer {
     border-top: none;
 }

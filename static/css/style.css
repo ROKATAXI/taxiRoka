@@ -3,7 +3,7 @@
 @import 'matchinglist.css';
 @import 'createroom.css';
 @import 'calendar.css';
-
+@import "./report.css";
 
 
 html, body {
@@ -22,6 +22,11 @@ html, body {
     height: 82px;
     width: 100%;
     background-color: white;
+
+
+.footer-custom {
+    height: 60px;
+    background-color: gray;
 }
 
 .nav-container > h1 {
