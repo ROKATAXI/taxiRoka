@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="chat-room">
+    <div id="chat-log"></div>
+    <div id="chat-field">
+        <textarea id="chat-message-input"></textarea>
+        <input id="chat-message-submit" type="button" value="전송" disabled>
+    </div>
+</div>
+<input id="chat-room-leave" type="button" value="채팅방 나가기">
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    000 님을 신고하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="location.href='/report/'">신고하기</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+{{ room_name|json_script:"room-name" }}
+<script>
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
+
+    // onmessage 이벤트: 클라이언트가 websocket 서버로부터 데이터를 수신했을 때
+    chatSocket.onmessage = function(e) {
+        console.log('클라이언트가 websocket 서버로부터 메시지를 받았습니다.');
+
+        const data = JSON.parse(e.data);
+
+        if (data.name == 'Anonymous') {
+            document.querySelector('#chat-log').innerHTML += ('<p class="in-out-msg">' + data.message + '</p>');
+        } else if (data.me == true) {
+            document.querySelector('#chat-log').innerHTML += ('<div class="msg-div mine-div"><p class="msg mine">' + data.message + '</p></div>');
+        } else {
+            document.querySelector('#chat-log').innerHTML += ('<div class="msg-div"><span class="name" data-bs-toggle="modal" data-bs-target="#exampleModal">' + data.name + '</span><p class="msg">' + data.message + '</p></div');
+        }
+        
+        makeBtnInActive();
+    };
+
+    // onclose 이벤트: 클라이언트와 websocket 서버와의 연결이 닫힐 때. 정상적 종료 + 비정상적 종료일 때 모두 발생
+    chatSocket.onclose = function(e) {
+        console.log('chatSocket에 onClose 이벤트 발생!');
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function(e) {
+        if (e.key === 'Enter') {  // enter, return
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'message': message
+        }));
+        messageInputDom.value = '';
+    };
+
+    document.querySelector('#chat-room-leave').onclick = function(e) {
+        // 클라이언트에서 WebSocket 연결 끊기 -> 클라이언트와 서버 간의 WebSocket 연결 종료
+        chatSocket.close();
+    };
+</script>
+<script>
+    const chatMsgInput = document.getElementById('chat-message-input');
+    const chatMsgSubmit = document.getElementById('chat-message-submit');
+
+    // input 이벤트: 사용자가 textarea 내부에 텍스트를 입력, 삭제, 수정할 때 발생
+    chatMsgInput.addEventListener("input", () => {
+        if (chatMsgInput.value.length === 0) {
+            makeBtnInActive();
+        } else {
+            makeBtnActive();
+        }
+    });
+
+    function makeBtnInActive() {
+            chatMsgSubmit.style.backgroundColor = 'rgb(240, 240, 240)';
+            chatMsgSubmit.style.color = 'rgb(163, 162, 162)';
+            chatMsgSubmit.disabled = true;
+    }
+
+    function makeBtnActive() {
+            chatMsgSubmit.style.backgroundColor = 'rgb(255, 230, 0)';
+            chatMsgSubmit.style.color = 'black';
+            chatMsgSubmit.disabled = false;
+    }
+</script>
+{% endblock %}

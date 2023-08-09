@@ -18,10 +18,8 @@ from json import JSONDecodeError
 import smtplib
 import os
 import requests
-
-# 구글 소셜로그인 변수 설정
-state = os.environ.get("STATE")
-GOOGLE_CALLBACK_URI = 'http://127.0.0.1:8000/social_user/user/google/callback/'
+from django.views import View
+User = get_user_model()
 
 def main(request):
     return render(request, 'user/main.html')
@@ -40,8 +38,9 @@ def login(request):
         else:
             print('login')
             auth.login(request, user)
-            return redirect(reverse('user:main'))  # 로그인 성공 시 'main' URL로 리디렉션
-    return render(request, 'user/login.html')
+            user = CustomUser.objects.get(username=user.username)
+            return redirect('/')
+    return render(request, 'user/login.html') 
 
 def logout(request) :
     auth.logout(request)
@@ -91,6 +90,7 @@ def signup(request):
             return redirect('user:send_email')
 
     return render(request, 'user/signup.html')
+
 
 def send_activation_email(user):
     try:
@@ -177,3 +177,66 @@ class GoogleLogin(SocialLoginView):
 
 def send_email(request):
     return render(request, 'user/send_email.html')  # 이메일 전송 성공 시 보여줄 페이지
+
+
+
+
+
+# kakao
+
+
+
+def kakao_Auth_Redirect(request):
+    code = request.GET.get('code',None)
+    print(code)
+    if code:
+        print("code", code)
+        #이제 토큰을 받아야함.
+        headers = {
+        'Content-type':'application/x-www-form-urlencoded;charset=utf-8'
+        }
+        content = {
+        "grant_type": "authorization_code",
+        "client_id": "7e2293a02b5609b94e47fc7bd7929328",
+        "redirect_url": "http://127.0.0.1:8000/user/kakao/redirect",
+        "code": code,
+        }
+        res = requests.post("https://kauth.kakao.com/oauth/token",headers=headers, data=content)
+        print(res.status_code)
+        if res.status_code == 200:
+            print("성공")
+            token_res = res.json()
+            headers123 = {
+                "Authorization" : "Bearer " + token_res['access_token'],
+                "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+            }
+            res = requests.post("https://kapi.kakao.com/v2/user/me",headers=headers123)
+            print("res2", res)
+            if res.status_code == 200:
+                profile_res = res.json()
+                username = profile_res['properties']['nickname']
+                id = profile_res['id']
+                user = User.objects.filter(kakaoId=id)
+                if user.first() is not None:
+                    print("로그인")
+                    login(request, user.first(), backend='django.contrib.auth.backends.ModelBackend')
+                    return redirect("/")
+                else:
+                    print("새로 생성")
+                    user = CustomUser()
+                    user.username = username
+                    user.kakaoId = id
+                    user.save()
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            else:
+                print("user정보 가져오기 실패")
+        else:
+            print("토근발급 실패")
+    
+
+    return redirect("/")
+
+
+def kakao(request):
+   return render(request, 'user/kakao.html')
+

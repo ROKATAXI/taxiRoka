@@ -12,3 +12,4 @@ class CustomUser(AbstractUser):
     join_date = models.DateTimeField(default=timezone.now)
     in_date = models.DateField(default=timezone.now)
     out_date = models.DateField(default=timezone.now)
+    kakaoId = models.IntegerField(null=True,blank=True)
