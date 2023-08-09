@@ -6,27 +6,27 @@
 {% endblock %}
 
 {% block content %}
-<form action="" method="">{% csrf_token %}
+<form action="{% url 'matching:create' %}" method="post">{% csrf_token %}
     <div class="direction-container">
         <div class="form-floating locations">
-            <textarea class="form-control" placeholder="" id="floatingTextarea"></textarea>
+            <textarea class="form-control" placeholder="" id="floatingTextarea" name="departure_area"></textarea>
             <label for="floatingTextarea">출발지점을 입력하세요.</label>
         </div>
         <img class="img-direction" src="{% static 'img/direction.png' %}" alt="Image 2">
         <div class="form-floating locations">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="destination_area"></textarea>
             <label for="floatingTextarea">도착지점을 입력하세요.</label>
         </div>
     </div>
     <div class="direction-container">
         <div class="create-option">
             <h3>예약 날짜</h3>
-            <input type="date" placeholder="출발 장소를 입력해주세요.">
+            <input type="date" name="departure_date">
         </div>
         <div class="create-option">
             <h3>출발 시간</h3>
             <div class="input-group clockpicker" data-placement="top" data-align="top" data-autoclose="true">
-                <input type="text" class="form-control" value="12:00">
+                <input type="text" class="form-control" value="08:00" name="departure_time">
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-time"></span>
                 </span>
@@ -44,31 +44,31 @@
             <label for="rating1" class="seat-option">
                 <img src="{% static 'img/seat.png' %}" alt="Image 1">
             </label>
-            <input type="radio" name="rating" id="rating1" value="1" class="hidden-radio">
+            <input type="radio" name="seat_num" id="rating1" value="1" class="hidden-radio">
             
             <label for="rating2" class="seat-option">
                 <img src="{% static 'img/seat.png' %}" alt="Image 2">
             </label>
-            <input type="radio" name="rating" id="rating2" value="2" class="hidden-radio">
+            <input type="radio" name="seat_num" id="rating2" value="2" class="hidden-radio">
             
             <label for="rating3" class="seat-option">
                 <img src="{% static 'img/seat.png' %}" alt="Image 3">
             </label>
-            <input type="radio" name="rating" id="rating3" value="3" class="hidden-radio">
+            <input type="radio" name="seat_num" id="rating3" value="3" class="hidden-radio">
             
             <label for="rating4" class="seat-option">
                 <img src="{% static 'img/selected_seat.png' %}" alt="Image 4">
             </label>
-            <input type="radio" name="rating" id="rating4" value="4" class="hidden-radio">
+            <input type="radio" name="seat_num" id="rating4" value="4" class="hidden-radio">
         </div>
         <div class="create-option-row">
-            <input type="radio" name="rating" value="3" id="rating3">
+            <input type="radio" name="max_num" value="3" id="rating3">
             <label for="rating3">최대 3인 매칭</label>
             
-            <input type="radio" name="rating" value="4" id="rating4">
+            <input type="radio" name="max_num" value="4" id="rating4">
             <label for="rating4">최대 4인 매칭</label>
         </div>
     </div>
-    <button type="submit">Submit</button>
+    <button type="submit">방 생성하기</button>
 </form>
 {% endblock %}

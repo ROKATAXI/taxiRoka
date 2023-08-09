@@ -18,8 +18,9 @@
     font-size: 20px;
     margin-bottom: 0;
 }
-.matchinglist-info > button {
-    font-size: 10px;
+.matchinglist-info > a > button {
+    font-size: 12px;
+
 }
 
 
@@ -35,10 +36,11 @@
 }
 
 .matching-room {
-    height: 70px;
+    height: 100px;
     width: 90%;
     background-color: gray;
     border-radius: 20px;
+    padding: 8px;
 }
 
 
