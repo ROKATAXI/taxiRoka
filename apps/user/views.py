@@ -140,7 +140,7 @@ def kakao_Auth_Redirect(request):
                 else:
                     print("새로 생성")
                     user = CustomUser()
-                    user.username = username
+                    user.last_name = username
                     user.kakaoId = id
                     user.save()
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
