@@ -7,11 +7,8 @@
 
 
 
-html, body {
-    height: 100%;
-}
 
-.title {
+/* .title {
     font-size: 20px;
     padding-left: 5px;
 }
@@ -103,4 +100,40 @@ html, body {
     height: 18px;
     width: 18px;
     margin: 0 0 11px 24px;
+} */
+
+.base--container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.base--container nav{
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: white;
+}
+.nav-container,
+.footer-custom{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    width: 100%;
+}
+.nav-container img,
+.footer-custom img{
+    height: 25px;
+    cursor: pointer;
+}
+.nav-container .beforepage-img{
+    height: 20px;
+}
+.login-nav-right{
+    display: flex;
+    gap: var(--gutter);
+}
+.footer-custom{
+    position: sticky;
+    bottom: 0;
+    background-color: white;
 }

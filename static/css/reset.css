@@ -140,11 +140,6 @@ ul,
 li {
   list-style: none;
 }
-input {
-  -webkit-appearance: none; /* Safari and Chrome */
-  -moz-appearance: none; /* Firefox */
-  appearance: none;
-}
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {

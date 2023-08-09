@@ -9,79 +9,77 @@
 {% block content %}
 <div class="mainpage">
     <!-- 날짜 -->
-    <div class="container date-container fixed-top">
+    <div class="container date-container">
         <!-- 날짜 -->
-        <div class="row justify-content-center">
-            <div class="calendar-scroll-container">
+
+        <div class="calendar-scroll-container">
                 <!-- 날짜와 이벤트를 표시할 부분 -->
-                <div class="calendar-content">
-                    <!-- 일단 하드코딩 해놓음. 오늘 날짜 받아와서 그거 기준으로 요일이랑 날짜 변경 -->
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
+            <div class="calendar-content">
+                <!-- 일단 하드코딩 해놓음. 오늘 날짜 받아와서 그거 기준으로 요일이랑 날짜 변경 -->
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
                 </div>
             </div>
+    
         </div>
         
         <!-- <h1>메인 페이지</h1>
         <p>이곳에 메인 페이지 컨텐츠를 작성합니다.</p> -->
     </div>
-    
-    
     <!-- 방목록 -->
     <div class="matchinglist-container">
         <div class="container matchingroom-container">
@@ -93,16 +91,21 @@
         
             {% for room in rooms %}
             <div class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <div>
-                    {{ room.departure_date }}
-                    {{ room.departure_time }}
+                <div class="matching-room--left">
+                    <div>
+                        {{ room.departure_date }}
+                    </div>
+                    <div>{{ room.departure_time }}</div>
+                    <div>
+                       {{ room.current_num }} / {{ room.max_num }}
+                    </div>
                 </div>
-                <div>
-                    {{ room.departure_area }}
-                    {{ room.destination_area }}
-                </div>
-                <div>
-                    {{ room.current_num }} / {{ room.max_num }}
+                <div class="matching-room--right">
+                    <div class="matching--departure">
+                        <span>출발: {{ room.departure_area }}</span>
+                        <span>도착: {{ room.destination_area }}</span>
+                    </div>
+                    
                 </div>
             </div>
             {% endfor %}
