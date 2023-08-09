@@ -1,45 +1,8 @@
-/* .mainpage {
-    height: 100%;
-    margin-top: 132px;
-} */
-
 .matchinglist-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-top: 132px;
-}
-
-.date-container {
-    margin-top: 82px;
-}
-
-.calendar-scroll-container {
-    width: 100%;
-    overflow-x: scroll; /* 가로 스크롤을 가능하게 함 */
-    padding: 0;
-}
-.calendar-content {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    white-space: nowrap; /* 내용이 줄 바꿈되지 않도록 함 */
-    width: 1000px; /* 내용이 화면 너비를 초과하도록 설정 */
-    padding: 10px 0;
-    margin: auto;
-    background-color: #f2f2f2;
-}
-
-.calendar-content > div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    flex: 0;
-    padding: 0;
-
-    font-size: 7px;
 }
 
 .matchinglist-info {
@@ -64,9 +27,8 @@
     display: flex;
     gap: 8px;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-
     padding-top: 10px;
     height: 500px;
     overflow-y: auto;

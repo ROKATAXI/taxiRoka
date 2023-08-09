@@ -3,6 +3,38 @@
     margin: auto;
 }
 
+.calendar-scroll-container {
+    width: 100%;
+    overflow-x: scroll; /* 가로 스크롤을 가능하게 함 */
+    padding: 0;
+}
+.calendar-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    white-space: nowrap; /* 내용이 줄 바꿈되지 않도록 함 */
+    width: 1000px; /* 내용이 화면 너비를 초과하도록 설정 */
+    padding: 10px 0;
+    margin: auto;
+    background-color: #f2f2f2;
+}
+
+.date-container {
+    margin-top: 82px;
+}
+
+.calendar-content > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    flex: 0;
+    padding: 0;
+
+    font-size: 7px;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
