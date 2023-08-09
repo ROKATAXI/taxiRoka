@@ -1,0 +1,43 @@
+<form action="{% url 'matching:update' matching_room.pk %}" method="post">
+    {% csrf_token %}
+    <!--방장 이외의 신청인원이 존재한다면 seat_num과 max_num은 수정불가-->
+    <div>
+        <div>
+            <p>출발지점</p>
+            <input name="departure_area" value="{{ matching_room.departure_area }}"
+            {% if is_guest %} disabled {% endif %}>
+        </div>
+        <div>
+            <p>도착지점</p>
+            <input name="destination_area" value="{{ matching_room.destination_area }}"
+            {% if is_guest %} disabled {% endif %}>
+            
+        </div>
+        <div>
+            <label for="matching-reservation-date">예약 날짜</label>
+            <input type="date" name="departure_date" value="{{ matching_room.departure_date|date:'Y-m-d' }}"
+            {% if is_guest %} disabled {% endif %}>
+        </div>
+            <label for="matching-reservation-time">예약 시간</label>
+            <input type="time" name="departure_time" value="{{ matching_room.departure_time|time:'H:i' }}"
+            {% if is_guest %} disabled {% endif %}>
+        <div>
+            <p>좌석선택</p>
+            {% for seat_num in '1234' %}
+                <label>
+                    <input type="radio" name="seat_num" value="{{seat_num}}" 
+                    {% if seat_num in selected_seats %} 
+                        disabled {% endif %}> {{seat_num}} <br>
+                </label>
+            {% endfor %}
+        </div>
+        <div>            
+            <input type="radio" id="choice1" value="4" name="max_num"><label for="person_four">최대 4인 매칭(추천)</label>
+            <input type="radio" id="choice2" value="3" name="max_num"
+            {% if not change_yn %} disabled {% endif %}><label for="person_three">최대 3인 매칭</label>            
+        </div>
+        <div>
+            <input type="submit" value="방 수정하기">
+        </div>
+    </div>
+</form>
