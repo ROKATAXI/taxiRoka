@@ -3,6 +3,7 @@
 - python 3.11
 - 가상환경 세팅후 requirements.txt 를 통해 필요 라이브러리 설치 (추가적으로 사용하는 라이브러리가 생길 경우 반드시 추가할 것)
   - `pip install -r requirements.txt`
+- redis 설치 후 redis서버 실행 (채팅)
 
 ## 프로젝트 설명 및 주요 기능
 - [기획안 링크](https://www.figma.com/file/7moP30bEJTYJeyoaSUACyt/PIRO19-ROKA?type=design&node-id=0-1&mode=design)

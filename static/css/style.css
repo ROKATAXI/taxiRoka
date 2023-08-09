@@ -69,7 +69,7 @@ html, body {
     align-items: center;
 }
 
-.footer-section > div > img {
+.footer-section > div > a > img {
     height: 30px;
     width: 30px;
 }
