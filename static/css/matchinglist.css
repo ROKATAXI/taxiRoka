@@ -1,0 +1,54 @@
+.matchinglist-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 132px;
+}
+
+.matchinglist-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 50px;
+    width: 90%;
+}
+.matchinglist-info > h2 {
+    font-size: 20px;
+    margin-bottom: 0;
+}
+.matchinglist-info > a > button {
+    font-size: 12px;
+
+}
+
+
+.matchingroom-container {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 10px;
+    height: 500px;
+    overflow-y: auto;
+}
+
+.matching-room {
+    height: 100px;
+    width: 90%;
+    background-color: gray;
+    border-radius: 20px;
+    padding: 8px;
+}
+
+
+.modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 240px;
+    margin: auto;
+}

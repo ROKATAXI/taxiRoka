@@ -105,10 +105,7 @@
 <body>
     <form method="POST" action="{% url 'user:login' %}" class="login-form">
         {% csrf_token %}
-
         <img src="{% static 'img/loginlogo.png' %}" alt="로그인 로고사진">
-
-       
         <div class="container">
                 <div class="input-group">
                     <div class="icon">
@@ -117,8 +114,8 @@
                     <input
                         type="text"
                         class="form-control"
-                        name="id"
-                        placeholder="아이디를 입력하세요"
+                        name="email"
+                        placeholder="이메일을 입력하세요"
                     />
                 </div>
 
@@ -136,7 +133,6 @@
             </div> 
 
             <button type="submit">로그인</button>
-       
     </form>
 </body>
 </html>

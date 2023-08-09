@@ -1,0 +1,39 @@
+<h1>Matching History</h1>
+
+<h2>매칭 예정</h2>
+<ul>
+    {% for matching in matching_rooms %}
+        <li>
+            <p>{{ matching.matching_room_id.departure_date }}</p>
+            <p>{{ matching.matching_room_id.departure_time }}</p>
+            <p>출발: {{matching.matching_room_id.departure_area}}</p>
+            <p>도착: {{matching.matching_room_id.destination_area}}</p>
+
+            매칭 예정: {{ matching.matching_room_id.end_yn }}
+            <form action="{% url 'matching:delete' matching.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">방 나가기</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+
+{{number_all}} <!--모든 이력 수-->
+{{number_matching}} <!--매칭 예정 수-->
+{{number_matched}} <!--매칭 완료 수-->
+
+<h2>매칭 완료</h2>
+<ul>
+    {% for matching in matched_rooms %}
+        <li>
+            <p>{{ matching.matching_room_id.departure_date }}</p>
+            <p>{{ matching.matching_room_id.departure_time }}</p>
+            <p>출발: {{matching.matching_room_id.departure_area}}</p>
+            <p>도착: {{matching.matching_room_id.destination_area}}</p>
+
+            매칭 예정: {{ matching.matching_room_id.end_yn }}
+        </li>
+    {% endfor %}
+</ul>
+
+
