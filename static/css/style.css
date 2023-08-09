@@ -1,3 +1,5 @@
+@import "./chat.css";
+
 .footer-custom {
     height: 60px;
     background-color: gray;
