@@ -1,4 +1,4 @@
-# taxiRoka 팀은 현재 master 브랜치가 아닌 develop 브랜치에서 작업을 진행하고 있습니다!
+# taxiRoka 팀은 현재 master 브랜치가 아닌 develop 브랜치에서 작업을 진행하고 있습니다!<br> develop 브랜치에 있는 코드를 봐주시면 감사하겠습니다.
 
 # taxiRoka
 - python3.11
