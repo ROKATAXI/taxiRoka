@@ -9,12 +9,19 @@ from datetime import datetime
 # 매칭 방 리스트
 
 def main(request):
+
     if request.user.is_authenticated:
         user_location = request.user.location
         rooms = MatchingRoom.objects.filter(matching__host_yn = True, matching__user_id__location = user_location)
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
     else:
         rooms = MatchingRoom.objects.all()
+        rooms = rooms.order_by("departure_date", "departure_time", "create_date")
+
+    selected_date = request.GET.get("selected_date")
+    if selected_date:
+        selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
+        rooms = rooms.filter(departure_date = selected_date)
 
     ctx = {
         'rooms':rooms,
