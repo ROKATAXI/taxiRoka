@@ -142,10 +142,12 @@
                     <button class="social-btn">
                         <img src="{% static 'img/kakao.png' %}" alt="카카오 소셜 로그인">
                     </button>
-                <a href="{% provider_login_url 'google' %}">
-                <button class="social-btn">
-                    <img src="{% static 'img/google.png' %}" alt="구글소셜 로그인">
-                </button>
+                <form action="{% provider_login_url 'google' %}" method="post" class="login__google Flex_cc">
+                        {% csrf_token %}
+                        <button class="social-btn" type="submit">
+                            <img src="{% static 'img/google.png' %}" alt="구글소셜 로그인">
+                        </button>
+                </form>
                 </a>
             </div>
         </div>
