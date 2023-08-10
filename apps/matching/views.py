@@ -53,8 +53,11 @@ def matching_create(request):
 @login_required
 def matching_apply(request, pk):
     matching_room = MatchingRoom.objects.get(id=pk)
+    # REVIEW : 매칭 룸이 없는 경우는??
     selected_seats = str(list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True))) # 이미 선택된 좌석들(더 좋은 방법이 없을까..?)
+    # REVIEW : str해서 보내는 이유는? json화 하는 것이 나아보임.
     user = CustomUser.objects.get(pk=request.user.pk)
+    # REVIEW : request.user가 유저객체
     already_apply = Matching.objects.filter(matching_room_id = matching_room, user_id = request.user).exists()
     
     if already_apply or matching_room.current_num == matching_room.max_num:
@@ -90,6 +93,7 @@ def matching_apply(request, pk):
 # 매칭방 수정하기
 @login_required
 def matching_update(request, pk):
+    # REVIEW : request.user가 유저객체
     user = CustomUser.objects.get(pk=request.user.pk)
     matching_room = MatchingRoom.objects.get(id=pk)
     is_host = Matching.objects.get(matching_room_id = matching_room, host_yn = True)
@@ -144,6 +148,7 @@ def matching_update(request, pk):
 # 매칭방 내역
 @login_required
 def matching_history(request):
+    # REVIEW : request.user가 유저객체
     user = CustomUser.objects.get(pk=request.user.pk)
     matching_rooms = Matching.objects.filter(user_id=user, matching_room_id__end_yn = True) # 매칭 예정 방들
     matched_rooms = Matching.objects.filter(user_id=user, matching_room_id__end_yn = False) # 매칭 완료된 방들
@@ -167,6 +172,7 @@ def matching_history(request):
 def matching_delete(request, pk):
 
     if request.method == 'POST':
+        # REVIEW : request.user가 유저객체
         user = CustomUser.objects.get(pk=request.user.pk)
         matching = Matching.objects.get(id=pk)
         matching_room = matching.matching_room_id

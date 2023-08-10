@@ -43,6 +43,7 @@ def signup(request):
         phone = request.POST['phone']
         location = request.POST['location']
 
+        # REVIEW : get_or_create 사용
         try:
             existing_user = CustomUser.objects.get(email=email)
             return redirect('/user/login/') 
