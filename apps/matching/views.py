@@ -42,7 +42,7 @@ def matching_create(request):
             host_yn=True,
             seat_num=request.POST["seat_num"],
             matching_date=timezone.now(),
-            anon_name=saveAnonNameInMatching(matching_room.id)
+            anon_name=getAnonName(matching_room.id)
         )
 
         return redirect('/matching/')
@@ -70,7 +70,7 @@ def matching_apply(request, pk):
             host_yn=False,
             seat_num=seat_num,
             matching_date=datetime.now(),
-            anon_name=saveAnonNameInMatching(matching_room.id)
+            anon_name=getAnonName(matching_room.id)
         )
         #신청자 수 1증가
         matching_room.current_num += 1
@@ -195,7 +195,7 @@ def matching_delete(request, pk):
 
     return redirect('/matching/')
 
-def saveAnonNameInMatching(matching_room_id):
+def getAnonName(matching_room_id):
     animal_names = [
         "강아지", "고양이", "코끼리", "사자", "기린", "원숭이", "팬더", "캥거루", "토끼", "다람쥐",
         "파랑새", "돼지", "말", "앵무새", "호랑이", "펭귄", "북극곰", "침팬지", "수달", "뱀",
