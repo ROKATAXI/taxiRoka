@@ -3,27 +3,27 @@
     margin: auto;
 }
 
-.calendar-scroll-container {
+/* .calendar-scroll-container {
     width: 100%;
-    overflow-x: scroll; /* 가로 스크롤을 가능하게 함 */
+    overflow-x: scroll; 
     padding: 0;
-}
-.calendar-content {
+} */
+/* .calendar-content {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    white-space: nowrap; /* 내용이 줄 바꿈되지 않도록 함 */
-    width: 1000px; /* 내용이 화면 너비를 초과하도록 설정 */
+    white-space: nowrap; 
+    width: 1000px; 
     padding: 10px 0;
     margin: auto;
     background-color: #f2f2f2;
-}
+} */
 
-.date-container {
+/* .date-container {
     margin-top: 82px;
-}
+} */
 
-.calendar-content > div {
+/* .calendar-content > div {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,7 +33,7 @@
     padding: 0;
 
     font-size: 7px;
-}
+} */
 
 .header {
     display: flex;

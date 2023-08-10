@@ -1,78 +1,11 @@
-{% load static %}
-{% load socialaccount %}
-{% providers_media_js %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: gray;
-        }
-
-        .container {
-            width: 300px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #D9D9D9;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            min-height: 100vh; 
-            text-align: center;
-        }
-        .logoimg {
-            margin-bottom: 100px;
-           
-           
-        }
-
-        .btn {
-            width: 75%;
-            display: inline-block;
-            padding: 8px 20px;
-            background-color: #ffffff;
-            color: #AAABAB;
-            text-decoration: none;
-            border-radius: 15px;
-            transition: background-color 0.3s;
-            margin: 5px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .btn:hover {
-            background-color: #393c3f;
-        }
-
-        .btn-group {
-            display: flex;
-            flex-direction: column; 
-            justify-content: center;
-            align-items: center;
-            gap: 5px; 
-            
-        }
-
-        
-
-        h3{
-            margin-top: 30px;
-            font-size: 5px;
-            margin-bottom: 10px;
-        }
-
+{% extends './base.html' %}{% load static %}
+{% block content %}
+    <div class="main-container">
+       
+        <h1 style="font-size: 0;">
+            Taxi Roka
+            <img src="{% static 'img/loginlogo.png' %}" alt="메인페이지 로고사진">
+        </h1>
     
         .social-btn {
         background-color: transparent; 
@@ -149,9 +82,33 @@
                         </button>
                 </form>
                 </a>
-            </div>
+                <script
+                    src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js"
+                    integrity="sha384-70k0rrouSYPWJt7q9rSTKpiTfX6USlMYjZUtr1Du+9o4cGvhPAWxngdtVZDdErlh"
+                    crossorigin="anonymous"
+                ></script>
+            <script>
+                    Kakao.init("84e76cfc6609805ff7d488ed7c33f4f9"); // 사용하려는 앱의 JavaScript 키 입력
+                    Kakao.isInitialized();
+                </script>
+            
+                <p id="token-result"></p>
+            
+                <script>
+                    function loginWithKakao() {
+                    Kakao.Auth.authorize({
+                        redirectUri: "http://127.0.0.1:8000/user/kakao/redirect",
+                    });
+                    }
+                </script>
+            </button>
+            <!-- 구글 소셜 로그인 버튼 -->
+            <button class="social-btn">
+                <img src="{% static 'img/google.png' %}" alt="구글 소셜 로그인">
+            </button>
+            
         </div>
+    
+        
     </div>
-</body>
-</html>
-
+{% endblock %}
