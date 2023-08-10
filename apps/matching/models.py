@@ -14,7 +14,7 @@ class MatchingRoom(models.Model):
     current_num = models.IntegerField()
     create_date = models.DateTimeField(auto_now_add=True)
     end_yn = models.BooleanField()
-
+    uuid = models.CharField(max_length=36)
 
 class Matching(models.Model):
     # 매칭방식별자, 유저식별자, 방장여부, 좌석번호, 매칭일

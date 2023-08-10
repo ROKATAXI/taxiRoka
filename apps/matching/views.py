@@ -31,6 +31,7 @@ def matching_create(request):
             max_num = request.POST["max_num"],
             current_num = 1,
             end_yn =True,
+            uuid =uuid.uuid4(),
         )
         user = CustomUser.objects.get(pk=request.user.pk)
 
@@ -147,14 +148,13 @@ def matching_history(request):
     number_all = Matching.objects.filter(user_id=user).count() # 모든 사용 이력 수
     number_matching = Matching.objects.filter(user_id=user, matching_room_id__end_yn = True).count() # 매칭 예정 수
     number_matched = Matching.objects.filter(user_id=user, matching_room_id__end_yn = False).count() # 매칭 완료 수
- 
+
     ctx = {
         'matching_rooms':matching_rooms,
         'matched_rooms':matched_rooms,
         'number_all':number_all,
         'number_matching':number_matching,
         'number_matched':number_matched,
-        'chtting_room_name':uuid.uuid4(),
     }
 
     return render(request, "matching/matching_history.html", context=ctx)

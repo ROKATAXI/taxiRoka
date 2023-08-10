@@ -15,7 +15,7 @@
     <ul class="room">
         {% for matching in matching_rooms %}
             <li>
-                <a href="/chat/{{ chtting_room_name }}/">
+                <a href="/chat/{{ matching.matching_room_id.uuid }}/">
                     <p>{{ matching.matching_room_id.departure_date }}</p>
                     <p>{{ matching.matching_room_id.departure_time }}</p>
                     <p>출발: {{matching.matching_room_id.departure_area}}</p>
@@ -36,7 +36,7 @@
     <ul class="room">
         {% for matching in matched_rooms %}
             <li>
-                <a href="/chat/{{ chtting_room_name }}/">
+                <a href="/chat/{{ matching.matching_room_id.uuid }}/">
                     <p>{{ matching.matching_room_id.departure_date }}</p>
                     <p>{{ matching.matching_room_id.departure_time }}</p>
                     <p>출발: {{matching.matching_room_id.departure_area}}</p>
