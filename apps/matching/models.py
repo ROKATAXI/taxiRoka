@@ -17,9 +17,10 @@ class MatchingRoom(models.Model):
     uuid = models.CharField(max_length=36)
 
 class Matching(models.Model):
-    # 매칭방식별자, 유저식별자, 방장여부, 좌석번호, 매칭일
+    # 매칭방식별자, 유저식별자, 방장여부, 좌석번호, 매칭일, 익명
     matching_room_id = models.ForeignKey(MatchingRoom, on_delete=models.CASCADE)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE) 
     host_yn = models.BooleanField()
     seat_num = models.IntegerField()
     matching_date = models.DateTimeField()
+    anon_name = models.CharField(max_length=10)

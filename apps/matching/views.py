@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import datetime
 import uuid
+import random
 
 # 매칭 방 리스트
 @login_required
@@ -35,12 +36,13 @@ def matching_create(request):
         )
         user = CustomUser.objects.get(pk=request.user.pk)
 
-        matching = Matching.objects.create(
+        Matching.objects.create(
             matching_room_id=matching_room,
             user_id=request.user,
             host_yn=True,
             seat_num=request.POST["seat_num"],
-            matching_date=timezone.now()
+            matching_date=timezone.now(),
+            anon_name=saveAnonNameInMatching(matching_room.id)
         )
 
         return redirect('/matching/')
@@ -62,12 +64,13 @@ def matching_apply(request, pk):
     if request.method == 'POST':
         seat_num = request.POST['seat_num']
         #신청자 Matching객체 생성해주기
-        matching = Matching.objects.create(    
+        Matching.objects.create(    
             matching_room_id=matching_room,
             user_id=user,
             host_yn=False,
             seat_num=seat_num,
-            matching_date=datetime.now()  
+            matching_date=datetime.now(),
+            anon_name=saveAnonNameInMatching(matching_room.id)
         )
         #신청자 수 1증가
         matching_room.current_num += 1
@@ -192,3 +195,25 @@ def matching_delete(request, pk):
 
     return redirect('/matching/')
 
+def saveAnonNameInMatching(matching_room_id):
+    animal_names = [
+        "강아지", "고양이", "코끼리", "사자", "기린", "원숭이", "팬더", "캥거루", "토끼", "다람쥐",
+        "파랑새", "돼지", "말", "앵무새", "호랑이", "펭귄", "북극곰", "침팬지", "수달", "뱀",
+        "물고기", "악어", "맷돼지", "비둘기", "거북이", "늑대", "두더지", "햄스터", "하마", "너구리",
+        "기니피그", "친칠라", "백조", "고래", "가젤", "캐멀", "물소"
+    ]
+    matchings = Matching.objects.filter(matching_room_id = matching_room_id)
+    
+    while True:
+        flag = True
+        animal = random.choice(animal_names)
+
+        for matching in matchings:
+            if animal == matching:
+                flag = False
+                break
+
+        if flag:
+            break
+
+    return animal
