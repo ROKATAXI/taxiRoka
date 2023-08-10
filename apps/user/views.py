@@ -18,10 +18,12 @@ def main(request):
 
 def login(request):
     if request.method == 'POST':
-        user_id = request.POST['email']  
+
+        email = request.POST['email']  
         password = request.POST['password']
 
-        user = auth.authenticate(request, username=user_id, password=password)
+        user = auth.authenticate(request, username=email, password=password)
+
 
         if user is None:
             print('login fail')
