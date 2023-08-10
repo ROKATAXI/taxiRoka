@@ -9,24 +9,27 @@
 - [기획안 링크](https://www.figma.com/file/7moP30bEJTYJeyoaSUACyt/PIRO19-ROKA?type=design&node-id=0-1&mode=design)
 - [ERD CLOUD 링크](https://www.erdcloud.com/d/zB3wiAaQY7PxnzLyY)
 
-##URL
-user/main/ : 로그인 회원가입 누르는 메인창
-user/signup/: 회원가입
-user/login/: 로그인창
-user/logout/: 로그아웃
-user/send_email/: 이메일 보내기
-user/activate/pk: 인증하기
-
-matching/: 매칭 리스트
-matching/create: 매칭방 생성
-matching/apply/room/pk: 매칭 신청
-matching/update/room/pk: 매칭방 수정
-matching/delete/room/pk: 매칭방 나가기
-matching/history: 매칭 히스토리
-
-chat/room_name: 채팅방 입장
-report/form: 신고하기 페이지
-report/: 신고하기
+## URL
+| 경로 | 내용 |
+| ------------ | ------------- |
+| user/main/ | 로그인 회원가입 누르는 메인창  |
+| user/signup/ | 회원가입  |
+| user/login/ | 로그인  |
+| user/logout/ | 로그아웃  |
+| user/send_email/ | 이메일 보내기  |
+| user/activate/pk/ | 인증하기  |
+|  |  |
+| matching/ | 매칭 리스트 |
+| matching/create/ | 매칭방 생성 |
+| matching/apply/room/pk | 매칭 신청 |
+| matching/update/room/pk | 매칭방 수정 |
+| matching/delete/room/pk | 매칭방 나가기 |
+| matching/history/ | 매칭 히스토리 |
+|  |  |
+| chat/{room_name}/ | 채팅방 입장 |
+|  |  |
+| report/ | 신고하기 페이지 요청 |
+| report/form/ | 신고 요청 |
 
 ## 기능 상세
 - 회원 관련 기능
