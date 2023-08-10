@@ -34,11 +34,15 @@ def social_login(request):
         user = request.user  # 현재 로그인한 유저 정보
         # 만약 user의 location이 비어있으면
         if not user.location:
-            email = f"{user.username}@gmail.com"  # email 생성
+            if user.kakaoId:
+                email = f"{user.kakaoId}@kakao.com"  # email 생성
+            else:
+                email = f"{user.username}@gmail.com"  # email 생성
             name = request.POST['first_name']
             phone = request.POST['phone']
             location = request.POST['location']
 
+            # 업데이트
             user.first_name = name
             user.last_name = ''
             user.email = email  # email 업데이트
@@ -164,6 +168,7 @@ def kakao_Auth_Redirect(request):
                     user.kakaoId = id
                     user.save()
                     authlogin(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    return redirect('user:social_login')
             else:
                 print("user정보 가져오기 실패")
         else:
