@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth import login as authlogin
-
+from allauth.account.views import LoginView
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .models import CustomUser 
 from django.http import Http404
@@ -16,22 +17,41 @@ def main(request):
     return render(request, 'user/main.html')
 
 def login(request):
+    from django.shortcuts import redirect
+
+@login_required
+def google_callback(request):
+    user = request.user
+    if not user.location:  # location이 비어있다면
+        # 추가 정보 입력 페이지로 이동
+        return redirect('user:social_login')
+    else:
+        # 메인 페이지로 이동
+        return redirect('matching:main')
+
+def social_login(request):   
     if request.method == 'POST':
-        email = request.POST['email']  
-        password = request.POST['password']
+        user = request.user  # 현재 로그인한 유저 정보
+        # 만약 user의 location이 비어있으면
+        if not user.location:
+            if user.kakaoId:
+                email = f"{user.kakaoId}@kakao.com"  # email 생성
+            else:
+                email = f"{user.username}@gmail.com"  # email 생성
+            name = request.POST['first_name']
+            phone = request.POST['phone']
+            location = request.POST['location']
 
-        user = auth.authenticate(request, username=email, password=password)
+            # 업데이트
+            user.first_name = name
+            user.last_name = ''
+            user.email = email  # email 업데이트
+            user.phone = phone  # phone 업데이트
+            user.location = location  # location 업데이트
+            user.save()
+        return redirect('matching:main')  # 메인 페이지로 리디렉트
 
-        if user is None:
-            print('login fail')
-            return redirect(reverse('user:login'))
-            
-        else:
-            print('login')
-            auth.login(request, user)
-            user = CustomUser.objects.get(username=user.username)
-            return redirect('matching:main')
-    return render(request, 'user/login.html') 
+    return render(request, 'user/social.html')
 
 def logout(request) :
     auth.logout(request)
@@ -148,6 +168,7 @@ def kakao_Auth_Redirect(request):
                     user.kakaoId = id
                     user.save()
                     authlogin(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    return redirect('user:social_login')
             else:
                 print("user정보 가져오기 실패")
         else:
@@ -159,4 +180,5 @@ def kakao_Auth_Redirect(request):
 
 def kakao(request):
     return render(request, 'user/kakao.html')
+
 
