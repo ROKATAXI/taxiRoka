@@ -3,38 +3,6 @@
     margin: auto;
 }
 
-/* .calendar-scroll-container {
-    width: 100%;
-    overflow-x: scroll; 
-    padding: 0;
-} */
-/* .calendar-content {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    white-space: nowrap; 
-    width: 1000px; 
-    padding: 10px 0;
-    margin: auto;
-    background-color: #f2f2f2;
-} */
-
-/* .date-container {
-    margin-top: 82px;
-} */
-
-/* .calendar-content > div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    flex: 0;
-    padding: 0;
-
-    font-size: 7px;
-} */
-
 .header {
     display: flex;
     justify-content: space-between;
@@ -84,7 +52,7 @@
 .dates {
     display: flex;
     flex-flow: row wrap;
-    height: 500px;
+    height: 300px;
     border-top: 1px solid #333333;
     border-right: 1px solid #333333;
 }

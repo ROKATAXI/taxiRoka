@@ -23,15 +23,18 @@
         </div>
         <div class="main">
             <div class="days">
-                <div class="day">일</div>
-                <div class="day">월</div>
-                <div class="day">화</div>
-                <div class="day">수</div>
-                <div class="day">목</div>
-                <div class="day">금</div>
-                <div class="day">토</div>
+                <div class="calendar-day">일</div>
+                <div class="calendar-day">화</div>
+                <div class="calendar-day">수</div>
+                <div class="calendar-day">목</div>
+                <div class="calendar-day">금</div>
+                <div class="calendar-day">토</div>
+                <div class="calendar-day">월</div>
             </div>
             <div class="dates"></div>
+            {% for vacation in vacations %}
+            <div>{{ vacation.departure_date }} ~ {{ vacation.arrival_date }}</div>
+            {% endfor %}
         </div>
     </div>
     <script src="{% static 'js/calendar.js' %}"></script>
