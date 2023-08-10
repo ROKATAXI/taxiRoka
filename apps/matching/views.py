@@ -4,6 +4,7 @@ from apps.user.models import *
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import datetime
+import json
 
 
 # 매칭 방 리스트
@@ -60,7 +61,7 @@ def matching_create(request):
 @login_required
 def matching_apply(request, pk):
     matching_room = MatchingRoom.objects.get(id=pk)
-    selected_seats = str(list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True))) # 이미 선택된 좌석들(더 좋은 방법이 없을까..?)
+    selected_seats = list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True)) # 이미 선택된 좌석들(더 좋은 방법이 없을까..?)
     user = CustomUser.objects.get(pk=request.user.pk)
     already_apply = Matching.objects.filter(matching_room_id = matching_room, user_id = request.user).exists()
     
@@ -90,7 +91,7 @@ def matching_apply(request, pk):
     else:
         ctx = {
             'matching_room': matching_room,
-            'selected_seats': selected_seats,
+            'selected_seats': json.dumps(selected_seats), #jsno화
         }
         return render(request, 'matching/matching_apply.html', context=ctx)
 
