@@ -45,7 +45,7 @@ def signup(request):
 
         try:
             existing_user = CustomUser.objects.get(email=email)
-            return redirect('login/') 
+            return redirect('/user/login/') 
         except CustomUser.DoesNotExist:
             user = CustomUser.objects.create_user(
                 first_name=username,
