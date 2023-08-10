@@ -17,7 +17,22 @@ def main(request):
     return render(request, 'user/main.html')
 
 def login(request):
-    from django.shortcuts import redirect
+    if request.method == 'POST':
+        email = request.POST['email']  
+        password = request.POST['password']
+
+        user = auth.authenticate(request, username=email, password=password)
+
+        if user is None:
+            print('login fail')
+            return redirect(reverse('user:login'))
+            
+        else:
+            print('login')
+            auth.login(request, user)
+            user = CustomUser.objects.get(username=user.username)
+            return redirect('matching:main')
+    return render(request, 'user/login.html') 
 
 @login_required
 def google_callback(request):
