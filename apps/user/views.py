@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import login as authlogin
+
 from django.urls import reverse
 from .models import CustomUser 
 from django.http import Http404
@@ -132,18 +134,20 @@ def kakao_Auth_Redirect(request):
                 profile_res = res.json()
                 username = profile_res['properties']['nickname']
                 id = profile_res['id']
-                user = User.objects.filter(kakaoId=id)
-                if user.first() is not None:
+                user = User.objects.filter(kakaoId=id).first()
+                print(id, username)
+                if user is not None:
                     print("로그인")
-                    login(request, user.first(), backend='django.contrib.auth.backends.ModelBackend')
-                    return redirect("/")
+                    authlogin(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    return redirect("/matching/")
                 else:
                     print("새로 생성")
-                    user = CustomUser()
-                    user.last_name = username
+                    user = User()
+                    user.username = f"{id}@kakao.com"
+                    user.first_name = username
                     user.kakaoId = id
                     user.save()
-                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    authlogin(request, user, backend='django.contrib.auth.backends.ModelBackend')
             else:
                 print("user정보 가져오기 실패")
         else:
