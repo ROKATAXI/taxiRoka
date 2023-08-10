@@ -4,7 +4,7 @@ from apps.user.models import *
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import datetime
-
+import uuid
 
 # 매칭 방 리스트
 @login_required
@@ -154,6 +154,7 @@ def matching_history(request):
         'number_all':number_all,
         'number_matching':number_matching,
         'number_matched':number_matched,
+        'chtting_room_name':uuid.uuid4(),
     }
 
     return render(request, "matching/matching_history.html", context=ctx)

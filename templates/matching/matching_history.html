@@ -1,39 +1,78 @@
-<h1>Matching History</h1>
+{% extends 'base.html' %}
 
-<h2>매칭 예정</h2>
-<ul>
-    {% for matching in matching_rooms %}
-        <li>
-            <p>{{ matching.matching_room_id.departure_date }}</p>
-            <p>{{ matching.matching_room_id.departure_time }}</p>
-            <p>출발: {{matching.matching_room_id.departure_area}}</p>
-            <p>도착: {{matching.matching_room_id.destination_area}}</p>
+{% block content %}
+<div id="my-matching-history">
+    <h1>나의 매칭 이력</h1>
+    <ul>
+        <li>참여한 매칭방: <span>{{number_all}}</span> 개</li>
+        <li>열려있는 매칭방: <span>{{number_matching}}</span> 개</li>
+        <li>종료된 매칭방: <span>{{number_matched}}</span> 개</li>
+    </ul>
+</div>
 
-            매칭 예정: {{ matching.matching_room_id.end_yn }}
-            <form action="{% url 'matching:delete' matching.id %}" method="post">
-                {% csrf_token %}
-                <button type="submit">방 나가기</button>
-            </form>
-        </li>
-    {% endfor %}
-</ul>
+<div id="opened-room-list">
+    <h2>열려있는 매칭방</h2>
+    <ul class="room">
+        {% for matching in matching_rooms %}
+            <li>
+                <a href="/chat/{{ chtting_room_name }}/">
+                    <p>{{ matching.matching_room_id.departure_date }}</p>
+                    <p>{{ matching.matching_room_id.departure_time }}</p>
+                    <p>출발: {{matching.matching_room_id.departure_area}}</p>
+                    <p>도착: {{matching.matching_room_id.destination_area}}</p>
 
-{{number_all}} <!--모든 이력 수-->
-{{number_matching}} <!--매칭 예정 수-->
-{{number_matched}} <!--매칭 완료 수-->
+                    <form action="{% url 'matching:delete' matching.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">방 나가기</button>
+                    </form>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 
-<h2>매칭 완료</h2>
-<ul>
-    {% for matching in matched_rooms %}
-        <li>
-            <p>{{ matching.matching_room_id.departure_date }}</p>
-            <p>{{ matching.matching_room_id.departure_time }}</p>
-            <p>출발: {{matching.matching_room_id.departure_area}}</p>
-            <p>도착: {{matching.matching_room_id.destination_area}}</p>
+<div id="closed-room-list">
+    <h2>종료된 매칭방</h2>
+    <ul class="room">
+        {% for matching in matched_rooms %}
+            <li>
+                <a href="/chat/{{ chtting_room_name }}/">
+                    <p>{{ matching.matching_room_id.departure_date }}</p>
+                    <p>{{ matching.matching_room_id.departure_time }}</p>
+                    <p>출발: {{matching.matching_room_id.departure_area}}</p>
+                    <p>도착: {{matching.matching_room_id.destination_area}}</p>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 
-            매칭 예정: {{ matching.matching_room_id.end_yn }}
-        </li>
-    {% endfor %}
-</ul>
-
-
+<style>
+    #my-matching-history, #opened-room-list {
+        margin-bottom: 40px;
+    }
+    #my-matching-history span {
+        font-weight: bold;
+    }
+    ul {
+        padding: 0;
+        margin: 0;
+    }
+    .room > li {
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: rgb(228, 228, 228);
+        border-radius: 10px;
+    }
+    .room > li:hover {
+        cursor: pointer;
+    }
+    .room > li > a {
+        text-decoration: none;
+        color: black;
+    }
+    .room > li > a:visited {
+        color: black;
+    }
+</style>
+{% endblock %}
