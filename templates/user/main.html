@@ -1,5 +1,6 @@
 {% extends './base.html' %}{% load static %}
 {% block content %}
+{% load socialaccount %}
     <div class="main-container">
        
         <h1 style="font-size: 0;">
@@ -7,80 +8,14 @@
             <img src="{% static 'img/loginlogo.png' %}" alt="메인페이지 로고사진">
         </h1>
     
-        .social-btn {
-        background-color: transparent; 
-        border: none; 
-        cursor: pointer;
-        margin: 5px;
-        padding: 0;
-        display: inline-flex;
-        align-items: center; /* 아이템들을 수직 가운데 정렬 */
-    }
-
-    .social-btn img {
-        width: 25px;
-        height: 25px; 
-        border-radius: 50%; 
-        transition: transform 0.2s; 
-    }
-
-    .social-btn:hover img {
-        transform: scale(1.1); 
-    }
-
-    .form-container {
-            max-height: 100vh;
-         
-        }
-
-        .logoimg {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 70px;
-            margin-top: 20px;
-        }
-
-        .logoimg img {
-            width: 90%;
-            height: 90%;
-        }
-
-     
-        @media screen and (max-width: 320px) {
-            .login-form {
-                height: 85vh; 
-                overflow-y: scroll;
-            }
-        }
-
-
- 
-</style>
-</head>
-
-<body>
-    <div class="form-container">
-        <div class="container">
-            <div class="btn-group">
-                <div class="logoimg">
-                    <img src="{% static 'img/loginlogo.png' %}" alt="메인페이지 로고사진">
-                </div>
-
-                <a href="/user/login" class="btn">로그인</a>
-                <a href="/user/signup" class="btn">회원가입</a>
-                <h3>---------------------or sign up with---------------------</h3>
-            </div>
-
-            <div class="social-btn-group">
-                    <button class="social-btn">
-                        <img src="{% static 'img/kakao.png' %}" alt="카카오 소셜 로그인">
-                    </button>
-                <form action="{% provider_login_url 'google' %}" method="post" class="login__google Flex_cc">
-                        {% csrf_token %}
-                        <button class="social-btn" type="submit">
-                            <img src="{% static 'img/google.png' %}" alt="구글소셜 로그인">
-                        </button>
-                </form>
+        <a href="/user/login" class="btn">로그인</a>
+        <a href="/user/signup" class="btn">회원가입</a>
+    
+        <span>-------------------or sign up with-------------------</span>
+        <div class="social-container">
+            <button class="social-btn">
+                <a href="javascript:loginWithKakao()">
+                    <img src="{% static 'img/kakao.png' %}" alt="카카오 소셜 로그인">
                 </a>
                 <script
                     src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js"
@@ -103,9 +38,12 @@
                 </script>
             </button>
             <!-- 구글 소셜 로그인 버튼 -->
-            <button class="social-btn">
-                <img src="{% static 'img/google.png' %}" alt="구글 소셜 로그인">
-            </button>
+            <form action="{% provider_login_url 'google' %}" method="post" class="login__google Flex_cc">
+                {% csrf_token %}
+                <button class="social-btn" type="submit">
+                    <img src="{% static 'img/google.png' %}" alt="구글소셜 로그인">
+                </button>
+            </form>
             
         </div>
     
