@@ -7,11 +7,14 @@ from datetime import datetime
 
 
 # 매칭 방 리스트
-@login_required
+
 def main(request):
-    user_location = request.user.location
-    rooms = MatchingRoom.objects.filter(matching__host_yn = True, matching__user_id__location = user_location)
-    rooms = rooms.order_by("departure_date", "departure_time", "create_date")
+    if request.user.is_authenticated:
+        user_location = request.user.location
+        rooms = MatchingRoom.objects.filter(matching__host_yn = True, matching__user_id__location = user_location)
+        rooms = rooms.order_by("departure_date", "departure_time", "create_date")
+    else:
+        rooms = MatchingRoom.objects.all()
 
     ctx = {
         'rooms':rooms,

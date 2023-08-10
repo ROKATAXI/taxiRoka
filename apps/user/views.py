@@ -45,7 +45,7 @@ def signup(request):
 
         try:
             existing_user = CustomUser.objects.get(email=email)
-            return redirect('login/') 
+            return redirect('/user/login/') 
         except CustomUser.DoesNotExist:
             user = CustomUser.objects.create_user(
                 first_name=username,
@@ -140,7 +140,7 @@ def kakao_Auth_Redirect(request):
                 else:
                     print("새로 생성")
                     user = CustomUser()
-                    user.username = username
+                    user.last_name = username
                     user.kakaoId = id
                     user.save()
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
