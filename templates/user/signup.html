@@ -44,6 +44,14 @@
 
   </form>
   
+
+  <div>
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+  </div>
 <!-- 나중에 style 빼기 -->
   <div id="myModal" class="modal" style="display: none;">
     <div class="modal-content">
