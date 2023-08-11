@@ -50,10 +50,15 @@
 }
 
 .create-option-row {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+}
+
+.create-option-row > label{
+    cursor: pointer;
 }
 
 .img-direction {
