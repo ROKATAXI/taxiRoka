@@ -43,6 +43,9 @@ def matching_create(request):
             current_num = 1,
             end_yn =True,
         )
+        #alarm
+        alarm_type = "matching_create"
+        alarm_activate(request, matching_room, alarm_type)
         user = request.user
 
         matching = Matching.objects.create(
@@ -68,10 +71,14 @@ def matching_apply(request, pk):
     if already_apply or matching_room.current_num == matching_room.max_num:
         return redirect('/matching/')
     
+    #매칭방 정보를 넘겨주어 그 방에 있는 유저들을 파악하고 알림 테이블에 정보 저장
+    
 
     if request.method == 'POST':
         seat_num = request.POST['seat_num']
         #신청자 Matching객체 생성해주기
+        alarm_type = "matching_apply"
+        alarm_activate(request, matching_room, alarm_type)
         matching = Matching.objects.create(    
             matching_room_id=matching_room,
             user_id=user,
@@ -79,6 +86,7 @@ def matching_apply(request, pk):
             seat_num=seat_num,
             matching_date=datetime.now()  
         )
+        
         #신청자 수 1증가
         matching_room.current_num += 1
 
@@ -87,6 +95,7 @@ def matching_apply(request, pk):
         #    matching_room.end_yn = False
 
         matching_room.save()
+        # history페이지로 연결되게 바꿀 것(영진)
         return redirect('/matching/')
     else:
         ctx = {
@@ -202,3 +211,32 @@ def matching_delete(request, pk):
 
     return redirect('/matching/')
 
+
+## 매칭 시 사이트 내에 알림 표시
+from django.views.decorators.csrf import csrf_exempt
+#이거 써도 보안상 문제 없는지 확인 필요(영진)
+@csrf_exempt
+def alarm_activate(request, matching_room, alarm_type):
+    ## 어떤 사람이 매칭방을 만들었을 때!
+    if alarm_type == "matching_create":
+        content = "내 휴가출발일에 새로운 방이 생성되었어요!"
+
+    ## 어떤 사람이 매칭방에 참여했을 때!
+    elif alarm_type == "matching_apply":
+        content = "새로운 분과 매칭이 이루어졌어요!"
+        matchings = Matching.objects.filter(matching_room_id=matching_room)
+        # 반복문 최대 3번밖에 안 돌아서 이렇게 처리했어요(영진)
+        for matching in matchings:
+            print(matching.user_id)
+            Alarm.objects.create(
+                user_id = matching.user_id,
+                matching_room_id = matching.matching_room_id,
+                content = content,
+            )
+
+    
+    # 그럼 신청한 신청방 정보를 받아와서 매칭 테이블에서 필터링으로 속해있는 유저들이 누군지 확인해볼까?
+    
+    
+
+    

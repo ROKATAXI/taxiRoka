@@ -103,8 +103,7 @@
             </div>
         
             {% for room in rooms %}
-            <div class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <div class="matching-room--left">
+            <div class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ room.id }}">                <div class="matching-room--left">
                     <div>
                         {{ room.departure_date }}
                     </div>
