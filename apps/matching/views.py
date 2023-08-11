@@ -14,8 +14,15 @@ def main(request):
 
     if request.user.is_authenticated:
         user_location = request.user.location
-        rooms = MatchingRoom.objects.filter(matching__host_yn = True, matching__user_id__location = user_location)
+        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location)
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
+
+        matchings = Matching.objects.filter(host_yn = True, user_id = request.user)
+            
+        print(matchings)
+        for matching in matchings:
+            print(matching.matching_room_id)
+
     else:
         rooms = MatchingRoom.objects.all()
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
@@ -27,6 +34,7 @@ def main(request):
 
     ctx = {
         'rooms':rooms,
+        'matchings':matchings,
     }
 
     return render(request, 'matching/matchinglist.html', context=ctx)
@@ -82,7 +90,7 @@ def matching_apply(request, pk):
         #신청자 Matching객체 생성해주기
         alarm_type = "matching_apply"
         alarm_activate(request, matching_room, alarm_type)
-        matching = Matching.objects.create(    
+
         Matching.objects.create(    
             matching_room_id=matching_room,
             user_id=user,
@@ -229,6 +237,16 @@ def getAnonName(matching_room_id):
         flag = True
         animal = random.choice(animal_names)
 
+        for matching in matchings:
+            if animal == matching:
+                flag = False
+                break
+                
+        if flag:
+            break
+
+    return animal
+
 ## 매칭 시 사이트 내에 알림 표시
 from django.views.decorators.csrf import csrf_exempt
 #이거 써도 보안상 문제 없는지 확인 필요(영진)
@@ -257,12 +275,4 @@ def alarm_activate(request, matching_room, alarm_type):
     
 
     
-        for matching in matchings:
-            if animal == matching:
-                flag = False
-                break
-
-        if flag:
-            break
-
-    return animal
+        

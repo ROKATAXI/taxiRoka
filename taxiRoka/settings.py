@@ -67,8 +67,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER	 # 응답 메일 관련 설정
 
 LOGIN_REDIRECT_URL = 'user:google_callback' 
 
-SITE_ID = 1
-
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': ['email'],
