@@ -31,5 +31,5 @@ def vacation_list(request):
     return render(request, 'vacation/calendar.html', ctx)
 
 
-def update_vacation(request, pk):
-    user = Cust
+# def update_vacation(request, pk):
+#     user = Cust
