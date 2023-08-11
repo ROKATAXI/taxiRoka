@@ -7,7 +7,7 @@
     
         <h1 style="font-size: 0;">
             Taxi Roka
-            <img src="{% static 'img/loginlogo.png' %}" alt="메인페이지 로고사진">
+            <img src="{% static 'img/loginlogo_.png' %}" alt="메인페이지 로고사진">
         </h1>
     
     
@@ -31,6 +31,16 @@
                 />
             </div>
             <button type="submit">로그인</button>
+            
+            <div class="login-error-messages">
+                {% for message in messages %}
+                <ul>
+                    {{ message }}
+                </ul>
+                {% endfor %}
+                
+                    
+            </div>
         </div>
     </form>
 
@@ -46,6 +56,12 @@
 
 <!--모달CSS만-->
 <style>
+    .login-error-messages {
+    color: red;
+    font-size: 10px;
+    margin-top: 0px;
+      }
+
     .loginmodal {
         display: none;
         position: fixed;
