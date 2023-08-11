@@ -17,6 +17,7 @@ def main(request):
         rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location)
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
 
+        # host 지정 떄문
         matchings = Matching.objects.filter(host_yn = True, user_id = request.user)
             
         print(matchings)
@@ -26,10 +27,17 @@ def main(request):
         if selected_date:
             selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
             rooms = rooms.filter(departure_date = selected_date)
+        
+        # 알림표시를 해보자!
+        alarm_num = len(Alarm.objects.filter(user_id=request.user))
+        print("alarm_num:",alarm_num)
+        pagetype = 1
 
         ctx = {
             'rooms':rooms,
             'matchings':matchings,
+            'alarm_num':json.dumps(alarm_num),
+            'pagetype':json.dumps(pagetype),
         }
 
         return render(request, 'matching/matchinglist.html', context=ctx)
@@ -42,9 +50,11 @@ def main(request):
         if selected_date:
             selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
             rooms = rooms.filter(departure_date = selected_date)
-
+        
+        pagetype = 1
         ctx = {
             'rooms':rooms,
+            'pagetype':json.dumps(pagetype),
         }
 
         return render(request, 'matching/matchinglist.html', context=ctx)
