@@ -15,11 +15,20 @@
     <p>예약시간:</p>
     {{ matching_room.departure_time }}
 </div>
-<p>이미 선택된 좌석: {{ selected_seats }}</p>
+<div>
+    <p>현재인원: {{matching_room.current_num}} / 최대인원: {{matching_room.max_num}}</p>
+</div>
 
-<form action="{% url 'matching:apply' matching_room.pk %}"method="post">
+<form action="{% url 'matching:apply' matching_room.pk %}" method="post">
   {% csrf_token %}
-  <label for="seat_num">좌석번호:</label>
-  <input type="number" name="seat_num" required>
+    <p>좌석선택</p>
+    {% for seat_num in '1234' %}
+        <label>
+            <input type="radio" name="seat_num" value="{{seat_num}}" 
+            {% if seat_num in selected_seats %} 
+                disabled {% endif %}> {{seat_num}} <br>
+        </label>
+    {% endfor %}
+  
   <input type="submit" value="방 신청하기">
 </form>
