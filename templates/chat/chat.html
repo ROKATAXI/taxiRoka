@@ -18,13 +18,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <span class="receiver-name">xxxxxx</span> 님을 신고하시겠습니까?
+                    <span class="receiver-anon-name">xxxxxx</span> 님을 신고하시겠습니까?
                 </div>
                 <div class="modal-footer">
                     <form action="/report/form/" method="post">
                         {% csrf_token %}
-                        <input type="hidden" class="receiver-hidden" name="receiver" value="xxxxxx">
-                        <input type="hidden" class="room-name-hidden" name="room_url" value="xxxxxx">
+                        <input type="hidden" class="anon-name" name="anon_name" value="xxxxxx">
+                        <input type="hidden" class="room-uuid" name="room_uuid" value="xxxxxx">
                         <input type="submit" value="신고하기" class="btn btn-primary" onclick="sendReceiverInfo()">
                     </form>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -115,17 +115,17 @@
 </script>
 <script>
     function clickName(spanName) {
-        const receiverName = document.querySelector('.receiver-name');
-        receiverName.innerText = spanName.innerText;
+        const receiverAnonName = document.querySelector('.receiver-anon-name');
+        receiverAnonName.innerText = spanName.innerText;
     }
     
     function sendReceiverInfo() {
-        const receiverHidden = document.querySelector('.receiver-hidden');
-        const roomNameHidden = document.querySelector('.room-name-hidden');
-        const receiverName = document.querySelector('.receiver-name');
+        const receiverAnonName = document.querySelector('.receiver-anon-name');
+        const anonName = document.querySelector('.anon-name');
+        const roomUuid = document.querySelector('.room-uuid');
 
-        receiverHidden.setAttribute('value', receiverName.innerText);
-        roomNameHidden.setAttribute('value', window.location.pathname);
+        anonName.setAttribute('value', receiverAnonName.innerText);
+        roomUuid.setAttribute('value', window.location.pathname.substr(6, 36));
     }
 </script>
 {% endblock %}
