@@ -102,7 +102,7 @@ def matching_update(request, pk):
     matching_room = MatchingRoom.objects.get(id=pk)
     is_host = Matching.objects.get(matching_room_id = matching_room, host_yn = True)
     is_guest = Matching.objects.filter(matching_room_id = matching_room, host_yn = False).exists()
-    selected_seats = str(list(Matching.objects.filter(matching_room_id=matching_room, host_yn = False).values_list('seat_num', flat=True)))
+    selected_seats = list(Matching.objects.filter(matching_room_id=matching_room, host_yn = False).values_list('seat_num', flat=True))
     current_num = matching_room.current_num
     max_num = int(matching_room.max_num)
 
@@ -141,7 +141,7 @@ def matching_update(request, pk):
         else:
             ctx={
                 'matching_room':matching_room,
-                'selected_seats':selected_seats,
+                'selected_seats':json.dumps(selected_seats),
                 'change_yn':change_yn,
                 'is_guest':is_guest,
             }
