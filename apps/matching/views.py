@@ -43,7 +43,7 @@ def matching_create(request):
             current_num = 1,
             end_yn =True,
         )
-        user = CustomUser.objects.get(pk=request.user.pk)
+        user = request.user
 
         matching = Matching.objects.create(
             matching_room_id=matching_room,
@@ -62,7 +62,7 @@ def matching_create(request):
 def matching_apply(request, pk):
     matching_room = MatchingRoom.objects.get(id=pk)
     selected_seats = list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True)) # 이미 선택된 좌석들(더 좋은 방법이 없을까..?)
-    user = CustomUser.objects.get(pk=request.user.pk)
+    user = request.user
     already_apply = Matching.objects.filter(matching_room_id = matching_room, user_id = request.user).exists()
     
     if already_apply or matching_room.current_num == matching_room.max_num:
@@ -98,11 +98,11 @@ def matching_apply(request, pk):
 # 매칭방 수정하기
 @login_required
 def matching_update(request, pk):
-    user = CustomUser.objects.get(pk=request.user.pk)
+    user = request.user
     matching_room = MatchingRoom.objects.get(id=pk)
     is_host = Matching.objects.get(matching_room_id = matching_room, host_yn = True)
     is_guest = Matching.objects.filter(matching_room_id = matching_room, host_yn = False).exists()
-    selected_seats = str(list(Matching.objects.filter(matching_room_id=matching_room, host_yn = False).values_list('seat_num', flat=True)))
+    selected_seats = list(Matching.objects.filter(matching_room_id=matching_room, host_yn = False).values_list('seat_num', flat=True))
     current_num = matching_room.current_num
     max_num = int(matching_room.max_num)
 
@@ -141,7 +141,7 @@ def matching_update(request, pk):
         else:
             ctx={
                 'matching_room':matching_room,
-                'selected_seats':selected_seats,
+                'selected_seats':json.dumps(selected_seats),
                 'change_yn':change_yn,
                 'is_guest':is_guest,
             }
@@ -152,7 +152,7 @@ def matching_update(request, pk):
 # 매칭방 내역
 @login_required
 def matching_history(request):
-    user = CustomUser.objects.get(pk=request.user.pk)
+    user = request.user
     matching_rooms = Matching.objects.filter(user_id=user, matching_room_id__end_yn = True) # 매칭 예정 방들
     matched_rooms = Matching.objects.filter(user_id=user, matching_room_id__end_yn = False) # 매칭 완료된 방들
     number_all = Matching.objects.filter(user_id=user).count() # 모든 사용 이력 수
@@ -175,7 +175,7 @@ def matching_history(request):
 def matching_delete(request, pk):
 
     if request.method == 'POST':
-        user = CustomUser.objects.get(pk=request.user.pk)
+        user = request.user
         matching = Matching.objects.get(id=pk)
         matching_room = matching.matching_room_id
         is_host = Matching.objects.filter(matching_room_id = matching_room, host_yn = True, user_id = user).exists()
