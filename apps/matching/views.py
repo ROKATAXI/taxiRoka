@@ -6,13 +6,25 @@ from django.utils import timezone
 from datetime import datetime
 import uuid
 import random
+import json
+
 
 # 매칭 방 리스트
-@login_required
+
 def main(request):
-    user_location = request.user.location
-    rooms = MatchingRoom.objects.filter(matching__host_yn = True, matching__user_id__location = user_location)
-    rooms = rooms.order_by("departure_date", "departure_time", "create_date")
+
+    if request.user.is_authenticated:
+        user_location = request.user.location
+        rooms = MatchingRoom.objects.filter(matching__host_yn = True, matching__user_id__location = user_location)
+        rooms = rooms.order_by("departure_date", "departure_time", "create_date")
+    else:
+        rooms = MatchingRoom.objects.all()
+        rooms = rooms.order_by("departure_date", "departure_time", "create_date")
+
+    selected_date = request.GET.get("selected_date")
+    if selected_date:
+        selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
+        rooms = rooms.filter(departure_date = selected_date)
 
     ctx = {
         'rooms':rooms,
@@ -34,7 +46,10 @@ def matching_create(request):
             end_yn =True,
             uuid =uuid.uuid4(),
         )
-        user = CustomUser.objects.get(pk=request.user.pk)
+        #alarm
+        alarm_type = "matching_create"
+        alarm_activate(request, matching_room, alarm_type)
+        user = request.user
 
         Matching.objects.create(
             matching_room_id=matching_room,
@@ -53,17 +68,21 @@ def matching_create(request):
 @login_required
 def matching_apply(request, pk):
     matching_room = MatchingRoom.objects.get(id=pk)
-    selected_seats = str(list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True))) # 이미 선택된 좌석들(더 좋은 방법이 없을까..?)
-    user = CustomUser.objects.get(pk=request.user.pk)
+    selected_seats = list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True)) # 이미 선택된 좌석들(더 좋은 방법이 없을까..?)
+    user = request.user
     already_apply = Matching.objects.filter(matching_room_id = matching_room, user_id = request.user).exists()
     
     if already_apply or matching_room.current_num == matching_room.max_num:
         return redirect('/matching/')
     
+    #매칭방 정보를 넘겨주어 그 방에 있는 유저들을 파악하고 알림 테이블에 정보 저장
+    
 
     if request.method == 'POST':
         seat_num = request.POST['seat_num']
         #신청자 Matching객체 생성해주기
+        alarm_type = "matching_apply"
+        alarm_activate(request, matching_room, alarm_type)
         Matching.objects.create(    
             matching_room_id=matching_room,
             user_id=user,
@@ -72,6 +91,7 @@ def matching_apply(request, pk):
             matching_date=datetime.now(),
             anon_name=getAnonName(matching_room.id)
         )
+        
         #신청자 수 1증가
         matching_room.current_num += 1
 
@@ -80,22 +100,23 @@ def matching_apply(request, pk):
         #    matching_room.end_yn = False
 
         matching_room.save()
+        # history페이지로 연결되게 바꿀 것(영진)
         return redirect('/matching/')
     else:
         ctx = {
             'matching_room': matching_room,
-            'selected_seats': selected_seats,
+            'selected_seats': json.dumps(selected_seats), #jsno화
         }
         return render(request, 'matching/matching_apply.html', context=ctx)
 
 # 매칭방 수정하기
 @login_required
 def matching_update(request, pk):
-    user = CustomUser.objects.get(pk=request.user.pk)
+    user = request.user
     matching_room = MatchingRoom.objects.get(id=pk)
     is_host = Matching.objects.get(matching_room_id = matching_room, host_yn = True)
     is_guest = Matching.objects.filter(matching_room_id = matching_room, host_yn = False).exists()
-    selected_seats = str(list(Matching.objects.filter(matching_room_id=matching_room, host_yn = False).values_list('seat_num', flat=True)))
+    selected_seats = list(Matching.objects.filter(matching_room_id=matching_room, host_yn = False).values_list('seat_num', flat=True))
     current_num = matching_room.current_num
     max_num = int(matching_room.max_num)
 
@@ -134,7 +155,7 @@ def matching_update(request, pk):
         else:
             ctx={
                 'matching_room':matching_room,
-                'selected_seats':selected_seats,
+                'selected_seats':json.dumps(selected_seats),
                 'change_yn':change_yn,
                 'is_guest':is_guest,
             }
@@ -145,7 +166,7 @@ def matching_update(request, pk):
 # 매칭방 내역
 @login_required
 def matching_history(request):
-    user = CustomUser.objects.get(pk=request.user.pk)
+    user = request.user
     matching_rooms = Matching.objects.filter(user_id=user, matching_room_id__end_yn = True) # 매칭 예정 방들
     matched_rooms = Matching.objects.filter(user_id=user, matching_room_id__end_yn = False) # 매칭 완료된 방들
     number_all = Matching.objects.filter(user_id=user).count() # 모든 사용 이력 수
@@ -168,7 +189,7 @@ def matching_history(request):
 def matching_delete(request, pk):
 
     if request.method == 'POST':
-        user = CustomUser.objects.get(pk=request.user.pk)
+        user = request.user
         matching = Matching.objects.get(id=pk)
         matching_room = matching.matching_room_id
         is_host = Matching.objects.filter(matching_room_id = matching_room, host_yn = True, user_id = user).exists()
@@ -217,3 +238,32 @@ def getAnonName(matching_room_id):
             break
 
     return animal
+
+## 매칭 시 사이트 내에 알림 표시
+from django.views.decorators.csrf import csrf_exempt
+#이거 써도 보안상 문제 없는지 확인 필요(영진)
+@csrf_exempt
+def alarm_activate(request, matching_room, alarm_type):
+    ## 어떤 사람이 매칭방을 만들었을 때!
+    if alarm_type == "matching_create":
+        content = "내 휴가출발일에 새로운 방이 생성되었어요!"
+
+    ## 어떤 사람이 매칭방에 참여했을 때!
+    elif alarm_type == "matching_apply":
+        content = "새로운 분과 매칭이 이루어졌어요!"
+        matchings = Matching.objects.filter(matching_room_id=matching_room)
+        # 반복문 최대 3번밖에 안 돌아서 이렇게 처리했어요(영진)
+        for matching in matchings:
+            print(matching.user_id)
+            Alarm.objects.create(
+                user_id = matching.user_id,
+                matching_room_id = matching.matching_room_id,
+                content = content,
+            )
+
+    
+    # 그럼 신청한 신청방 정보를 받아와서 매칭 테이블에서 필터링으로 속해있는 유저들이 누군지 확인해볼까?
+    
+    
+
+    

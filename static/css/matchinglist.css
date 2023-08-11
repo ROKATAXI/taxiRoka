@@ -1,8 +1,24 @@
+.mainpage{
+    width: 100%;
+}
+.date-container{
+    position: sticky;
+    top: 45px;
+    background-color: white;
+    margin-bottom: 5px;
+}
+.calendar-scroll-container{
+    overflow-x: scroll;
+    padding: 0 var(--gutter);
+}
+.calendar-content{
+    display: flex;
+    gap: var(--gutter);
+}
 .matchinglist-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 132px;
 }
 
 .matchinglist-info {
@@ -33,17 +49,33 @@
     padding-top: 10px;
     height: 500px;
     overflow-y: auto;
+
 }
 
 .matching-room {
-    height: 100px;
     width: 90%;
-    background-color: gray;
-    border-radius: 20px;
-    padding: 8px;
+    white-space: nowrap;
+    border-radius: 10px;
+    background-color: var(--grey_bg);
+    margin-top: 10px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
 }
-
-
+.matching-room--left div:nth-child(1){
+    font-weight: 600;
+    font-size: 18px;
+}
+.matching-room--left div:nth-child(3) i{
+    width: 30px;
+    height: 30px;
+}
+.matching--departure{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 .modal-dialog {
     display: flex;
     align-items: center;
