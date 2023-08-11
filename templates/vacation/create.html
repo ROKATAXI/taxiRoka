@@ -1,0 +1,9 @@
+<form action="/vacation/create/" method="post">
+    {% csrf_token %}
+    <input type="text" name="departure_area" placeholder="departure_area">
+    <input type="text" name="destination_area" placeholder="destination_area">
+    
+    <input type="date" name="departure_date" placeholder="departure_date">
+    <input type="date" name="arrival_date" placeholder="arrival_date">
+    <button type="submit">Create Vacation</button>
+</form>
