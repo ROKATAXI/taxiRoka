@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth import login as authlogin
 from allauth.account.views import LoginView
@@ -26,7 +26,7 @@ def login(request):
         user = auth.authenticate(request, username=email, password=password)
 
         if user is None:
-            print('login fail')
+            messages.error(request, '이메일 또는 비밀번호가 올바르지 않습니다.')
             return redirect(reverse('user:login'))
             
         else:
@@ -93,7 +93,8 @@ def signup(request):
         )
 
         if not created:
-            return redirect('/user/login/') 
+            messages.error(request, '중복된 이메일입니다.')
+            return redirect(reverse('user:signup'))
 
         if created:
     # 새로운 객체가 생성된 경우
