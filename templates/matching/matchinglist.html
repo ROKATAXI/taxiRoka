@@ -115,6 +115,7 @@
                         {% for matching in matchings %}
                             {% if matching.matching_room_id == room %}
                                 <div>host</div>
+                                <a href="/matching/update/room/{{ room.id }}">수정</a>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -125,9 +126,10 @@
                         <span>출발: {{ room.departure_area }}</span>
                         <span>도착: {{ room.destination_area }}</span>
                     </div>
-                    
                 </div>
+                
             </div>
+            
             {% endfor %}
 
             <!-- Modals -->

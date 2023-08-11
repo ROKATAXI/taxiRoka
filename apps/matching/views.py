@@ -22,22 +22,32 @@ def main(request):
         print(matchings)
         for matching in matchings:
             print(matching.matching_room_id)
+        selected_date = request.GET.get("selected_date")
+        if selected_date:
+            selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
+            rooms = rooms.filter(departure_date = selected_date)
+
+        ctx = {
+            'rooms':rooms,
+            'matchings':matchings,
+        }
+
+        return render(request, 'matching/matchinglist.html', context=ctx)
 
     else:
         rooms = MatchingRoom.objects.all()
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
 
-    selected_date = request.GET.get("selected_date")
-    if selected_date:
-        selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
-        rooms = rooms.filter(departure_date = selected_date)
+        selected_date = request.GET.get("selected_date")
+        if selected_date:
+            selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
+            rooms = rooms.filter(departure_date = selected_date)
 
-    ctx = {
-        'rooms':rooms,
-        'matchings':matchings,
-    }
+        ctx = {
+            'rooms':rooms,
+        }
 
-    return render(request, 'matching/matchinglist.html', context=ctx)
+        return render(request, 'matching/matchinglist.html', context=ctx)
 
 # 매칭 방 생성
 @login_required
