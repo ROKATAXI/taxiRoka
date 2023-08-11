@@ -31,12 +31,16 @@
                 />
             </div>
             <button type="submit">로그인</button>
-
+            
             <div class="login-error-messages">
+                {% for message in messages %}
                 <ul>
-                 존재하지 않는 계정입니다.
+                    {{ message }}
                 </ul>
-              </div>
+                {% endfor %}
+                
+                    
+            </div>
         </div>
     </form>
 

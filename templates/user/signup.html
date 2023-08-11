@@ -5,6 +5,13 @@
   <form method="POST" action="{% url 'user:signup' %}">
       {% csrf_token %}
       <h1>회원가입</h1>
+      <div class="signup-error-messages">
+        {% for message in messages %}
+          <ul>
+              {{ message }}
+          </ul>
+        {% endfor %}
+    </div>
       <div class="form-group">
         <label for="inputEmail3">이메일</label>
         <input type="email" class="form-control" id="inputEmail3" name="email" />
@@ -42,13 +49,7 @@
       
       <button type="submit" id="signupBtn">Sign up</button>
 
-      <div>
-
-        <div class="signup-error-messages">
-          <ul>
-              이미 존재하는 계정입니다. 
-          </ul>
-      </div>
+      
   </form>
   
 <!-- 나중에 style 빼기 -->
