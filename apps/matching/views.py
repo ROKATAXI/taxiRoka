@@ -14,8 +14,15 @@ def main(request):
 
     if request.user.is_authenticated:
         user_location = request.user.location
-        rooms = MatchingRoom.objects.filter(matching__host_yn = True, matching__user_id__location = user_location)
+        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location)
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
+
+        matchings = Matching.objects.filter(host_yn = True, user_id = request.user)
+            
+        print(matchings)
+        for matching in matchings:
+            print(matching.matching_room_id)
+
     else:
         rooms = MatchingRoom.objects.all()
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
@@ -27,6 +34,7 @@ def main(request):
 
     ctx = {
         'rooms':rooms,
+        'matchings':matchings,
     }
 
     return render(request, 'matching/matchinglist.html', context=ctx)
@@ -81,7 +89,8 @@ def matching_apply(request, pk):
         seat_num = request.POST['seat_num']
         #신청자 Matching객체 생성해주기
         alarm_type = "matching_apply"
-        alarm_activate(request, matching_room, alarm_type)  
+        alarm_activate(request, matching_room, alarm_type)
+
         Matching.objects.create(    
             matching_room_id=matching_room,
             user_id=user,
@@ -232,7 +241,7 @@ def getAnonName(matching_room_id):
             if animal == matching:
                 flag = False
                 break
-
+                
         if flag:
             break
 

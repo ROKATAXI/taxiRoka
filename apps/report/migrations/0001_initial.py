@@ -12,11 +12,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Chatting',
+            name='Report',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('msg_content', models.TextField()),
-                ('sent_time', models.DateTimeField()),
+                ('report_content', models.TextField(max_length=300)),
+                ('reported_time', models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]
