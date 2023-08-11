@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import datetime
 import json
-
+import uuid
+import random
 
 # 매칭 방 리스트
 
@@ -13,8 +14,15 @@ def main(request):
 
     if request.user.is_authenticated:
         user_location = request.user.location
-        rooms = MatchingRoom.objects.filter(matching__host_yn = True, matching__user_id__location = user_location)
+        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location)
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
+
+        matchings = Matching.objects.filter(host_yn = True, user_id = request.user)
+            
+        print(matchings)
+        for matching in matchings:
+            print(matching.matching_room_id)
+
     else:
         rooms = MatchingRoom.objects.all()
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
@@ -26,6 +34,7 @@ def main(request):
 
     ctx = {
         'rooms':rooms,
+        'matchings':matchings,
     }
 
     return render(request, 'matching/matchinglist.html', context=ctx)
@@ -42,18 +51,20 @@ def matching_create(request):
             max_num = request.POST["max_num"],
             current_num = 1,
             end_yn =True,
+            uuid =uuid.uuid4(),
         )
         #alarm
         alarm_type = "matching_create"
         alarm_activate(request, matching_room, alarm_type)
         user = request.user
 
-        matching = Matching.objects.create(
+        Matching.objects.create(
             matching_room_id=matching_room,
             user_id=request.user,
             host_yn=True,
             seat_num=request.POST["seat_num"],
-            matching_date=timezone.now()
+            matching_date=timezone.now(),
+            anon_name=getAnonName(matching_room.id)
         )
 
         return redirect('/matching/')
@@ -79,12 +90,14 @@ def matching_apply(request, pk):
         #신청자 Matching객체 생성해주기
         alarm_type = "matching_apply"
         alarm_activate(request, matching_room, alarm_type)
-        matching = Matching.objects.create(    
+
+        Matching.objects.create(    
             matching_room_id=matching_room,
             user_id=user,
             host_yn=False,
             seat_num=seat_num,
-            matching_date=datetime.now()  
+            matching_date=datetime.now(),
+            anon_name=getAnonName(matching_room.id)
         )
         
         #신청자 수 1증가
@@ -167,7 +180,7 @@ def matching_history(request):
     number_all = Matching.objects.filter(user_id=user).count() # 모든 사용 이력 수
     number_matching = Matching.objects.filter(user_id=user, matching_room_id__end_yn = True).count() # 매칭 예정 수
     number_matched = Matching.objects.filter(user_id=user, matching_room_id__end_yn = False).count() # 매칭 완료 수
- 
+
     ctx = {
         'matching_rooms':matching_rooms,
         'matched_rooms':matched_rooms,
@@ -211,6 +224,28 @@ def matching_delete(request, pk):
 
     return redirect('/matching/')
 
+def getAnonName(matching_room_id):
+    animal_names = [
+        "강아지", "고양이", "코끼리", "사자", "기린", "원숭이", "팬더", "캥거루", "토끼", "다람쥐",
+        "파랑새", "돼지", "말", "앵무새", "호랑이", "펭귄", "북극곰", "침팬지", "수달", "뱀",
+        "물고기", "악어", "맷돼지", "비둘기", "거북이", "늑대", "두더지", "햄스터", "하마", "너구리",
+        "기니피그", "친칠라", "백조", "고래", "가젤", "캐멀", "물소"
+    ]
+    matchings = Matching.objects.filter(matching_room_id = matching_room_id)
+    
+    while True:
+        flag = True
+        animal = random.choice(animal_names)
+
+        for matching in matchings:
+            if animal == matching:
+                flag = False
+                break
+                
+        if flag:
+            break
+
+    return animal
 
 ## 매칭 시 사이트 내에 알림 표시
 from django.views.decorators.csrf import csrf_exempt
@@ -240,3 +275,4 @@ def alarm_activate(request, matching_room, alarm_type):
     
 
     
+        

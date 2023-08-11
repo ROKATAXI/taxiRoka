@@ -1,33 +1,36 @@
 from django.shortcuts import render, redirect
-from .models import *
+from apps.report.models import * 
+from apps.matching.models import *
+from apps.user.models import *
 
 def show_report(request):
     if request.method == "POST":
-        receiver = request.POST.get('receiver')
-        roomUrl = request.POST.get('room_url')
+        anon_name = request.POST.get('anon_name')
+        room_uuid = request.POST.get('room_uuid')
 
-        return render(request, 'report/report.html', {'receiver': receiver, 'roomUrl': roomUrl})
+        return render(request, 'report/report.html', {'anon_name': anon_name, 'room_uuid': room_uuid})
 
 def make_report(request):
     if request.method == "POST":
 
-        # report 테이블에 row 추가
-        # 신고 당한 유저에 대해, user 테이블의 count 필드 값 변경
-        # 신고가 완료되었다는 모달 띄우기
-        # 채팅방 페이지로 redirect
-
+        room_uuid = request.POST.get('room_uuid')
         maker = request.user
-        receiver = request.POST.get('receiver') # 익명 이름 바탕으로 user 찾아야 함
+        receiver =  get_receiver_info(room_uuid, request.POST.get('anon_name'))
         content = request.POST.get('content')
-        roomUrl = request.POST.get('room_url')
 
-        # Report.objects.create(
-        #     report_maker = maker,
-        #     report_receiver = receiver,
-        #     report_content = content
-        # )
+        Report.objects.create(
+            report_maker = maker,
+            report_receiver = receiver,
+            report_content = content
+        )
 
-        # receiver.count += 1
-        # receiver.save()
+        receiver.count += 1
+        receiver.save()
 
-        return redirect(roomUrl)
+        return redirect('/chat/' + room_uuid)
+    
+# 신고당한 사람 정보 얻기: 매칭방 식별자 + 익명 -> 신고당한 사람
+def get_receiver_info(room_uuid, anon_name):
+    matching_room = MatchingRoom.objects.get(uuid = room_uuid)
+    matching = Matching.objects.get(matching_room_id = matching_room.id, anon_name = anon_name)
+    return User.objects.get(id = matching.user_id.id)
