@@ -103,16 +103,20 @@
             </div>
         
             {% for room in rooms %}
-
-            <div class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ room.id }}">
-                <div class="matching-room--left">
-
+            <div class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ room.id }}">                <div class="matching-room--left">
                     <div>
                         {{ room.departure_date }}
                     </div>
                     <div>{{ room.departure_time }}</div>
                     <div>
                        {{ room.current_num }} / {{ room.max_num }}
+                    </div>
+                    <div>
+                        {% for matching in matchings %}
+                            {% if matching.matching_room_id == room %}
+                                <div>host</div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
 
                 </div>

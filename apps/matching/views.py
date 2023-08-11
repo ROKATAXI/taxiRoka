@@ -4,10 +4,9 @@ from apps.user.models import *
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import datetime
+import json
 import uuid
 import random
-import json
-
 
 # 매칭 방 리스트
 
@@ -15,8 +14,15 @@ def main(request):
 
     if request.user.is_authenticated:
         user_location = request.user.location
-        rooms = MatchingRoom.objects.filter(matching__host_yn = True, matching__user_id__location = user_location)
+        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location)
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
+
+        matchings = Matching.objects.filter(host_yn = True, user_id = request.user)
+            
+        print(matchings)
+        for matching in matchings:
+            print(matching.matching_room_id)
+
     else:
         rooms = MatchingRoom.objects.all()
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
@@ -28,6 +34,7 @@ def main(request):
 
     ctx = {
         'rooms':rooms,
+        'matchings':matchings,
     }
 
     return render(request, 'matching/matchinglist.html', context=ctx)
@@ -80,10 +87,12 @@ def matching_apply(request, pk):
 
     if request.method == 'POST':
         seat_num = request.POST['seat_num']
-        #신청자 Matching객체 생성해주기
+
         alarm_type = "matching_apply"
         alarm_activate(request, matching_room, alarm_type)
-        Matching.objects.create(    
+
+        #신청자 Matching객체 생성해주기
+        Matching.objects.create(
             matching_room_id=matching_room,
             user_id=user,
             host_yn=False,
@@ -233,7 +242,7 @@ def getAnonName(matching_room_id):
             if animal == matching:
                 flag = False
                 break
-
+                
         if flag:
             break
 
@@ -263,7 +272,4 @@ def alarm_activate(request, matching_room, alarm_type):
 
     
     # 그럼 신청한 신청방 정보를 받아와서 매칭 테이블에서 필터링으로 속해있는 유저들이 누군지 확인해볼까?
-    
-    
-
     
