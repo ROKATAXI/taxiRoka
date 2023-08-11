@@ -3,6 +3,7 @@ from django.contrib import auth
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth import login as authlogin
 from allauth.account.views import LoginView
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .models import CustomUser 
@@ -49,14 +50,13 @@ def social_login(request):
         user = request.user  # 현재 로그인한 유저 정보
         # 만약 user의 location이 비어있으면
         if not user.location:
-            email = f"{user.username}@gmail.com"  # email 생성
             name = request.POST['first_name']
             phone = request.POST['phone']
             location = request.POST['location']
 
             user.first_name = name
             user.last_name = ''
-            user.email = email  # email 업데이트
+            user.username = user.email  # email 업데이트
             user.phone = phone  # phone 업데이트
             user.location = location  # location 업데이트
             user.save()
@@ -70,31 +70,38 @@ def logout(request) :
 
 def signup(request):   
     if request.method == 'POST':
-        username = request.POST['username']
+        first_name = request.POST['first_name'] 
         email = request.POST['email']
         password = request.POST['password']
         phone = request.POST['phone']
         location = request.POST['location']
+       
+        hashed_password = make_password(password)
 
-        try:
-            existing_user = CustomUser.objects.get(email=email)
+        user, created = CustomUser.objects.get_or_create(
+            email=email,
+            defaults={
+                'first_name': first_name,
+                'username': email,
+                'password': hashed_password,
+                'phone': phone,
+                'location': location,
+                'is_active': False,
+            }
+        )
+
+        if not created:
             return redirect('/user/login/') 
-        except CustomUser.DoesNotExist:
-            user = CustomUser.objects.create_user(
-                first_name=username,
-                username=email,
-                email=email,
-                password=password,
-                phone=phone,
-                location=location,
-            )
+
+        if created:
+    # 새로운 객체가 생성된 경우
             user.backend = f'{ModelBackend.__module__}.{ModelBackend.__qualname__}'
-            user.is_active = False 
             user.save()
-
             send_activation_email(user)
-
             return redirect('user:send_email')
+        else:
+    # 이미 객체가 존재하는 경우
+            return render(request, 'user/signup.html', {'error_message': '이미 해당 이메일로 가입된 유저가 있습니다.'})
 
     return render(request, 'user/signup.html')
 
