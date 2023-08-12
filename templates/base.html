@@ -17,9 +17,6 @@
     {% endblock %}
 </head>
 <body>
-    <div class="main-left">
-        <h1>Taxi Roka</h1>
-    </div>
     <div class="main-right">
         <main>
             <div class="mobile-container">
@@ -28,30 +25,33 @@
                     <nav>
                         <div class="nav-container">
                             <!-- 페이지별 네브바 변경 -->
-                            {% if 1 == 0 %}
-                            <h1 class="title">Taxi ROKA</h1>
-                            {% elif 1 == 1 %}
-                    
-                            <img src="/static/img/beforepage.png" alt="뒤로가기" class="beforepage-img" onclick="goBack()">
-                    
+                            {% if pagetype == "1"%}
+                                <h1 class="nav-title">Taxi ROKA</h1>
                             {% else %}
-                            <h1></h1>
+                                <img src="/static/img/beforepage.png" alt="뒤로가기" class="beforepage-img" onclick="goBack()">
                             {% endif %}
                     
                             <!-- 검색 -->
+                            <!-- 로그인 -->
+                            {% if user.is_authenticated %}
+                            <div class="login-nav-right">
+                                {% if alarm_num != "0" %}
+                                    <!-- 모달트리거 -->
+                                    <button type="button" class="" data-bs-toggle="modal" data-bs-target="#alarmModal">
+                                        <img src="/static/img/notice-activate.png" alt="notice알림이미지" class="notice-img">
+                                    </button>
+                                {% else %}
+                                    <img src="/static/img/notice.png" alt="notice이미지" class="notice-img">
+                                {% endif %}
+                                <img src="/static/img/hamburger.png" alt="hamburger이미지" class="hamburger-img">
+                            </div>
+                            {% else %}
                             <!-- 비로그인 -->
-                            {% if 1 == 0 %}
                             <div class="search-container">
                                 <form class="search-room" role="search" method="POST">{% csrf_token %}
                                     <input class="form-control me-2" type="search" placeholder="부대를 검색하세요.">
                                     <button class="btn btn-outline-secondary" type="submit">검색</button>
                                 </form>
-                            </div>
-                            {% else %}
-                            <!-- 로그인 -->
-                            <div class="login-nav-right">
-                                <img src="/static/img/notice.png" alt="notice이미지" class="notice-img">
-                                <img src="/static/img/hamburger.png" alt="hamburger이미지" class="hamburger-img">
                             </div>
                             {% endif %}
                         </div>
@@ -87,6 +87,28 @@
             </div>
         </main>
     </div>  
+    <!-- 알람모달 -->
+    <div class="modal fade" id="alarmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">내 알림 확인하기!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body alarm-modal-body">
+                    {% for alarm in alarms %}
+                        <div class="alarm-content">
+                            <p>{{alarm.content}}</p>
+                            <button type="button" class="btn btn-success">확인</button>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -36,7 +36,9 @@
 }
 .matchinglist-info > a > button {
     font-size: 12px;
-
+}
+.matchinglist-info > p {
+    margin: 0;
 }
 
 
@@ -83,4 +85,13 @@
     height: 100%;
     width: 240px;
     margin: auto;
+}
+
+.main-date-input {
+    margin-left: 25px;
+}
+
+.alarm-contents {
+    display: flex;
+    flex-direction: column;
 }
