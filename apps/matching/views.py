@@ -14,7 +14,7 @@ def main(request):
 
     if request.user.is_authenticated:
         user_location = request.user.location
-        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location)
+        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location).distinct()
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
 
         # host 지정 떄문

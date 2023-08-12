@@ -35,12 +35,9 @@
                             <!-- 로그인 -->
                             {% if user.is_authenticated %}
                             <div class="login-nav-right">
-                                {% if alarm_num != "0" %}
-                                    <img src="/static/img/notice-activate.png" alt="notice알림이미지" class="notice-img">
-                                {% else %}
                                     <img src="/static/img/notice.png" alt="notice이미지" class="notice-img">
-                                {% endif %}
-                                <img src="/static/img/hamburger.png" alt="hamburger이미지" class="hamburger-img">
+                                
+                            <img src="/static/img/hamburger.png" alt="hamburger이미지" class="hamburger-img">
                             </div>
                             {% else %}
                             <!-- 비로그인 -->
