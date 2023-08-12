@@ -5,9 +5,9 @@
     <h1>신고하기</h1>
     <form action="/report/" method="post" id="report-form">
         {% csrf_token %}
-        <input type="hidden" name="receiver" value="{{ receiver }}">
-        <input type="hidden" name="room_url" value="{{ roomUrl }}">
-        <textarea name="content" placeholder="{{ receiver }} 님에 대한 신고 사유를 입력해주세요"></textarea>
+        <input type="hidden" name="anon_name" value="{{ anon_name }}">
+        <input type="hidden" name="room_uuid" value="{{ room_uuid }}">
+        <textarea name="content" placeholder="{{ anon_name }} 님에 대한 신고 사유를 입력해주세요"></textarea>
         <input type="submit" value="ROKA 팀에게 전달하기">
     </form>
 </div>

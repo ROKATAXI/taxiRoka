@@ -1,21 +1,25 @@
 .create-room{
     width: 100%;
+    height: 440px;
 }
 .direction-container {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 95%;
-    margin: auto;
+    margin: 15px auto;
     gap: 20px;
 }
 
+.seat-option > img[alt="Image 0"] {
+    pointer-events: none;
+}
 
 .create-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
     width: 95%;
     margin: auto;
@@ -23,12 +27,19 @@
     /* background-color: gray; */
 }
 
-
+.create-container > p{
+    margin: 0;
+    height: 10px;
+    align-self: flex-start;
+    margin: 0;
+}
 
 .create-option {
+    width: 40%;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    justify-content: space-around;
 }
 
 .seat-option > img {
@@ -42,18 +53,27 @@
 
 .seat-option > img {
     cursor: pointer;
-    opacity: 0.5
+    opacity: 0.5;
 }
 
 .seat-option > img:hover {
-    opacity: 1
+    opacity: 1;
+}
+
+.seat-option img.checked {
+    opacity: 1;
 }
 
 .create-option-row {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+}
+
+.create-option-row > label{
+    cursor: pointer;
 }
 
 .img-direction {
@@ -65,8 +85,28 @@
     width: 45%;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
+    display: flex;
 }
 
 .locations > label {
     font-size: 10px;
 }
+
+.create-room-button{
+    display: block;
+    width: 80%;
+    background-color: rgb(20, 128, 174);
+    text-align: center;
+    border-radius: 10px;
+    margin: 15px auto;
+    
+}
+
+.seat-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+

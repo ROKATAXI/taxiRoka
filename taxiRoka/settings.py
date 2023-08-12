@@ -65,10 +65,16 @@ EMAIL_USE_SSL = False
 EMAIL_USE_TLS = True			 # TLS 보안 설정
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER	 # 응답 메일 관련 설정
 
+LOGIN_REDIRECT_URL = 'user:google_callback' 
 
-SITE_ID = 1
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    }
+}
 
-LOGIN_REDIRECT_URL = '/'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

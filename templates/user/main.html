@@ -1,10 +1,14 @@
 {% extends './base.html' %}{% load static %}
+<!-- base.html -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+
 {% block content %}
+{% load socialaccount %}
     <div class="main-container">
        
         <h1 style="font-size: 0;">
             Taxi Roka
-            <img src="{% static 'img/loginlogo.png' %}" alt="메인페이지 로고사진">
+            <img src="{% static 'img/loginlogo_.png' %}" alt="메인페이지 로고사진">
         </h1>
     
         <a href="/user/login" class="btn">로그인</a>
@@ -37,9 +41,12 @@
                 </script>
             </button>
             <!-- 구글 소셜 로그인 버튼 -->
-            <button class="social-btn">
-                <img src="{% static 'img/google.png' %}" alt="구글 소셜 로그인">
-            </button>
+            <form action="{% provider_login_url 'google' %}" method="post" class="login__google Flex_cc">
+                {% csrf_token %}
+                <button class="social-btn" type="submit">
+                    <img src="{% static 'img/google.png' %}" alt="구글소셜 로그인">
+                </button>
+            </form>
             
         </div>
     
