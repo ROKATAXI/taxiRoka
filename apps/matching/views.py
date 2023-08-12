@@ -14,7 +14,7 @@ def main(request):
 
     if request.user.is_authenticated:
         user_location = request.user.location
-        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location)
+        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location).distinct()
         print(rooms)
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
 
@@ -39,7 +39,7 @@ def main(request):
             'rooms':rooms,
             'matchings':matchings,
             'alarms':alarms,
-            # 'alarm_num':json.dumps(alarm_num),
+            'alarm_num':json.dumps(alarm_num),
             'pagetype':json.dumps(pagetype),
         }
 

@@ -90,3 +90,8 @@
 .main-date-input {
     margin-left: 25px;
 }
+
+.alarm-contents {
+    display: flex;
+    flex-direction: column;
+}
