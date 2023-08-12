@@ -14,30 +14,53 @@ def main(request):
 
     if request.user.is_authenticated:
         user_location = request.user.location
-        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location)
+        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location).distinct()
+        print(rooms)
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
 
+        # host 지정 떄문
         matchings = Matching.objects.filter(host_yn = True, user_id = request.user)
             
         print(matchings)
         for matching in matchings:
             print(matching.matching_room_id)
+        selected_date = request.GET.get("selected_date")
+        if selected_date:
+            selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
+            rooms = rooms.filter(departure_date = selected_date)
+        
+        # 알림표시를 해보자!
+        alarms = Alarm.objects.filter(user_id=request.user)
+        alarm_num = len(alarms)
+        print("alarm:", alarm_num)
+        pagetype = 1
+        print(rooms)
+        ctx = {
+            'rooms':rooms,
+            'matchings':matchings,
+            'alarms':alarms,
+            'alarm_num':json.dumps(alarm_num),
+            'pagetype':json.dumps(pagetype),
+        }
+
+        return render(request, 'matching/matchinglist.html', context=ctx)
 
     else:
         rooms = MatchingRoom.objects.all()
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
 
-    selected_date = request.GET.get("selected_date")
-    if selected_date:
-        selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
-        rooms = rooms.filter(departure_date = selected_date)
+        selected_date = request.GET.get("selected_date")
+        if selected_date:
+            selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
+            rooms = rooms.filter(departure_date = selected_date)
+        
+        pagetype = 1
+        ctx = {
+            'rooms':rooms,
+            'pagetype':json.dumps(pagetype),
+        }
 
-    ctx = {
-        'rooms':rooms,
-        'matchings':matchings,
-    }
-
-    return render(request, 'matching/matchinglist.html', context=ctx)
+        return render(request, 'matching/matchinglist.html', context=ctx)
 
 # 매칭 방 생성
 @login_required
@@ -268,6 +291,7 @@ def alarm_activate(request, matching_room, alarm_type):
                 matching_room_id = matching.matching_room_id,
                 content = content,
             )
+            print(matching.user_id)
 
     
     # 그럼 신청한 신청방 정보를 받아와서 매칭 테이블에서 필터링으로 속해있는 유저들이 누군지 확인해볼까?

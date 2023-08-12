@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import login as authlogin
 from allauth.account.views import LoginView
 from django.contrib.auth.hashers import make_password
@@ -184,7 +184,9 @@ def kakao_Auth_Redirect(request):
                 else:
                     print("새로 생성")
                     user = User()
+                    print(user)
                     user.username = f"{id}@kakao.com"
+                    print(user.username)
                     user.first_name = username
                     user.kakaoId = id
                     user.save()

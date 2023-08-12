@@ -120,6 +120,11 @@
     justify-content: space-between;
     padding: 10px 20px;
     width: 100%;
+    align-items: center;
+}
+.nav-title {
+    font-size: 15px;
+    margin: 0;
 }
 .nav-container img,
 .footer-custom img{
@@ -138,3 +143,29 @@
     bottom: 0;
     background-color: white;
 }
+
+.search-room {
+    display: flex;
+    height: 30px;
+}
+.search-room > button {
+    font-size: 10px;
+    width: 60px;
+}
+.search-room > input {
+    font-size: 10px;
+    width: 130px;
+}
+
+.alarm-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.alarm-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
