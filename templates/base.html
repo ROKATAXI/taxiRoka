@@ -96,12 +96,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body alarm-modal-body">
-                    {% for alarm in alarms %}
+                    {% for alarm in alarms reversed %}
                         <div class="alarm-content">
-                            <p>{{alarm.content}}</p>
-                            <button type="button" class="btn btn-success">확인</button>
+                            <p>{{ alarm.content }}</p>
+                            <a href="/matching/alarm-delete/{{ alarm.id }}"><button type="button" class="btn btn-success">확인</button></a>
                         </div>
                     {% endfor %}
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>

@@ -16,15 +16,17 @@ def main(request):
         user_location = request.user.location
         rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location).distinct()
         print(rooms)
+
+        # 날짜 선택 안 했을 시
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
 
         # host 지정 떄문
         matchings = Matching.objects.filter(host_yn = True, user_id = request.user)
             
-        print(matchings)
         for matching in matchings:
             print(matching.matching_room_id)
         selected_date = request.GET.get("selected_date")
+        
         if selected_date:
             selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
             rooms = rooms.filter(departure_date = selected_date)
@@ -131,7 +133,7 @@ def matching_apply(request, pk):
         #    matching_room.end_yn = False
 
         matching_room.save()
-        # history페이지로 연결되게 바꿀 것(영진)
+        # history페이지 or 로 연결되게 바꿀 것(영진)
         return redirect('/matching/')
     else:
         ctx = {
@@ -181,6 +183,8 @@ def matching_update(request, pk):
                 
                 is_host.seat_num = request.POST['seat_num']
                 is_host.save()
+                alarm_type = "matching_update"
+                alarm_activate(request, matching_room, alarm_type)
 
                 return redirect('/matching/')
         else:
@@ -192,7 +196,7 @@ def matching_update(request, pk):
             }
             return render(request, 'matching/matching_update.html', context=ctx)
     else:
-        return redirect('/matching/')
+        return redirect('/matching/') # 이 경우 어떻게 처리할지(핵)
 
 # 매칭방 내역
 @login_required
@@ -234,14 +238,22 @@ def matching_delete(request, pk):
                 new_host.save()
 
                 matching.delete()
+
+                alarm_type = "matching_delete"
+                alarm_activate(request, matching_room, alarm_type)
+                alarm_type = "new_host"
+                alarm_activate(request, matching_room, alarm_type, new_host) # 불필요한 연산 줄이기 위해
+
                 matching_room.current_num -= 1         # 해당 유저의 Matching을 삭제하면 MatchingRoom의 현재 인원 수 -1
                 matching_room.save()
         else: 
             matching.delete() 
+            alarm_type = "matching_delete"
+            alarm_activate(request, matching_room, alarm_type)
             matching_room.current_num -= 1 
             matching_room.save()
             
-            if matching_room.current_num == 0:
+            if matching_room.current_num == 0: #이런 경우가 있을까?(영진)
                 matching_room.delete()
 
 
@@ -274,29 +286,57 @@ def getAnonName(matching_room_id):
 from django.views.decorators.csrf import csrf_exempt
 #이거 써도 보안상 문제 없는지 확인 필요(영진)
 @csrf_exempt
-def alarm_activate(request, matching_room, alarm_type):
-    ## 어떤 사람이 매칭방을 만들었을 때!
+def alarm_activate(request, matching_room, alarm_type, *args):
+    # 어떤 사람이 매칭방을 만들었을 때!
     if alarm_type == "matching_create":
         content = "내 휴가출발일에 새로운 방이 생성되었어요!"
 
-    ## 어떤 사람이 매칭방에 참여했을 때!
+    # 어떤 사람이 매칭방에 참여했을 때!
     elif alarm_type == "matching_apply":
         content = "새로운 분과 매칭이 이루어졌어요!"
         matchings = Matching.objects.filter(matching_room_id=matching_room)
         # 반복문 최대 3번밖에 안 돌아서 이렇게 처리했어요(영진)
         for matching in matchings:
-            print(matching.user_id)
             Alarm.objects.create(
                 user_id = matching.user_id,
                 matching_room_id = matching.matching_room_id,
                 content = content,
             )
-            print(matching.user_id)
 
-    
-    # 그럼 신청한 신청방 정보를 받아와서 매칭 테이블에서 필터링으로 속해있는 유저들이 누군지 확인해볼까?
-    
-    
+    # 어떤 사람이 매칭방에서 나갔을 때! (참여 부분이랑 겹치는 것 나중에 처리하기)
+    elif alarm_type == "matching_delete":
+        content = "내 채팅방에서 누군가 나갔습니다."
+        matchings = Matching.objects.filter(matching_room_id=matching_room)
+        for matching in matchings:
+            print("delete matchings:", matchings)
+            Alarm.objects.create(
+                user_id = matching.user_id,
+                matching_room_id = matching.matching_room_id,
+                content = content,
+            )
 
+    # 내가 방장이 되었을 때!
+    elif alarm_type == "new_host":
+        content = "방장이 되었습니다."
+        Alarm.objects.create(
+                user_id = args[0].user_id,
+                matching_room_id = args[0].matching_room_id,
+                content = content,
+            )
+
+    # 내가 속한 방이 수정되었을 때! ()
+    elif alarm_type == "matching_update":
+        content = "방 정보가 수정되었습니다. 확인하세요!"
+        matchings = Matching.objects.filter(matching_room_id=matching_room)
+        for matching in matchings:
+            print("delete matchings:", matchings)
+            Alarm.objects.create(
+                user_id = matching.user_id,
+                matching_room_id = matching.matching_room_id,
+                content = content,
+            )
     
-        
+    
+def alarm_delete(request, alarm_id):
+    Alarm.objects.filter(id=alarm_id).delete()
+    return redirect('/matching/')
