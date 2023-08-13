@@ -9,118 +9,159 @@
 {% block content %}
 <div class="mainpage">
     <!-- 날짜 -->
-    <div class="container date-container fixed-top">
+    <div class="container date-container">
         <!-- 날짜 -->
-        <div class="row justify-content-center">
-            <div class="calendar-scroll-container">
+
+        <div class="calendar-scroll-container">
                 <!-- 날짜와 이벤트를 표시할 부분 -->
-                <div class="calendar-content">
-                    <!-- 일단 하드코딩 해놓음. 오늘 날짜 받아와서 그거 기준으로 요일이랑 날짜 변경 -->
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
-                    <div>
-                        <span>5</span><span>일</span>
-                    </div>
+            <div class="calendar-content">
+                <!-- 일단 하드코딩 해놓음. 오늘 날짜 받아와서 그거 기준으로 요일이랑 날짜 변경 -->
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
+                </div>
+                <div>
+                    <span>5</span><span>일</span>
                 </div>
             </div>
+    
         </div>
         
         <!-- <h1>메인 페이지</h1>
         <p>이곳에 메인 페이지 컨텐츠를 작성합니다.</p> -->
     </div>
-    
-    
+    <div>
+        <form action="{% url 'matching:main' %}" method="get">
+            <label for="selected_date"></label>
+            <input type="date" class="main-date-input" id="selected_date" name="selected_date" value="{{request.Get.selected_date}}">
+            <input type="submit" value="선택">
+            
+        </form>
+    </div>
     <!-- 방목록 -->
     <div class="matchinglist-container">
         <div class="container matchingroom-container">
             <!-- 부대위치와 방생성 -->
             <div class="matchinglist-info">
-                <h2>상무대</h2>
-                <button class="btn btn-secondary">방 만들기</button>
+                {% if user.is_authenticated %}
+                    <!-- 로그인한 사용자의 경우에만 보여질 내용 -->
+                    <p>{{ user.first_name }}!</p>
+                {% else %}
+                    <a href="/user/main/">로그인</a>
+                {% endif %}
+                <a href="/matching/create/"><button class="btn btn-secondary">방 만들기</button></a>
             </div>
         
             {% for room in rooms %}
-            <button type="button" class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <div>
-                    {{ room.departure_date }}
-                    {{ room.departure_time }}
+            <div class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ room.id }}">
+                <div class="matching-room--left">
+                    <div>
+                        {{ room.departure_date }}
+                    </div>
+                    <div>{{ room.departure_time }}</div>
+                    <div>
+                       {{ room.current_num }} / {{ room.max_num }}
+                    </div>
+                    <div>
+                        
+                    </div>
+
                 </div>
-                <div>
-                    {{ room.departure_area }}
-                    {{ room.destination_area }}
+                <div class="matching-room--right">
+                    <div class="matching--departure">
+                        <span>출발: {{ room.departure_area }}</span>
+                        <span>도착: {{ room.destination_area }}</span>
+                        {% if room in is_host %}
+                            <div class="host-icon-box">
+                                <div class="host-icon"></div>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
-                <div>
-                    {{ room.current_num }} / {{ room.max_num }}
-                </div>
-            </button>
+                
+            </div>
+            
             {% endfor %}
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <!-- Modals -->
+            {% for room in rooms %}
+            <div class="modal fade" id="exampleModal-{{ room.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+                        <div class="modal-body alarm-contents">
+                        </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">매칭 참여하기</button>
+                            {% if room in is_host %}
+                                <a href="/matching/update/room/{{ room.id }}"><button type="button" class="btn btn-primary">수정</button></a>
+                            {% else %}
+                                <a href="/matching/apply/room/{{ room.id }}"><button type="button" class="btn btn-primary">매칭 참여하기</button></a>
+                            {% endif %}
+                            <!--{% for matching in matchings %}
+                                {% if matching.matching_room_id == room %}
+                                    <a href="/matching/update/room/{{ room.id }}"><button type="button" class="btn btn-primary">수정</button></a>
+                                {% endif %}
+                            {% endfor %}    -->
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+
+
         </div>
     </div>
 </div>

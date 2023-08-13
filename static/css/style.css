@@ -1,3 +1,6 @@
+@import "./chat.css";
+@import "./matchinghistory.css";
+@import "./report.css";
 @import 'reset.css';
 @import 'matchinglist.css';
 @import 'createroom.css';
@@ -5,11 +8,8 @@
 
 
 
-html, body {
-    height: 100%;
-}
 
-.title {
+/* .title {
     font-size: 20px;
     padding-left: 5px;
 }
@@ -68,7 +68,7 @@ html, body {
     align-items: center;
 }
 
-.footer-items > div > img {
+.footer-section > div > a > img {
     height: 30px;
     width: 30px;
 }
@@ -101,4 +101,71 @@ html, body {
     height: 18px;
     width: 18px;
     margin: 0 0 11px 24px;
+} */
+
+.base--container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
+.base--container nav{
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: white;
+}
+.nav-container,
+.footer-custom{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    width: 100%;
+    align-items: center;
+}
+.nav-title {
+    font-size: 15px;
+    margin: 0;
+}
+.nav-container img,
+.footer-custom img{
+    height: 25px;
+    cursor: pointer;
+}
+.nav-container .beforepage-img{
+    height: 20px;
+}
+.login-nav-right{
+    display: flex;
+    gap: var(--gutter);
+}
+.footer-custom{
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+}
+
+.search-room {
+    display: flex;
+    height: 30px;
+}
+.search-room > button {
+    font-size: 10px;
+    width: 60px;
+}
+.search-room > input {
+    font-size: 10px;
+    width: 130px;
+}
+
+.alarm-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.alarm-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+

@@ -2,5 +2,6 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', calendar),
+    path('', vacation_list),
+    path('create/', create_vacation),
 ]

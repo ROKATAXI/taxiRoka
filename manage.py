@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
-import site
 import sys
-import dotenv
+
 
 def main():
     """Run administrative tasks."""
-    site.addsitedir(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'taxiRoka.settings')
     try:
         from django.core.management import execute_from_command_line
@@ -21,5 +19,4 @@ def main():
 
 
 if __name__ == '__main__':
-    dotenv.read_dotenv()
     main()

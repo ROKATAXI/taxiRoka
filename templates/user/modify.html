@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원정보수정</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* 기본 스타일 */
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: grey; /* 나머지 배경을 회색으로 설정 */
+        }
+
+        /* 회원가입 폼 스타일 */
+        .signup-form {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #D9D9D9;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            min-height: 100vh; 
+            text-align: center;
+            
+        }
+
+        .form-control {
+            width: 90%;
+            height: 23px; 
+            margin-bottom: 10px;
+            padding: 5px 8px; 
+            border: 1px solid #ccc;
+            border-radius: 15px;
+        }
+
+        .form-control:focus {
+            border-color: #5b646b;
+            outline: none;
+        }
+
+        .signup-form h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .signup-form .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            margin-left: 10px;
+        }
+
+        .signup-form .form-group label {
+            margin-bottom: 3px;
+            margin-left:5px;
+            font-size: 8px;
+        }
+
+        .signup-form button[type="submit"] {
+            background-color: #4b5054;
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 50%;
+            display: block;
+            margin: 25px auto;
+        }
+
+        .signup-form button[type="submit"]:hover {
+            background-color: #92a1b1;
+        }
+
+        .form-container {
+            max-height: 100vh;
+            overflow-y: scroll;
+        }
+
+          .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+  }
+
+    .modal-content {
+        background-color: #f4f4f4;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+        @media screen and (max-width: 320px) {
+            .signup-form {
+                width: 100%;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+ 
+  <div class="form-container">
+    <div class="signup-form">
+        <form method="POST" action="{% url 'user:signup' %}">
+            {% csrf_token %}
+            <h1>회원정보수정</h1>
+            <div class="form-group">
+                <label for="inputName">Username</label>
+                <input class="form-control" id="inputName" name="username" />
+            </div>
+            <div class="form-group">
+              <label for="inputEmail3">Email</label>
+              <input type="email" class="form-control" id="inputEmail3" name="email" />
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="inputPassword3"
+                name="password"
+              />
+            </div>
+            <div class="form-group">
+              
+              <label for="inputPassword3">Confirm_Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="inputPassword3"
+                name="confirm_password"
+              />
+            </div>
+            <div class="form-group">
+                <label for="id_first_name">이름</label>
+                <input type="text" class="form-control" id="id_first_name" name="first_name" />
+              </div>
+              <div class="form-group">
+                <label for="id_last_name">성</label>
+                <input type="text" class="form-control" id="id_last_name" name="last_name" />
+              </div>
+            <div class="form-group">
+              <label for="inputPhone">Phone</label>
+              <input type="tel" class="form-control" id="inputPhone" name="phone" />
+            </div>
+            <div class="form-group">
+              <label for="inputLocation">Location</label>
+              <input type="text" class="form-control" id="inputLocation" name="location" />
+            </div>
+            <div class="form-group">
+              <label for="inputInDate">In Date</label>
+              <input type="date" class="form-control" id="inputInDate" name="in_date" />
+            </div>
+            <div class="form-group">
+              <label for="inputOutDate">Out Date</label>
+              <input type="date" class="form-control" id="inputOutDate" name="out_date" />
+            </div>
+            
+            <button type="submit" id="signupBtn">수정하기</button>
+
+          </form>
+    </div>
+
+  </div>
+  </div>
+
+    
+</body>
+</html>
