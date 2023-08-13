@@ -18,12 +18,19 @@ def main(request):
         print(rooms)
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
 
+        # 현재 유저가 host인 방에 대한 리스트
+        is_host = list() 
+        for room in rooms:
+            matching = Matching.objects.filter(matching_room_id = room, user_id = request.user, host_yn = True).exists()
+            if matching:
+                is_host.append(room)
+
         # host 지정 떄문
-        matchings = Matching.objects.filter(host_yn = True, user_id = request.user)
+        # matchings = Matching.objects.filter(host_yn = True, user_id = request.user)
             
-        print(matchings)
-        for matching in matchings:
-            print(matching.matching_room_id)
+        #print(matchings)
+        #for matching in matchings:
+        #    print(matching.matching_room_id)
         selected_date = request.GET.get("selected_date")
         if selected_date:
             selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
@@ -37,10 +44,11 @@ def main(request):
         print(rooms)
         ctx = {
             'rooms':rooms,
-            'matchings':matchings,
+            #'matchings':matchings,
             'alarms':alarms,
             'alarm_num':json.dumps(alarm_num),
             'pagetype':json.dumps(pagetype),
+            'is_host':is_host,
         }
 
         return render(request, 'matching/matchinglist.html', context=ctx)

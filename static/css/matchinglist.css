@@ -95,3 +95,21 @@
     display: flex;
     flex-direction: column;
 }
+
+.host-icon-box {
+    text-align: right;
+}
+
+.host-icon {
+    display: inline-block;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    background: url("/static/img/host_icon.png") center center no-repeat;
+    background-size: cover;
+}
+
+
+
+
+
