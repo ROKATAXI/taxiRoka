@@ -26,7 +26,7 @@ def main(request):
         for matching in matchings:
             print(matching.matching_room_id)
         selected_date = request.GET.get("selected_date")
-        
+
         if selected_date:
             selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
             rooms = rooms.filter(departure_date = selected_date)
