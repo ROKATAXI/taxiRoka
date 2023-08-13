@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from apps.user.models import *
+from apps.vacation.models import *
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import datetime
@@ -72,10 +73,7 @@ def matching_create(request):
             end_yn =True,
             uuid =uuid.uuid4(),
         )
-        #alarm
-        alarm_type = "matching_create"
-        alarm_activate(request, matching_room, alarm_type)
-        user = request.user
+        print("방생성 룸아이디:", matching_room.id)
 
         Matching.objects.create(
             matching_room_id=matching_room,
@@ -85,6 +83,10 @@ def matching_create(request):
             matching_date=timezone.now(),
             anon_name=getAnonName(matching_room.id)
         )
+
+        #alarm
+        alarm_type = "matching_create"
+        alarm_activate(request, matching_room, alarm_type)
 
         return redirect('/matching/')
     
@@ -281,9 +283,16 @@ from django.views.decorators.csrf import csrf_exempt
 #이거 써도 보안상 문제 없는지 확인 필요(영진)
 @csrf_exempt
 def alarm_activate(request, matching_room, alarm_type, *args):
-    # 어떤 사람이 매칭방을 만들었을 때!
+    # 어떤 사람이 매칭방을 만들었을 때! -> 이날 휴가출발일을 등록해놓은 유저들에게
     if alarm_type == "matching_create":
-        content = "내 휴가출발일에 새로운 방이 생성되었어요!"
+        content = "나의 휴가 날짜에 새로운 방이 생성되었어요!"
+        vacation_users = (Vacation.objects.filter(departure_date=matching_room.departure_date) | Vacation.objects.filter(arrival_date=matching_room.departure_date))
+        for vacation_user in vacation_users:
+            Alarm.objects.create(
+                user_id = vacation_user.user_id,
+                matching_room_id = matching_room,
+                content = content,
+            )
 
     # 어떤 사람이 매칭방에 참여했을 때!
     elif alarm_type == "matching_apply":
@@ -329,9 +338,10 @@ def alarm_activate(request, matching_room, alarm_type, *args):
                 matching_room_id = matching.matching_room_id,
                 content = content,
             )
+        
+    # 
     
     
 def alarm_delete(request, alarm_id):
     Alarm.objects.filter(id=alarm_id).delete()
-    print("이전페이지:", request.META['HTTP_REFERER'])
     return redirect(request.META['HTTP_REFERER'])
