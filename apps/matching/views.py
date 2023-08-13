@@ -31,17 +31,11 @@ def main(request):
             selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
             rooms = rooms.filter(departure_date = selected_date)
         
-        # 알림표시를 해보자!
-        alarms = Alarm.objects.filter(user_id=request.user)
-        alarm_num = len(alarms)
-        print("alarm:", alarm_num)
         pagetype = 1
         print(rooms)
         ctx = {
             'rooms':rooms,
             'matchings':matchings,
-            'alarms':alarms,
-            'alarm_num':json.dumps(alarm_num),
             'pagetype':json.dumps(pagetype),
         }
 
