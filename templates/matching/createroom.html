@@ -42,7 +42,7 @@
             <div class="create-option">
                 <div class="seat-container">
                     <label for="rating0" class="seat-option">
-                        <img src="{% static 'img/seat.png' %}" alt="Image 0">
+                        <img src="{% static 'img/selected_seat.png' %}" alt="Image 0" class="disabled">
                     </label>
                     <input type="radio" name="seat_num" id="rating1" value="1" class="hidden-radio">
                     <label for="rating1" class="seat-option">
@@ -85,38 +85,39 @@
 </script>
 <script>
     $(document).ready(function(){
+        $(document).ready(function(){
+        // 기본적으로 선택된 라디오 버튼 값을 가져옴
+
         $(".seat-option img").click(function() {
             // 클릭한 이미지의 부모 라벨 요소
             var label = $(this).parent("label");
             // 클릭한 이미지의 연결된 input 요소
             var input = label.next("input[type='radio']");
 
-            // 이미지 클릭 시 연결된 input 체크
-            input.prop("checked", true);
+            // 이미지 클래스가 disabled가 아닌 경우에만 처리
+            if (!label.find("img").hasClass("disabled")) {
+                // 이미지 클릭 시 연결된 input 체크
+                input.prop("checked", true);
 
-            // 모든 이미지 초기화 (선택되지 않은 상태로 변경)
-            $(".seat-option img").attr("src", "{% static 'img/seat.png' %}");
-            $(".seat-option img").removeClass("checked");
-            // 클릭한 이미지만 선택된 이미지로 변경
-            label.find("img").attr("src", "{% static 'img/selected_seat.png' %}");
-            label.find("img").addClass("checked");
-        });
-        
-        $("input[name='max_num']").change(function() {
-            var maxNum = $(this).val();
-            
-            // 최대 3인 매칭을 선택한 경우
-            if (maxNum === "3") {
-                $(".seat-option:nth-child(4)").hide();
-            } 
-            // 최대 4인 매칭을 선택한 경우
-            else if (maxNum === "4") {
-                $(".seat-option:nth-child(4)").show();
+                // 모든 이미지 초기화 (선택되지 않은 상태로 변경)
+                $(".seat-option img:not(.disabled)").attr("src", "{% static 'img/seat.png' %}");
+                $(".seat-option img:not(.disabled)").removeClass("checked");
+                // 클릭한 이미지만 선택된 이미지로 변경
+                label.find("img").attr("src", "{% static 'img/selected_seat.png' %}");
+                label.find("img").addClass("checked");
             }
+
         });
+    });
+        
 
         // 기본적으로 최대 4인 매칭을 선택한 상태로 설정
         $("input[name='max_num'][value='4']").prop("checked", true);
     });
 </script>
 {% endblock %}
+
+
+
+
+
