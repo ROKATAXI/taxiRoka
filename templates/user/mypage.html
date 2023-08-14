@@ -7,6 +7,105 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="test">경린 누나 여기에 복붙해놓으면 돼!</h1>
+
+<div class="logo-container">
+    <img src="{% static 'img/loginlogo_.png' %}" alt="로고 사진">
+    <h1>정보통신대대</h1>
+</div>
+
+
+<div class="mypage-container">
+
+    <div class="profile-top-container">
+        <div class="profile-picture">
+            <img src="{% static 'img/mypage2.png' %}" alt="프로필 사진">
+        </div>
+        <div class="profile-info">
+            <div class="profile-name">
+                <h1>홍길동</h1>
+            </div>
+            <div class="profile-intro">
+                <p>정문위병소.광주송정역</p>
+            </div>
+        </div>
+    </div>
+        
+
+    <div class="profile-info-container">
+        <h2 class="section-title">회원정보</h2>
+        <div class="profile-info">
+            <div class="info-row">
+                <div class="info-label">이름:</div>
+                <div class="info-value">홍길동</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">이메일:</div>
+                <div class="info-value">piro@naver.com</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">비밀번호:</div>
+                <div class="info-value">********</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">전화번호:</div>
+                <div class="info-value">010-1234-5678</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">부대위치:</div>
+                <div class="info-value">부대 위치 정보</div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="section">
+        <h2>매칭 이력</h2>
+        <div class="match-history">
+            <div class="match-status">
+                <h3>전체</h3>
+                <p class="match-count">10</p>
+               
+            </div>
+            <div class="match-status">
+                <h3>예정</h3>
+                <p class="match-count-reservation">3</p>
+               
+            </div>
+            <div class="match-status">
+                <h3>완료</h3>
+                <p class="match-count">7</p>
+               
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>휴가 이력</h2>
+        <div class="vacation-history">
+            <div class="vacation-status">
+                <h3>휴가 신청일: 2023-08-14</h3> 
+            </div>
+            <div class="vacation-status">
+                <h3>휴가 신청일: 2023-08-20</h3>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+
+    <div class="profile-actions">
+        <button class="edit-profile-button">회원정보 수정</button>
+        <button class="logout-button">로그아웃</button>
+        
+    </div>
+    
+</div>
+   
+    
+  
+
+
 {% endblock %}
 
