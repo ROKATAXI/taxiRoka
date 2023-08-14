@@ -5,6 +5,7 @@
 @import 'matchinglist.css';
 @import 'createroom.css';
 @import 'calendar.css';
+@import 'mypage.css';
 
 
 
@@ -109,12 +110,19 @@
     width: 100%;
 }
 .base--container nav{
-    position: sticky;
+    position: fixed;
     top: 0;
     width: 100%;
     background-color: white;
 }
-.nav-container,
+.nav-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    width: 100%;
+    align-items: center;
+    margin-top: 10px;
+}
 .footer-custom{
     display: flex;
     justify-content: space-between;
@@ -139,7 +147,7 @@
     gap: var(--gutter);
 }
 .footer-custom{
-    position: sticky;
+    position: fixed;
     bottom: 0;
     background-color: white;
 }
