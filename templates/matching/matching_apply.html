@@ -68,12 +68,12 @@
                             <img src="{% static 'img/seat.png' %}" alt="Image 3">
                         {% endif %}
                     </label>
-                    <input type="radio" name="seat_num" id="rating4" value="4" class="hidden-radio"
+                    <input type="radio" name="seat_num" id="rating4" value="4" class="hidden-radio {% if "3" in selected_seats %} 
+                    disabled {% endif %}"
                     disabled>
                     <label for="rating4" class="seat-option">
                         {% if "4" in selected_seats %} 
-                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 4" class ="disabled" {% if "3" in selected_seats %} 
-                            disabled {% endif %}>
+                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 4" class ="disabled" >
                         {% else %}
                             <img src="{% static 'img/seat.png' %}" alt="Image 4">
                         {% endif %}
