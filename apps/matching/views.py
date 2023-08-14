@@ -44,8 +44,10 @@ def main(request):
             selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
             rooms = rooms.filter(departure_date = selected_date)
         
+        # 날짜 정보
+        # today = datetime.date.today()
+
         pagetype = 1
-        print(rooms)
         ctx = {
             'rooms':rooms,
             'pagetype':json.dumps(pagetype),
