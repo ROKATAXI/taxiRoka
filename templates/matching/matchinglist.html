@@ -143,19 +143,14 @@
                             <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body alarm-contents">
-                        </div>
+                        <!--<div class="modal-body alarm-contents">
+                        </div>-->
                         <div class="modal-footer">
                             {% if room in is_host %}
                                 <a href="/matching/update/room/{{ room.id }}"><button type="button" class="btn btn-primary">수정</button></a>
                             {% else %}
                                 <a href="/matching/apply/room/{{ room.id }}"><button type="button" class="btn btn-primary">매칭 참여하기</button></a>
                             {% endif %}
-                            <!--{% for matching in matchings %}
-                                {% if matching.matching_room_id == room %}
-                                    <a href="/matching/update/room/{{ room.id }}"><button type="button" class="btn btn-primary">수정</button></a>
-                                {% endif %}
-                            {% endfor %}    -->
                         </div>
                     </div>
                 </div>
