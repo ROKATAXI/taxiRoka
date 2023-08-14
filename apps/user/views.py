@@ -201,7 +201,9 @@ def kakao_Auth_Redirect(request):
     return redirect("/")
 
 
-def kakao(request):
-    return render(request, 'user/kakao.html')
+def mypage(request):
+    return render(request, 'user/mypage.html')
+
+
 
 
