@@ -159,6 +159,35 @@
     margin-left:5px;
 }
 
+.profile-actions {
+    display: flex;
+    justify-content: space-between; 
+    margin-top: 10px;
+    align-items: center;
+}
 
+.edit-profile-button {
+    background-color: #55afeb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
+.logout-button {
+    background-color: #55afeb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
+.edit-profile-button:hover,
+.logout-button:hover {
+    opacity: 0.8;
+    background-color: #2c3e50;
+}
