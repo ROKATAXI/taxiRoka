@@ -4,18 +4,21 @@ from apps.user.models import *
 from apps.vacation.models import *
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import uuid
 import random
+import time
 
 # 매칭 방 리스트
 
 def main(request):
 
+    now = timezone.now()
+
     if request.user.is_authenticated:
         user_location = request.user.location
-        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location).distinct()
+        rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location, end_yn = True).distinct()
         print(rooms)
 
         # 날짜 선택 안 했을 시
@@ -27,6 +30,13 @@ def main(request):
             matching = Matching.objects.filter(matching_room_id = room, user_id = request.user, host_yn = True).exists()
             if matching:
                 is_host.append(room)
+            # 현재 시각이 매칭방의 출발시간으로부터 3시간 뒤라면 end_yn = False가 된다.
+            departure_datetime = datetime.combine(room.departure_date, room.departure_time)
+            departure_datetime = timezone.make_aware(departure_datetime)
+            if now >= departure_datetime + timedelta(hours=3):
+                room.end_yn = False
+                room.save()
+        rooms = rooms.filter(end_yn = True) 
 
         selected_date = request.GET.get("selected_date")
 
@@ -47,7 +57,7 @@ def main(request):
         return render(request, 'matching/matchinglist.html', context=ctx)
 
     else:
-        rooms = MatchingRoom.objects.all()
+        rooms = MatchingRoom.objects.filter(end_yn = True)
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
 
         selected_date = request.GET.get("selected_date")
@@ -55,6 +65,15 @@ def main(request):
             selected_date = timezone.datetime.strptime(selected_date, '%Y-%m-%d').date()
             rooms = rooms.filter(departure_date = selected_date)
         
+        # end_yn = True 판단
+        for room in rooms:
+            departure_datetime = datetime.combine(room.departure_date, room.departure_time)
+            departure_datetime = timezone.make_aware(departure_datetime)
+            if now >= departure_datetime + timedelta(hours=3):
+                room.end_yn = False
+                room.save()
+        rooms = rooms.filter(end_yn=True)
+
         pagetype = 1
         ctx = {
             'rooms':rooms,
@@ -104,6 +123,7 @@ def matching_apply(request, pk):
     user = request.user
     already_apply = Matching.objects.filter(matching_room_id = matching_room, user_id = request.user).exists()
     
+    #이미 신청했거나, 매칭방의 최대 인원수가 충족되었다면 신청 불가능
     if already_apply or matching_room.current_num == matching_room.max_num:
         return redirect('/matching/')
     
