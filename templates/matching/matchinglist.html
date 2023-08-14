@@ -9,7 +9,7 @@
 {% block content %}
 <div class="mainpage">
     <!-- 날짜 -->
-    <div class="container date-container">
+    <div class="date-container">
         <!-- 날짜 -->
 
         <div class="calendar-scroll-container">
@@ -80,17 +80,18 @@
         <!-- <h1>메인 페이지</h1>
         <p>이곳에 메인 페이지 컨텐츠를 작성합니다.</p> -->
     </div>
-    <div>
-        <form action="{% url 'matching:main' %}" method="get">
-            <label for="selected_date"></label>
-            <input type="date" class="main-date-input" id="selected_date" name="selected_date" value="{{request.Get.selected_date}}">
-            <input type="submit" value="선택">
-            
-        </form>
-    </div>
+    
     <!-- 방목록 -->
     <div class="matchinglist-container">
         <div class="container matchingroom-container">
+            <div class="selected_date">
+                <form action="{% url 'matching:main' %}" method="get">
+                    <label for="selected_date"></label>
+                    <input type="date" class="main-date-input" id="selected_date" name="selected_date" value="{{request.Get.selected_date}}">
+                    <input type="submit" value="선택">
+                    
+                </form>
+            </div>
             <!-- 부대위치와 방생성 -->
             <div class="matchinglist-info">
                 {% if user.is_authenticated %}

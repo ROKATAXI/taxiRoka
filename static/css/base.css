@@ -27,8 +27,12 @@ body{
     font-weight: 900;
 } */
 main{
-    margin-top: 10px;
     width: 100%;
+}
+
+.main-container{
+    margin-top: 55px;
+    margin-bottom: 50px;
 }
 /* .mobile-container{
     width: 100%;
