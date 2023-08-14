@@ -90,14 +90,6 @@
         width: 100%;
         background-color: white;
     }
-    .date-container {
-        position: static;
-        background-color: white;
-        margin-bottom: 5px;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
 
     .footer-custom {
         display: none;

@@ -27,7 +27,7 @@ body{
     font-weight: 900;
 } */
 main{
-    width: 100%;
+    width: 90%;
 }
 
 .main-container{
@@ -44,5 +44,9 @@ main{
     }
     main {
         width: 70%;
+    }
+    .main-container{
+        margin-top: 20px;
+        margin-bottom: 30px;
     }
 }
