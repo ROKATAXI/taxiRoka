@@ -1,26 +1,43 @@
 .mainpage{
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    
 }
 .date-container{
     position: fixed;
-    top: 45px;
+    top: 55px;
     background-color: white;
-    margin-bottom: 5px;
-    margin-top: 10px;
+    padding: 0 20px 0 20px;
 
-    width: 90%;
+    width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .calendar-scroll-container{
     overflow-x: scroll;
     padding: 0 var(--gutter);
 }
+.search-dateall{
+    width: 150px;
+    font-size: 8px;
+}
 .calendar-content{
     display: flex;
-    gap: var(--gutter);
+    gap: 30px;
+}
+.calendar-content > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.calendar-content > div > p{
+    font-size: 15px;
+    margin: 0;
 }
 .matchinglist-container {
     display: flex;
@@ -36,7 +53,7 @@
     align-items: center;
 
     height: 50px;
-    width: 90%;
+    width: 95%;
 }
 .matchinglist-info > h2 {
     font-size: 20px;
@@ -63,7 +80,7 @@
 }
 
 .matching-room {
-    width: 90%;
+    width: 95%;
     white-space: nowrap;
     border-radius: 10px;
     background-color: var(--grey_bg);
@@ -116,11 +133,26 @@
 
 .selected_date{
     margin-top: 53px;
-    width: 90%;
+    width: 100%;
     display: flex;
     justify-content: flex-start;
 }
 
 .main-date-input {
     margin-left: 5px;
+}
+
+
+@media (min-width: 768px) {
+    .matching-room {
+        margin-bottom: 28px;
+    }
+    .date-container {
+        position: static;
+        background-color: white;
+        margin-bottom: 5px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 }
