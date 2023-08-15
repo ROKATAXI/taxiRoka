@@ -374,3 +374,6 @@ def alarm_activate(request, matching_room, alarm_type, *args):
 def alarm_delete(request, alarm_id):
     Alarm.objects.filter(id=alarm_id).delete()
     return redirect(request.META['HTTP_REFERER'])
+
+def questions(request):
+    return render(request, 'matching/questions.html')
