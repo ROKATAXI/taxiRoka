@@ -22,11 +22,46 @@
             <nav>
                 <div class="nav-container">
                     <!-- 페이지별 네브바 변경 -->
-                    {% if pagetype == "1"%}
-                        <h1 class="nav-title">Taxi ROKA</h1>
-                    {% else %}
-                        <img src="/static/img/beforepage.png" alt="뒤로가기" class="beforepage-img" onclick="goBack()">
-                    {% endif %}
+                    <div class="nav-right">
+                        <div class="nav-right-logo">
+                        {% if pagetype == "1"%}
+                            <h1 class="nav-title">Taxi ROKA</h1>
+                        {% else %}
+                            <img src="/static/img/beforepage.png" alt="뒤로가기" class="beforepage-img" onclick="goBack()">
+                        {% endif %}
+                        </div>
+                        {% if user.is_authenticated %}
+                        <ul class="nav-right-footer">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/matching/">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/matching/history/">chat</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/vacation/">calendar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/user/mypage/">mypage</a>
+                            </li>
+                        </ul>
+                        {% else %}
+                        <ul class="nav-right-footer">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/matching/">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="nav-link active" data-bs-toggle="modal" data-bs-target="#login_required_modal">Chat</div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="nav-link active" data-bs-toggle="modal" data-bs-target="#login_required_modal">Calendar</div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="nav-link active" data-bs-toggle="modal" data-bs-target="#login_required_modal">Mypage</div>
+                            </li>
+                        </ul>
+                        {% endif %}
+                    </div>
             
                     <!-- 검색 -->
                     <!-- 로그인 -->

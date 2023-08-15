@@ -8,32 +8,14 @@
 
 {% block content %}
 <div class="mainpage">
-    <!-- 날짜 -->
-    <div class="date-container">
-        <!-- 날짜 -->
-        <button type="button" class="btn btn-success search-dateall">전체</button>
-        <div class="calendar-scroll-container">
-            <!-- 날짜와 이벤트를 표시할 부분 -->
-            <div class="calendar-content">
-                <!-- 일단 하드코딩 해놓음. 오늘 날짜 받아와서 그거 기준으로 요일이랑 날짜 변경 -->
-                {% for day in "dddddddddddddddddd" %}
-                    <div>
-                        <p>5</p><p>일</p>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-    
     <!-- 방목록 -->
     <div class="matchinglist-container">
         <div class="matchingroom-container">
             <div class="selected_date">
-                <form action="{% url 'matching:main' %}" method="get">
+                <form action="{% url 'matching:main' %}" class="main-date-choose" method="get">
                     <label for="selected_date"></label>
-                    <input type="date" class="main-date-input" id="selected_date" name="selected_date" value="{{request.Get.selected_date}}">
-                    <input type="submit" value="선택">
-                    
+                    <input type="date" class="main-date-input" id="selected_date" name="selected_date" value="{{request.Get.selected_date}}" min="" max="2023-09-14">
+                    <input type="submit" class="main-date-click" value="선택">
                 </form>
             </div>
             <!-- 부대위치와 방생성 -->
@@ -61,13 +43,17 @@
             <div class="matching-room" data-bs-toggle="modal" data-bs-target="#login_required_modal">
             {% endif %}
                 <div class="matching-room--left">
-                    <div>
-                        {{ room.departure_date }}
+                    <div class="matching-room--left-top-m">
+                        <h2 class="matching-room--left-1">
+                            {{ room.departure_date }}
+                        </h2>
+                        <h2 class="matching-room--left-2">
+                            {{ room.departure_time }}
+                        </h2>
                     </div>
-                    <div>{{ room.departure_time }}</div>
-                    <div>
+                    <h2 class="matching-room--left-3">
                        {{ room.current_num }} / {{ room.max_num }}
-                    </div>
+                    </h2>
                 </div>
                 <div class="matching-room--right">
                     <div class="matching--departure">
@@ -111,4 +97,17 @@
         </div>
     </div>
 </div>
+<script>
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const monthh = String(currentDate.getMonth() + 2).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const minDate = `${year}-${month}-${day}`;
+    const maxDate = `${year}-${monthh}-${day}`;
+
+    const selectedDateInput = document.getElementById('selected_date');
+    selectedDateInput.min = minDate;
+    selectedDateInput.max = maxDate;
+</script>
 {% endblock %}
