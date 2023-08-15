@@ -1,24 +1,49 @@
 .mainpage{
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
 }
 .date-container{
-    position: sticky;
-    top: 45px;
+    position: fixed;
+    top: 55px;
     background-color: white;
-    margin-bottom: 5px;
+    padding: 0 20px 0 20px;
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .calendar-scroll-container{
     overflow-x: scroll;
     padding: 0 var(--gutter);
 }
+.search-dateall{
+    width: 150px;
+    font-size: 8px;
+}
 .calendar-content{
     display: flex;
-    gap: var(--gutter);
+    gap: 30px;
+}
+.calendar-content > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.calendar-content > div > p{
+    font-size: 15px;
+    margin: 0;
 }
 .matchinglist-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 100%;
 }
 
 .matchinglist-info {
@@ -28,7 +53,7 @@
     align-items: center;
 
     height: 50px;
-    width: 90%;
+    width: 95%;
 }
 .matchinglist-info > h2 {
     font-size: 20px;
@@ -49,17 +74,18 @@
     justify-content: flex-start;
     align-items: center;
     padding-top: 10px;
-    height: 500px;
+    height: 100%;
     overflow-y: auto;
 
 }
 
 .matching-room {
-    width: 90%;
+    width: 95%;
     white-space: nowrap;
     border-radius: 10px;
     background-color: var(--grey_bg);
-    margin-top: 10px;
+    margin-top: 2px;
+    margin-bottom: 10px;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
     padding: 10px;
     display: flex;
@@ -87,11 +113,46 @@
     margin: auto;
 }
 
-.main-date-input {
-    margin-left: 25px;
-}
-
 .alarm-contents {
     display: flex;
     flex-direction: column;
+}
+
+.host-icon-box {
+    text-align: right;
+}
+
+.host-icon {
+    display: inline-block;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    background: url("/static/img/host_icon.png") center center no-repeat;
+    background-size: cover;
+}
+
+.selected_date{
+    margin-top: 53px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.main-date-input {
+    margin-left: 5px;
+}
+
+
+@media (min-width: 768px) {
+    .matching-room {
+        margin-bottom: 28px;
+    }
+    .date-container {
+        position: static;
+        background-color: white;
+        margin-bottom: 5px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 }
