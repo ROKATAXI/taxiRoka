@@ -45,11 +45,15 @@ def main(request):
         # 날짜 정보
         # today = datetime.date.today()
 
+        # 이미 신청했는지 여부 판단
+        already_apply_ids = Matching.objects.filter(matching_room_id__in=list(rooms), user_id=request.user, host_yn=False).values_list('matching_room_id', flat=True)
+
         pagetype = 1
         ctx = {
             'rooms':rooms,
             'pagetype':json.dumps(pagetype),
             'is_host':is_host,
+            'already_apply_ids': already_apply_ids,
         }
 
         return render(request, 'matching/matchinglist.html', context=ctx)
@@ -84,6 +88,10 @@ def main(request):
 # 매칭 방 생성
 @login_required
 def matching_create(request):
+    # 방 생성은 3번까지만 가능
+    if Matching.objects.filter(user_id = request.user, host_yn = True).count()>3:
+        return render(request, "matching/createroom.html", {'create_limit': True})
+
     if request.method == 'POST':
         matching_room = MatchingRoom.objects.create(
             departure_area = request.POST["departure_area"],
