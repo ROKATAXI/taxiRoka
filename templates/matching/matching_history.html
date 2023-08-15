@@ -88,16 +88,16 @@
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">방 나가기 확인</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            ...
+            정말 방에서 나가시겠습니까?
             </div>
             <div class="modal-footer">
                 <form action="{% url 'matching:delete' matching.id %}" method="post">
                     {% csrf_token %}
-                    <button type="button" class="btn btn-secondary">나가기</button>
+                    <button type="submit" class="btn btn-secondary">나가기</button>
                 </form>
             <a href="/matching/history/"><button type="button" class="btn btn-primary">취소</button></a>
             </div>

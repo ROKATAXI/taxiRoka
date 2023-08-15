@@ -43,13 +43,10 @@ def main(request):
             rooms = rooms.filter(departure_date = selected_date)
         
         pagetype = 1
-        current_date = datetime.now().date().strftime('%Y-%m-%d')
-        print(current_date)
         ctx = {
             'rooms':rooms,
             'pagetype':json.dumps(pagetype),
             'is_host':is_host,
-            'current_date':json.dumps(current_date),
         }
 
         return render(request, 'matching/matchinglist.html', context=ctx)
