@@ -312,11 +312,9 @@ def alarm_activate(request, matching_room, alarm_type, *args):
                 content = content,
             )
 
-<<<<<<< HEAD
     
     # 그럼 신청한 신청방 정보를 받아와서 매칭 테이블에서 필터링으로 속해있는 유저들이 누군지 확인해볼까?
     
-=======
     # 어떤 사람이 매칭방에서 나갔을 때! (참여 부분이랑 겹치는 것 나중에 처리하기)
     elif alarm_type == "matching_delete":
         content = "내 채팅방에서 누군가 나갔습니다."
@@ -356,4 +354,3 @@ def alarm_activate(request, matching_room, alarm_type, *args):
 def alarm_delete(request, alarm_id):
     Alarm.objects.filter(id=alarm_id).delete()
     return redirect(request.META['HTTP_REFERER'])
->>>>>>> c4dc7822554b24674f35df74af83cede19335a25
