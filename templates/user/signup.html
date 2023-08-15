@@ -5,6 +5,13 @@
   <form method="POST" action="{% url 'user:signup' %}">
       {% csrf_token %}
       <h1>회원가입</h1>
+      <div class="signup-error-messages">
+        {% for message in messages %}
+          <ul>
+            {{ message }}
+          </ul>
+        {% endfor %}
+    </div>
       <div class="form-group">
         <label for="inputEmail3">이메일</label>
         <input type="email" class="form-control" id="inputEmail3" name="email" />
@@ -23,7 +30,7 @@
         <input
           type="password"
           class="form-control"
-          id="inputPassword3"
+          id="confirminputPassword3"
           name="confirm_password"
         />
       </div>
@@ -37,11 +44,14 @@
       </div>
       <div class="form-group">
         <label for="inputLocation">부대위치</label>
-        <input type="text" class="form-control" id="inputLocation" name="location" />
+        <select class="form-control" id="inputLocation" name="location">
+          <option value="Sangmudae">상무대</option>
+        </select>
       </div>
       
-      <button type="submit" id="signupBtn">Sign up</button>
+      <button type="submit" id="signupBtn">회원가입</button>
 
+      
   </form>
   
 <!-- 나중에 style 빼기 -->
@@ -54,6 +64,73 @@
 
 </div>
 
+
     
 
+<!-- 모달 HTML -->
+<div id="modalMismatchPassword" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>비밀번호가 일치하지 않습니다. <br><br>다시 확인해주세요.</p>
+  </div>
+</div>
+
+<div id="modalEmptyFields" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>모든 필드를 입력해주세요.</p>
+  </div>
+</div> 
+
+<div id="modalShortPassword" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>비밀번호는 8자리 이상이어야 합니다. <br><br>다시 확인해주세요.</p>
+  </div>
+</div>
+
+<!-- 모달 CSS -->
+<style>
+
+.signup-error-messages {
+    color: red;
+    font-size:10px;
+    margin-top: 6px;
+    text-align: center;
+      }
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 55%;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+</style>
+
+<script src="{% static 'js/signup.js' %}"></script>
 {% endblock %}

@@ -1,33 +1,50 @@
-// 비밀번호 재입력 일치 확인
-const passwordInput = document.getElementById('inputPassword3');
-const confirmPasswordInput = document.getElementById('confirmPassword');
-const signupButton = document.getElementById('signupButton');
-
-confirmPasswordInput.addEventListener('input', () => {
-    if (passwordInput.value !== confirmPasswordInput.value) {
-        confirmPasswordInput.setCustomValidity('비밀번호가 일치하지 않습니다.');
-    } else {
-        confirmPasswordInput.setCustomValidity('');
-    }
-});
-
-// 폼 제출 시 데이터 확인
-const form = document.querySelector('form');
-form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    // 여기에 폼 데이터 유효성 검사 및 제출 로직을 작성
-
-    const formInputs = form.querySelectorAll('.form-control');
-    let isValid = true;
-    formInputs.forEach(input => {
+document.addEventListener("DOMContentLoaded", function () {
+    const signupForm = document.querySelector(".logout-container form");
+    const passwordInput = document.querySelector('input[name="password"]');
+    const confirmPasswordInput = document.querySelector('input[name="confirm_password"]');
+    const modalEmptyFields = document.getElementById("modalEmptyFields");
+    const modalMismatchPassword = document.getElementById("modalMismatchPassword");
+    const closeModalButtons = document.querySelectorAll(".close");
+    const modalShortPassword = document.getElementById("modalShortPassword");
+    signupForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+  
+      // 입력하지 않은 필드가 있는지 체크
+      const formInputs = signupForm.querySelectorAll("input");
+      let emptyFieldFound = false;
+      for (const input of formInputs) {
         if (!input.value) {
-            isValid = false;
+          emptyFieldFound = true;
+          break;
         }
-    });
+      }
+  
+      if (emptyFieldFound) {
+        modalEmptyFields.style.display = "block";
+        return;
+      }
+  
+      // 비밀번호 불일치 시 모달 띄우기
+      if (passwordInput.value !== confirmPasswordInput.value) {
+        modalMismatchPassword.style.display = "block";
+        return;
+      }
 
-    if (isValid) {
-        form.submit();
-    } else {
-        alert('모든 필드를 입력하세요.');
+      if (passwordInput.value.length < 8) {
+        modalShortPassword.style.display = "block";
+        return;
     }
-});
+      // 유효성 검사 통과 시 폼 제출
+      signupForm.submit();
+    });
+  
+    // 모달 닫기 버튼 클릭 시 모달 닫기
+    closeModalButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        modalEmptyFields.style.display = "none";
+        modalMismatchPassword.style.display = "none";
+        modalShortPassword.style.display = "none";
+      });
+    });
+  });
+  

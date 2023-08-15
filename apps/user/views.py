@@ -1,16 +1,21 @@
 from django.shortcuts import render, redirect
-from django.contrib import auth
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib import auth, messages
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import login as authlogin
 from allauth.account.views import LoginView
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .models import CustomUser 
+from .models import CustomUser
+from apps.matching.models import MatchingRoom, Matching 
 from django.http import Http404
 from django.contrib.auth.backends import ModelBackend
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import requests
 import smtplib
 import os
+
 User = get_user_model()
 
 def main(request):
@@ -24,7 +29,7 @@ def login(request):
         user = auth.authenticate(request, username=email, password=password)
 
         if user is None:
-            print('login fail')
+            messages.error(request, '이메일 또는 비밀번호가 올바르지 않습니다.')
             return redirect(reverse('user:login'))
             
         else:
@@ -49,10 +54,6 @@ def social_login(request):
         user = request.user  # 현재 로그인한 유저 정보
         # 만약 user의 location이 비어있으면
         if not user.location:
-            if user.kakaoId:
-                email = f"{user.kakaoId}@kakao.com"  # email 생성
-            else:
-                email = f"{user.username}@gmail.com"  # email 생성
             name = request.POST['first_name']
             phone = request.POST['phone']
             location = request.POST['location']
@@ -60,7 +61,7 @@ def social_login(request):
             # 업데이트
             user.first_name = name
             user.last_name = ''
-            user.email = email  # email 업데이트
+            user.username = user.email  # email 업데이트
             user.phone = phone  # phone 업데이트
             user.location = location  # location 업데이트
             user.save()
@@ -74,31 +75,39 @@ def logout(request) :
 
 def signup(request):   
     if request.method == 'POST':
-        username = request.POST.get('first_name')
+        first_name = request.POST['first_name'] 
         email = request.POST['email']
         password = request.POST['password']
         phone = request.POST['phone']
         location = request.POST['location']
+        
+        hashed_password = make_password(password)
 
-        try:
-            existing_user = CustomUser.objects.get(email=email)
-            return redirect('/user/login/') 
-        except CustomUser.DoesNotExist:
-            user = CustomUser.objects.create_user(
-                first_name=username,
-                username=email,
-                email=email,
-                password=password,
-                phone=phone,
-                location=location,
-            )
+        user, created = CustomUser.objects.get_or_create(
+            email=email,
+            defaults={
+                'first_name': first_name,
+                'username': email,
+                'password': hashed_password,
+                'phone': phone,
+                'location': location,
+                'is_active': False,
+            }
+        )
+
+        if not created:
+            messages.error(request, '중복된 이메일입니다.')
+            return redirect(reverse('user:signup'))
+
+        if created:
+    # 새로운 객체가 생성된 경우
             user.backend = f'{ModelBackend.__module__}.{ModelBackend.__qualname__}'
-            user.is_active = False 
             user.save()
-
             send_activation_email(user)
-
             return redirect('user:send_email')
+        else:
+    # 이미 객체가 존재하는 경우
+            return render(request, 'user/signup.html', {'error_message': '이미 해당 이메일로 가입된 유저가 있습니다.'})
 
     return render(request, 'user/signup.html')
 
@@ -109,17 +118,38 @@ def send_activation_email(user):
         smtp_server.starttls()
         smtp_server.login('taxiroka2@gmail.com', 'dwupjxznhziubjxl')
 
-        subject = 'Activate Your Account'
-        message = f'Click the link to activate your account: http://127.0.0.1:8000/user/activate/{user.pk}/'
+        subject = '[TaxiRoka] 본인 확인을 위한 이메일 인증을 완료해주세요!'
+        activation_link = f'http://taxiroka.p-e.kr:8000/user/activate/{user.pk}/'
+        
         sender_email = 'taxiroka2@gmail.com'
         recipient_email = user.email
-        msg = f'Subject: {subject}\n\n{message}'
-        smtp_server.sendmail(sender_email, recipient_email, msg)
+
+        email_body = f'''
+            <html>
+                <body>
+                    <h1>이메일 인증</h1>
+                    <h3><br>서비스 이용을 위해 가입한 계정이 본인인지 확인하려고 합니다. <br>아래 버튼을 눌러 이메일 인증을 해주세요.<br></h3>
+                    <a href="{activation_link}">
+                        <button style="background-color: #007BFF; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                            인증하기
+                        </button>
+                    </a>
+                </body>
+            </html>
+        '''
+
+        msg = MIMEMultipart()
+        msg['From'] = sender_email
+        msg['To'] = recipient_email
+        msg['Subject'] = subject
+        msg.attach(MIMEText(email_body, 'html'))  # HTML message
+        smtp_server.sendmail(sender_email, recipient_email, msg.as_string())
 
     except smtplib.SMTPException as e:
         print("An error occurred:", str(e))
     finally:
         smtp_server.quit()
+
 
 def activate_account(request, pk):
     User = get_user_model()
@@ -151,7 +181,7 @@ def kakao_Auth_Redirect(request):
         content = {
         "grant_type": "authorization_code",
         "client_id": "7e2293a02b5609b94e47fc7bd7929328",
-        "redirect_url": "http://127.0.0.1:8000/user/kakao/redirect",
+        "redirect_url": "http://taxiroka.p-e.kr:8000/user/kakao/redirect",
         "code": code,
         }
         res = requests.post("https://kauth.kakao.com/oauth/token",headers=headers, data=content)
@@ -178,7 +208,9 @@ def kakao_Auth_Redirect(request):
                 else:
                     print("새로 생성")
                     user = User()
+                    print(user)
                     user.username = f"{id}@kakao.com"
+                    print(user.username)
                     user.first_name = username
                     user.kakaoId = id
                     user.save()
@@ -192,8 +224,20 @@ def kakao_Auth_Redirect(request):
 
     return redirect("/")
 
+# 마이페이지
+def mypage(request):
+    matching_all = Matching.objects.filter(user_id = request.user).count()
+    matching_ing = Matching.objects.filter(user_id = request.user, matching_room_id__end_yn = True).count()
+    matching_end = Matching.objects.filter(user_id = request.user, matching_room_id__end_yn = False).count()
 
-def kakao(request):
-    return render(request, 'user/kakao.html')
+    ctx= {
+        "matching_all": matching_all,
+        "matching_ing": matching_ing,
+        "matching_end": matching_end,
+    }
+
+    return render(request, 'user/mypage.html', context=ctx)
+
+
 
 

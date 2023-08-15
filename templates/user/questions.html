@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+{% endblock %}
+
+{% block content %}
+
+
+    <style>
+       .logo-container {
+            display: flex;
+            margin-top: 5px;
+            flex-direction: column; 
+            align-items: center; 
+            margin-bottom:13px;
+        }
+
+        .logo-container img {
+            width: 160px;
+            height: auto;
+        }
+
+        .logo-container h1 {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 5px; 
+        }
+
+
+       .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .question {
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .answer {
+            margin-top: 5px;
+            color: #666;
+            display: none;
+        }
+
+        .faq-item.open .answer {
+            max-height: 100px; /* 펼쳐진 높이 설정 */
+            margin-top: 10px; /* 아래쪽 여백 추가 */
+        }
+
+        .faq-item.open .expand-icon {
+            transform: rotate(180deg); /* 아이콘 회전시키기 */
+        }
+    </style>
+</head>
+<body>
+
+        <div class="logo-container">
+            <img src="{% static 'img/loginlogo_.png' %}" alt="로고 사진">
+            <h1>자주 묻는 질문</h1>
+        </div>
+    
+  
+        <div class="faq-container">
+            
+                <div class="faq-item">
+                    <div class="question">Q: 택시로카 서비스 이용방법이 궁금해요▼</div>
+                    <div class="answer">
+
+                        A: 택시로카 서비스는 다음과 같이 이용할 수 있습니다.<br>
+                        1. 회원가입 후 로그인하기<br>
+                        2. 휴가 날짜와 출발지, 도착지 입력하기<br>
+                        3. 채팅방을 생성하거나 채팅방에 참가하여 동승자 구하기
+                    </div>
+                </div>
+            <div class="faq-item">
+                <div class="question">Q: 택시 예약은 안되나요? ▼ </div>
+                <div class="answer">A: 택시로카는 택시 예약 서비스를 제공하고 있지 않습니다. <br>
+                    휴가 나가는 군인들이 택시 동승자를 편리하게 구해 택시비를 절감할 수 있도록 돕습니다.</div>
+            </div>
+        
+        </div>
+
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            var questions = document.querySelectorAll(".question");
+            
+            questions.forEach(function(question) {
+                question.addEventListener("click", function() {
+                    var answer = this.nextElementSibling;
+                    answer.style.display = answer.style.display === "block" ? "none" : "block";
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

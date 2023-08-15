@@ -1,34 +1,124 @@
-<h2>매칭 방 신청</h2>
-<div>
-    <p>출발지점:</p> 
-    {{ matching_room.departure_area }}
-</div>
-<div>
-    <p>도착지점:</p> 
-    {{ matching_room.destination_area }}
-</div>
-<div>
-    <p>예약날짜:</p> 
-    {{ matching_room.departure_date }}
-</div>
-<div>
-    <p>예약시간:</p>
-    {{ matching_room.departure_time }}
-</div>
-<div>
-    <p>현재인원: {{matching_room.current_num}} / 최대인원: {{matching_room.max_num}}</p>
-</div>
+{% extends 'base.html' %}
+{% load static %}
 
-<form action="{% url 'matching:apply' matching_room.pk %}" method="post">
-  {% csrf_token %}
-    <p>좌석선택</p>
-    {% for seat_num in '1234' %}
-        <label>
-            <input type="radio" name="seat_num" value="{{seat_num}}" 
-            {% if seat_num in selected_seats %} 
-                disabled {% endif %}> {{seat_num}} <br>
-        </label>
-    {% endfor %}
-  
-  <input type="submit" value="방 신청하기">
-</form>
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<div class="apply-room">
+    <form action="{% url 'matching:apply' matching_room.pk %}" method="post">{% csrf_token %}
+        <div class="direction-container">
+            <div class="form-floating locations">
+                <p>출발지점</p>
+                {{ matching_room.departure_area }}
+            </div>
+            <img class="img-direction" src="{% static 'img/direction.png' %}" alt="Image 2">
+            <div class="form-floating locations">
+                <p>도착지점</p>
+                {{ matching_room.destination_area }}
+            </div>
+        </div>
+        <div class="direction-container">
+            <div class="matching-date">
+                <p>예약 날짜</p>
+                {{ matching_room.departure_date }}
+            </div>
+            <div>
+                <p>예약 시간</p>
+                {{ matching_room.departure_time }}
+            </div>
+        </div>
+
+    <p>현재인원: {{matching_room.current_num}} / 최대인원: {{matching_room.max_num}}</p>
+    </div>
+        <div class="apply-container">
+            <p>좌석 선택</p>
+            <div class="apply-option">
+                <div class="seat-container">
+                    <label for="rating0" class="seat-option">
+                        <img src="{% static 'img/selected_seat.png' %}" alt="Image 0" class="disabled">
+                    </label>
+                    <input type="radio" name="seat_num" id="rating1" value="1" class="hidden-radio" {% if "1" in selected_seats %} 
+                    disabled {% endif %}>
+                    <label for="rating1" class="seat-option">
+                        {% if "1" in selected_seats %} 
+                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 1" class ="disabled">
+                        {% else %}
+                            <img src="{% static 'img/seat.png' %}" alt="Image 1">
+                        {% endif %}
+                    </label>
+
+                </div>
+                <div class="seat-container">
+                    <input type="radio" name="seat_num" id="rating2" value="2" class="hidden-radio" {% if "2" in selected_seats %} 
+                    disabled {% endif %}>
+                    <label for="rating2" class="seat-option">
+                        {% if "2" in selected_seats %} 
+                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 2" class ="disabled">
+                        {% else %}
+                            <img src="{% static 'img/seat.png' %}" alt="Image 2">
+                        {% endif %}
+                    </label>
+                    <input type="radio" name="seat_num" id="rating3" value="3" class="hidden-radio" {% if "3" in selected_seats %} 
+                    disabled {% endif %}>
+                    <label for="rating3" class="seat-option">
+                        {% if "3" in selected_seats %} 
+                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 3" class ="disabled">
+                        {% else %}
+                            <img src="{% static 'img/seat.png' %}" alt="Image 3">
+                        {% endif %}
+                    </label>
+                    <input type="radio" name="seat_num" id="rating4" value="4" class="hidden-radio" {% if "4" in selected_seats %} 
+                    disabled {% endif %}">
+                    <label for="rating4" class="seat-option">
+                        {% if "4" in selected_seats %} 
+                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 4" class ="disabled" >
+                        {% else %}
+                            <img src="{% static 'img/seat.png' %}" alt="Image 4">
+                        {% endif %}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="apply-room-button">방 신청하기</button>
+    </form>
+</div>
+<script>
+    var staticSeatImage = "{% static 'img/seat.png' %}";
+    var staticSelectedSeatImage = "{% static 'img/selected_seat.png' %}";
+</script>
+<script>
+    $(document).ready(function(){
+        // 기본적으로 선택된 라디오 버튼 값을 가져옴
+
+        $(".seat-option img").click(function() {
+            // 클릭한 이미지의 부모 라벨 요소
+            var label = $(this).parent("label");
+            // 클릭한 이미지의 연결된 input 요소
+            var input = label.next("input[type='radio']");
+
+            // 이미지 클래스가 disabled가 아닌 경우에만 처리
+            if (!label.find("img").hasClass("disabled")) {
+                // 이미지 클릭 시 연결된 input 체크
+                input.prop("checked", true);
+
+                // 모든 이미지 초기화 (선택되지 않은 상태로 변경)
+                $(".seat-option img:not(.disabled)").attr("src", "{% static 'img/seat.png' %}");
+                $(".seat-option img:not(.disabled)").removeClass("checked");
+                // 클릭한 이미지만 선택된 이미지로 변경
+                label.find("img").attr("src", "{% static 'img/selected_seat.png' %}");
+                label.find("img").addClass("checked");
+            }
+
+        });        
+    });
+</script>
+
+
+{% endblock %}
+
+
+
+
+

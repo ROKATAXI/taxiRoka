@@ -26,9 +26,9 @@ SECRET_KEY = 'django-insecure-^08$j8s0fk7oe-9eqnvk%y5a57w&w(q6#9h6()s)@b$%1a)%rh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['3.35.235.36', 'taxiroka.p-e.kr', 'www.taxiroka.p-e.kr']
 
-
+SITE_ID = 1
 # Application definition
 
 INSTALLED_APPS = [
@@ -67,7 +67,13 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER	 # 응답 메일 관련 설정
 
 LOGIN_REDIRECT_URL = 'user:google_callback' 
 
-SITE_ID = 1
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    }
+}
+
 
 
 MIDDLEWARE = [
@@ -93,6 +99,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.context_processors.notifications',
             ],
         },
     },
@@ -144,7 +151,6 @@ TIME_ZONE = 'Asia/Seoul'
 USE_I18N = True
 
 USE_TZ = True
-
 
 STATICFILES_DIRS = [
     'static',

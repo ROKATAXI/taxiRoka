@@ -1,0 +1,95 @@
+.history-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+}
+
+.application_details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+    /* background-color: palegoldenrod; */
+
+    width: 95%;
+}
+
+.history-container > hr{
+    width: 95%;
+}
+
+.history_expected{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+.history-expected-text{
+    font-size: 14px;
+}
+.history-number-matching{
+    font-size: 22px;
+}
+
+.expected_rooms, .over_rooms{
+    width: 100%;
+    margin-right: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.over_rooms .matching-room {
+    opacity: 0.5;
+}
+.matching-room--left-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.matching-room--left-top > h2 {
+    margin: 0;
+    font-size: 12px;
+}
+.matching-room--left-sec {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3px;
+}
+.host-icon-ht {
+    display: inline-block;
+    text-align: center;
+    width: 17px;
+    height: 17px;
+    background: url(/static/img/host_icon.png) center center no-repeat;
+    background-size: cover;
+}
+.matching-room--left-sec > h2{
+    font-size: 12px;
+    margin: 0;
+}
+.matching-room--left-bottom > h3{
+    font-size: 13px;
+    margin: 0;
+}
+.matching-room--right-history{
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    gap: 15px;
+    margin-right: 10px;
+}
+.movetochatbutton{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: aqua;
+    font-size: 5px;
+}
