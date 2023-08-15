@@ -41,14 +41,25 @@
                 {% if user.is_authenticated %}
                     <!-- 로그인한 사용자의 경우에만 보여질 내용 -->
                     <p>{{ user.first_name }}!</p>
+                    <!-- 방만들기 -->
+                    <a href="/matching/create/"><button type="button" class="btn btn-secondary">
+                        방 만들기
+                    </button></a>
                 {% else %}
                     <a href="/user/main/">로그인</a>
+                    <!-- 방만들기 -->
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                        방 만들기
+                    </button>
                 {% endif %}
-                <a href="/matching/create/"><button class="btn btn-secondary">방 만들기</button></a>
             </div>
         
             {% for room in rooms %}
+            {% if user.is_authenticated %}
             <div class="matching-room" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ room.id }}">
+            {% else %}
+            <div class="matching-room" data-bs-toggle="modal" data-bs-target="#login_required_modal">
+            {% endif %}
                 <div class="matching-room--left">
                     <div>
                         {{ room.departure_date }}
