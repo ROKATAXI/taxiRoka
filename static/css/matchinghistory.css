@@ -30,13 +30,17 @@
     
 }
 
-.expected_rooms{
+.expected_rooms, .over_rooms{
     width: 100%;
     margin-right: 0;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.over_rooms .matching-room {
+    opacity: 0.5;
 }
 
 .matching-room--left-sec{

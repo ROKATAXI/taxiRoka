@@ -19,7 +19,7 @@
     <hr>
 
     <div class="expected_rooms">
-        {% for matching in matching_rooms %}
+        {% for matching in matching_rooms reversed %}
         <div class="matching-room">
             <div class="matching-room--left">
                 <div>
@@ -50,22 +50,40 @@
         {% endfor %}
     </div>
 
-    <div id="closed-room-list">
-        <h2>종료된 매칭방</h2>
-        <ul class="room">
-            {% for matching in matched_rooms %}
-                <li>
-                    <a href="/chat/{{ matching.matching_room_id.uuid }}/">
-                        <p>{{ matching.matching_room_id.departure_date }}</p>
-                        <p>{{ matching.matching_room_id.departure_time }}</p>
-                        <p>출발: {{matching.matching_room_id.departure_area}}</p>
-                        <p>도착: {{matching.matching_room_id.destination_area}}</p>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="over_rooms">
+        {% for matching in matched_rooms %}
+        <div class="matching-room">
+            <div class="matching-room--left">
+                <div>
+                    {{ matching.matching_room_id.departure_date }}
+                </div>
+                <div class="matching-room--left-sec">
+                    <span>{{ matching.matching_room_id.departure_time }} | </span>
+                    <span>{{ matching.matching_room_id.current_num }} / {{ matching.matching_room_id.max_num }}</span>
+                    <span>{% if matching.host_yn %}</span>
+                    <div class="host-icon-box">
+                        <div class="host-icon"></div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div>
+                    출발: {{matching.matching_room_id.departure_area}}
+                </div>
+                <div>
+                    도착: {{matching.matching_room_id.destination_area}}
+                </div>
+
+            </div>
+            <div class="matching-room--right-history">
+                <a href="/chat/{{ matching.matching_room_id.uuid }}/"><button class="movetochatbutton">채팅</button></a>
+                <button class="movetochatbutton">나가기</button>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 
+    <!-- 해당방 나가기 모달 -->
+    {% for matching in matching_rooms %}
     <div class="modal fade" id="roomExitModal-{{ matching.id }}" tabindex="-1" aria-labelledby="roomExitModal" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
@@ -79,12 +97,13 @@
             <div class="modal-footer">
                 <form action="{% url 'matching:delete' matching.id %}" method="post">
                     {% csrf_token %}
-                    <button class="movetochatbutton">나가기</button>
+                    <button type="button" class="btn btn-secondary">나가기</button>
                 </form>
-            <button type="button" class="btn btn-primary">취소</button>
+            <a href="/matching/history/"><button type="button" class="btn btn-primary">취소</button></a>
             </div>
         </div>
         </div>
     </div>
+    {% endfor %}
 </div>
 {% endblock %}
