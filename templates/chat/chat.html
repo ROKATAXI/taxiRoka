@@ -33,16 +33,46 @@
     </div>
 </div>
 
-{{ room_name|json_script:"room-name" }}
+{{ msg_history|json_script:"msgHistory" }}
 <script>
-    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+    const msgHistory = JSON.parse(document.getElementById('msgHistory').textContent);
+    let chatLog = document.querySelector('#chat-log');
+
+    if (msgHistory != null) {
+        for (let i=0; i<msgHistory.length; i++) {
+            msg = msgHistory[i];
+
+            const sender = msg.sender;
+            const content = msg.content;
+            const me = msg.me;
+            
+            if (sender == null) { // 입장 메시지, 퇴장 메시지
+                chatLog.innerHTML += ('<div class="in-out-msg-div"><p class="in-out-msg">' + content + '</p></div>');
+            } else if (me) { // 내가 보낸 메시지
+                chatLog.innerHTML += ('<div class="msg-div mine-div"><p class="msg mine">' + content + '</p></div>');
+            } else { // 남이 보낸 메시지
+                chatLog.innerHTML += ('<div class="msg-div"><div class="user"><div class="profile"></div><span class="name" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clickName(this)">' + sender + '</span></div><p class="msg">' + content + '</p></div>');
+            }
+        }
+    }
+</script>
+
+{{ room_uuid|json_script:"room-uuid" }}
+<script>
+    const roomUuid = JSON.parse(document.getElementById('room-uuid').textContent);
+
+    type = 'recon';
+    if (chatLog.innerHTML == '') {
+        type = 'initial';
+    }
 
     const chatSocket = new WebSocket(
         'ws://'
         + window.location.host
         + '/ws/chat/'
-        + roomName
-        + '/'
+        + roomUuid
+        + '/?type='
+        + type
     );
 
     // onmessage 이벤트: 클라이언트가 websocket 서버로부터 데이터를 수신했을 때
@@ -51,15 +81,17 @@
 
         const data = JSON.parse(e.data);
 
+        let chatLog = document.querySelector('#chat-log');
         if (data.name == 'Anonymous') {
-            document.querySelector('#chat-log').innerHTML += ('<p class="in-out-msg">' + data.message + '</p>');
+            chatLog.innerHTML += ('<div class="in-out-msg-div"><p class="in-out-msg">' + data.message + '</p></div>');
         } else if (data.me == true) {
-            document.querySelector('#chat-log').innerHTML += ('<div class="msg-div mine-div"><p class="msg mine">' + data.message + '</p></div>');
+            chatLog.innerHTML += ('<div class="msg-div mine-div"><p class="msg mine">' + data.message + '</p></div>');
         } else {
-            document.querySelector('#chat-log').innerHTML += ('<div class="msg-div"><span class="name" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clickName(this)">' + data.name + '</span><p class="msg">' + data.message + '</p></div');
+            chatLog.innerHTML += ('<div class="msg-div"><div class="user"><div class="profile"></div><span class="name" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clickName(this)">' + data.name + '</span></div><p class="msg">' + data.message + '</p></div>');
         }
-        
+
         makeBtnInActive();
+        scroll_down();
     };
 
     // onclose 이벤트: 클라이언트와 websocket 서버와의 연결이 닫힐 때. 정상적 종료 + 비정상적 종료일 때 모두 발생
@@ -77,9 +109,11 @@
     document.querySelector('#chat-message-submit').onclick = function(e) {
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
+
         chatSocket.send(JSON.stringify({
             'message': message
         }));
+
         messageInputDom.value = '';
     };
 
@@ -125,7 +159,23 @@
         const roomUuid = document.querySelector('.room-uuid');
 
         anonName.setAttribute('value', receiverAnonName.innerText);
-        roomUuid.setAttribute('value', window.location.pathname.substr(6, 36));
+        roomUuid.setAttribute('value', window.location.pathname.substr(6));
     }
 </script>
+<script>
+    function scroll_down() {
+        chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    // 페이지가 로드될 때, 스크롤을 항상 맨 아래로 이동
+    window.onload = function() {
+        scroll_down();
+    };
+</script>
 {% endblock %}
+
+<!-- 
+    URL 변경/페이지 전환 => websocket 서버와의 연결 종료
+    이전 페이지와 관련된 자원들은 unload되고, 이로 인해 websoket 서버와의 연결이 종룔된다.
+    이전 페이지와 관련된 자바스크립트 객체 및 연결도 초기화될 가능성이 있다.
+-->
