@@ -1,49 +1,116 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id="my-matching-history">
-    <h1>나의 매칭 이력</h1>
-    <ul>
-        <li>참여한 매칭방: <span>{{number_all}}</span> 개</li>
-        <li>열려있는 매칭방: <span>{{number_matching}}</span> 개</li>
-        <li>종료된 매칭방: <span>{{number_matched}}</span> 개</li>
-    </ul>
-</div>
+<div class="history-container">
+    <hr>
+    <div class="application_details">
+        <div class="col history_expected">
+            <span class="history-expected-text">예정</span>
+            <span class="history-number-matching" style="color: #6ABB72;">{{number_matching}}</span>
+        </div>
+        <div class="col history_expected">
+            <span class="history-expected-text">전체</span>
+            <span class="history-number-matching">{{number_all}}</span>
+        </div>
+        <div class="col history_expected">
+            <span class="history-expected-text">완료</span>
+            <span class="history-number-matching">{{number_matched}}</span>
+        </div>
+    </div>
+    <hr>
 
-<div id="opened-room-list">
-    <h2>열려있는 매칭방</h2>
-    <ul class="room">
-        {% for matching in matching_rooms %}
-            <li>
-                <a href="/chat/{{ matching.matching_room_id.uuid }}/">
-                    <p>{{ matching.matching_room_id.departure_date }}</p>
-                    <p>{{ matching.matching_room_id.departure_time }}</p>
-                    <p>출발: {{matching.matching_room_id.departure_area}}</p>
-                    <p>도착: {{matching.matching_room_id.destination_area}}</p>
-
-                    <form action="{% url 'matching:delete' matching.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit">방 나가기</button>
-                    </form>
-                </a>
-            </li>
+    <div class="expected_rooms">
+        {% for matching in matching_rooms reversed %}
+        <div class="matching-room">
+            <div class="matching-room--left">
+                <div class="matching-room--left-top">
+                    <h2>
+                        {{ matching.matching_room_id.departure_date }}
+                    </h2>
+                    <div class="matching-room--left-sec">
+                        <h2>{{ matching.matching_room_id.departure_time }} | </h2>
+                        <h2>{{ matching.matching_room_id.current_num }} / {{ matching.matching_room_id.max_num }}</h2>
+                        {% if matching.host_yn %}
+                        <div class="host-icon-box">
+                            <div class="host-icon-ht"></div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="matching-room--left-bottom">
+                    <h3>
+                        출발: {{matching.matching_room_id.departure_area}}
+                    </h3>
+                    <h3>
+                        도착: {{matching.matching_room_id.destination_area}}
+                    </h3>
+                </div>
+            </div>
+            <div class="matching-room--right-history">
+                <a href="/chat/{{ matching.matching_room_id.uuid }}/"><button class="movetochatbutton">채팅</button></a>
+                <button class="movetochatbutton" data-bs-toggle="modal" data-bs-target="#roomExitModal-{{ matching.id }}">나가기</button>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
-</div>
+    </div>
 
-<div id="closed-room-list">
-    <h2>종료된 매칭방</h2>
-    <ul class="room">
+    <div class="over_rooms">
         {% for matching in matched_rooms %}
-            <li>
-                <a href="/chat/{{ matching.matching_room_id.uuid }}/">
-                    <p>{{ matching.matching_room_id.departure_date }}</p>
-                    <p>{{ matching.matching_room_id.departure_time }}</p>
-                    <p>출발: {{matching.matching_room_id.departure_area}}</p>
-                    <p>도착: {{matching.matching_room_id.destination_area}}</p>
-                </a>
-            </li>
+        <div class="matching-room">
+            <div class="matching-room--left">
+                <div class="matching-room--left-top">
+                    <h2>
+                        {{ matching.matching_room_id.departure_date }}
+                    </h2>
+                    <div class="matching-room--left-sec">
+                        <h2>{{ matching.matching_room_id.departure_time }} | </h2>
+                        <h2>{{ matching.matching_room_id.current_num }} / {{ matching.matching_room_id.max_num }}</h2>
+                        {% if matching.host_yn %}
+                        <div class="host-icon-box">
+                            <div class="host-icon-ht"></div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="matching-room--left-bottom">
+                    <h3>
+                        출발: {{matching.matching_room_id.departure_area}}
+                    </h3>
+                    <h3>
+                        도착: {{matching.matching_room_id.destination_area}}
+                    </h3>
+                </div>
+            </div>
+            <div class="matching-room--right-history">
+                <a href="/chat/{{ matching.matching_room_id.uuid }}/"><button class="movetochatbutton">채팅</button></a>
+                <button class="movetochatbutton">나가기</button>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
+
+    <!-- 해당방 나가기 모달 -->
+    {% for matching in matching_rooms %}
+    <div class="modal fade" id="roomExitModal-{{ matching.id }}" tabindex="-1" aria-labelledby="roomExitModal" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">방 나가기 확인</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            정말 방에서 나가시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'matching:delete' matching.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary">나가기</button>
+                </form>
+            <a href="/matching/history/"><button type="button" class="btn btn-primary">취소</button></a>
+            </div>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

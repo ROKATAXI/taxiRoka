@@ -6,7 +6,8 @@ from allauth.account.views import LoginView
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .models import CustomUser 
+from .models import CustomUser
+from apps.matching.models import MatchingRoom, Matching 
 from django.http import Http404
 from django.contrib.auth.backends import ModelBackend
 from email.mime.multipart import MIMEMultipart
@@ -223,9 +224,19 @@ def kakao_Auth_Redirect(request):
 
     return redirect("/")
 
-
+# 마이페이지
 def mypage(request):
-    return render(request, 'user/mypage.html')
+    matching_all = Matching.objects.filter(user_id = request.user).count()
+    matching_ing = Matching.objects.filter(user_id = request.user, matching_room_id__end_yn = True).count()
+    matching_end = Matching.objects.filter(user_id = request.user, matching_room_id__end_yn = False).count()
+
+    ctx= {
+        "matching_all": matching_all,
+        "matching_ing": matching_ing,
+        "matching_end": matching_end,
+    }
+
+    return render(request, 'user/mypage.html', context=ctx)
 
 
 
