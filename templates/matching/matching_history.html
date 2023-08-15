@@ -2,39 +2,63 @@
 
 {% block content %}
 <div class="application_details">
-    <div class="row expected_rooms">
-        <div class="col">
-            <p>예정</p>
-            참여한 매칭방: <span>{{number_all}}</span> 개
-        </div>
-        <div class="col-6">
-            열려있는 매칭방: <span>{{number_matching}}</span> 개
-        </div>
-        <div class="col">
-            종료된 매칭방: <span>{{number_matched}}</span> 개
-        </div>
+    <div class="col row history_expected">
+        <span>예정</span>
+        <span>{{number_matching}}</span>
+    </div>
+    <div class="col row history_expected">
+        <span>전체</span>
+        <span>{{number_all}}</span>
+    </div>
+    <div class="col row history_expected">
+        <span>전체</span>
+        <span>{{number_matched}}</span>
     </div>
 </div>
+<hr>
 
-<div id="opened-room-list">
-    <h2>열려있는 매칭방</h2>
-    <ul class="room">
-        {% for matching in matching_rooms %}
-            <li>
-                <a href="/chat/{{ matching.matching_room_id.uuid }}/">
-                    <p>{{ matching.matching_room_id.departure_date }}</p>
-                    <p>{{ matching.matching_room_id.departure_time }}</p>
-                    <p>출발: {{matching.matching_room_id.departure_area}}</p>
-                    <p>도착: {{matching.matching_room_id.destination_area}}</p>
+<div class="expected_rooms">
+    {% for matching in matching_rooms %}
+    <div class="matching-room" data-bs-toggle="modal" data-bs-target="exitOrChatingModal">
+        <div class="matching-room--left">
+            <div>
+                {{ matching.matching_room_id.departure_date }}
+            </div>
+            <div>{{ matching.matching_room_id.departure_time }}</div>
+            <div>
+                {{ matching.matching_room_id.current_num }} / {{ matching.matching_room_id.max_num }}
+            </div>
+            <div>
+                
+            </div>
 
-                    <form action="{% url 'matching:delete' matching.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit">방 나가기</button>
-                    </form>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+        </div>
+        <div class="matching-room--right">
+            <div class="matching--departure">
+                <span>출발: {{matching.matching_room_id.departure_area}}</span>
+                <span>도착: {{matching.matching_room_id.destination_area}}</span>
+                {% if matching.host_yn %}
+                    <div class="host-icon-box">
+                        <div class="host-icon"></div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+        <li>
+            <a href="/chat/{{ matching.matching_room_id.uuid }}/">
+                <p>{{ matching.matching_room_id.departure_date }}</p>
+                <p>{{ matching.matching_room_id.departure_time }}</p>
+                <p>출발: {{matching.matching_room_id.departure_area}}</p>
+                <p>도착: {{matching.matching_room_id.destination_area}}</p>
+
+                <form action="{% url 'matching:delete' matching.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">방 나가기</button>
+                </form>
+            </a>
+        </li>
+    {% endfor %}
 </div>
 
 <div id="closed-room-list">
@@ -52,4 +76,22 @@
         {% endfor %}
     </ul>
 </div>
+
+<div class="modal fade" id="exitOrChatingModal" tabindex="-1" aria-labelledby="exitOrChatingModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

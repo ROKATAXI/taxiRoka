@@ -1,7 +1,21 @@
-.expected_rooms{
+.application_details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+    background-color: palegoldenrod;
+}
+
+.history_expected{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    text-align: center;
     
+}
+
+.history_expected{
+
 }
