@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>Document</title>
+    <title>TaxiRoka</title>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
@@ -40,9 +41,92 @@
                         {% else %}
                             <img src="/static/img/notice.png" alt="notice이미지" class="notice-img">
                         {% endif %}
-                        <img src="/static/img/hamburger.png" alt="hamburger이미지" class="hamburger-img">
+                        
+                        <!--햄버거바 구현-->
+                        <div class="hamburger" onclick="toggleMenu()">
+                            <img src="/static/img/hamburger.png" alt="hamburger이미지" class="hamburger-img">
+                        </div>
+                              
+                              <div class="menu" id="menu">
+                                <a href="taxi_intro.html">택시로카 소개</a>
+                                <a href="notice.html">공지사항</a>
+                                <a href="taxi_instagram.html">택시로카 인스타그램 바로가기</a>
+                                <a href="questions.html">자주묻는 질문</a>
+                              </div>
+
                     </div>
+
+                    <script>
+                    var menuVisible = false;
+                    
+                    function toggleMenu() {
+                    var menu = document.getElementById("menu");
+                    var hamburgerMenuContainer = document.querySelector(".hamburger-menu-container");
+                    
+                    if (menuVisible) {
+                        menu.style.opacity = "0";
+                        menu.style.pointerEvents = "none"; 
+                        menuVisible = false;
+                    } else {
+                        menu.style.opacity = "1"; 
+                        menu.style.pointerEvents = "auto"; 
+                        menuVisible = true;
+                    }
+                    }
+                    
+                    
+                    document.addEventListener("mousedown", function(event) {
+                        var menu = document.getElementById("menu");
+                        var hamburger = document.querySelector(".hamburger");
+                        var isClickInsideMenu = menu.contains(event.target); 
+
+                        if (!isClickInsideMenu && event.target !== hamburger) {
+                            menu.style.opacity = "0";
+                            menu.style.pointerEvents = "none";
+                            menuVisible = false;
+                        }
+                    });
+                    </script>
+
+                    <style>
+                        
+                        .hamburger {
+                            cursor: pointer;
+                        }
+
+                        .hamburger-menu-container {
+                            position: relative;
+                        }
+
+                        .menu {
+                            display: block;
+                            position: absolute;
+                            top: 100%;
+                            right: 20px;
+                            background-color: white;
+                            border: 1px solid #ccc;
+                            padding: 10px;
+                            opacity: 0;
+                            pointer-events: none; 
+                            transition: opacity 0.3s ease; 
+                            border-radius: 5px;
+                        }
+
+                        .menu a {
+                            display: block;
+                            padding: 5px 0;
+                            text-decoration: none;
+                            color: #333;
+                            font-size: 11.5px;
+                        }
+
+                        .menu a:hover {
+                            color: #2519d1; 
+                        }
+                    </style>
+
                     {% else %}
+
                     <!-- 비로그인 -->
                     <div class="search-container">
                         <form class="search-room" role="search" method="POST">{% csrf_token %}
@@ -50,6 +134,8 @@
                             <button class="btn btn-outline-secondary" type="submit">검색</button>
                         </form>
                     </div>
+
+                    
                     {% endif %}
                 </div>
             </nav>
