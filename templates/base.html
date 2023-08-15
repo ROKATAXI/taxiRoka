@@ -24,11 +24,46 @@
             <nav>
                 <div class="nav-container">
                     <!-- 페이지별 네브바 변경 -->
-                    {% if pagetype == "1"%}
-                        <h1 class="nav-title">Taxi ROKA</h1>
-                    {% else %}
-                        <img src="/static/img/beforepage.png" alt="뒤로가기" class="beforepage-img" onclick="goBack()">
-                    {% endif %}
+                    <div class="nav-right">
+                        <div class="nav-right-logo">
+                        {% if pagetype == "1"%}
+                            <h1 class="nav-title">Taxi ROKA</h1>
+                        {% else %}
+                            <img src="/static/img/beforepage.png" alt="뒤로가기" class="beforepage-img" onclick="goBack()">
+                        {% endif %}
+                        </div>
+                        {% if user.is_authenticated %}
+                        <ul class="nav-right-footer">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/matching/">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/matching/history/">chat</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/vacation/">calendar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/user/mypage/">mypage</a>
+                            </li>
+                        </ul>
+                        {% else %}
+                        <ul class="nav-right-footer">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/matching/">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="nav-link active" data-bs-toggle="modal" data-bs-target="#login_required_modal">Chat</div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="nav-link active" data-bs-toggle="modal" data-bs-target="#login_required_modal">Calendar</div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="nav-link active" data-bs-toggle="modal" data-bs-target="#login_required_modal">Mypage</div>
+                            </li>
+                        </ul>
+                        {% endif %}
+                    </div>
             
                     <!-- 검색 -->
                     <!-- 로그인 -->
@@ -146,26 +181,38 @@
                 {% endblock %}
             </div>
             <footer class="footer-custom">
-                
                 <a href="/matching/">
                     <img src="/static/img/home.png" alt="home이미지">
                 </a>
+                {% if user.is_authenticated %}
+                    <a href="/matching/history/">
+                        <img src="/static/img/chating.png" alt="chatingroom이미지">
+                    </a>
+                
             
-            
-                <a href="/matching/history/">
-                    <img src="/static/img/chating.png" alt="chatingroom이미지">
-                </a>
+                    <a href="/vacation/">
+                        <img src="/static/img/calendar.png" alt="calendar이미지">
+                    </a>
             
         
-                <a href="/vacation/">
-                    <img src="/static/img/calendar.png" alt="calendar이미지">
-                </a>
-        
-    
-                <a href="/user/mypage/">
-                    <img src="/static/img/mypage2.png" alt="mypage이미지">
-                </a>
-        
+                    <a href="/user/mypage/">
+                        <img src="/static/img/mypage2.png" alt="mypage이미지">
+                    </a>
+                {% else %}
+                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                        <img src="/static/img/chating.png" alt="chatingroom이미지">
+                    </button>
+                
+                
+                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                        <img src="/static/img/calendar.png" alt="calendar이미지">
+                    </button>
+                
+                
+                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                        <img src="/static/img/mypage2.png" alt="mypage이미지">
+                    </button>
+                {% endif %}
             </footer>
         </div>
     </main>
@@ -193,8 +240,27 @@
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
 
 
+<!-- 로그인 필수 모달 -->
+<div class="modal fade" id="login_required_modal" tabindex="-1" aria-labelledby="login_required_modal" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">필수</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        로그인이 필요한 페이지입니다.
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <a href="/user/main/"><button type="button" class="btn btn-primary">로그인</button></a>
+        </div>
+    </div>
+    </div>
+</div>

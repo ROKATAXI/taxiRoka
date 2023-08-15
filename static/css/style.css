@@ -6,114 +6,22 @@
 @import 'createroom.css';
 @import 'calendar.css';
 @import 'mypage.css';
-
-
-
-
-/* .title {
-    font-size: 20px;
-    padding-left: 5px;
-}
-
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    height: 82px;
-    width: 100%;
-    background-color: white;
-}
-
-.nav-container > h1 {
-    margin-left: 5%;
-}
-
-.main-container {
-    margin-top: 82px;
-}
-
-
-.search-room > button {
-    width: 70px;
-}
-
-.search-container {
-    padding: 5px;
-}
-
-.search-room {
-    height: 30px;
-    width: 190px;
-    margin-right: 16px;
-}
-.search-room > input, .search-room > button {
-    font-size: 10px;
-}
-
-.footer-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;  
-    height: 70px;
-    background-color: white;
-}
-.footer-items {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-
-}
-.footer-items > div {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.footer-section > div > a > img {
-    height: 30px;
-    width: 30px;
-}
-
-.footer-hr {
-    border: none;
-    height: 3px;
-    box-shadow: 0 1.5px 2.5px black;
-    margin: 5px 0 0 0;
-}
-.login-nav-right{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 8px;
-    margin-right: 5%;
-    gap: 10px;
-}
-
-.notice-img {
-    height: 20px;
-    width: 20px;
-}
-.hamburger-img {
-    height: 25px;
-    width: 25px;
-}
-
-.beforepage-img {
-    height: 18px;
-    width: 18px;
-    margin: 0 0 11px 24px;
-} */
+@import 'matching_apply.css';
 
 .base--container{
     display: flex;
     flex-direction: column;
     width: 100%;
+    justify-content: center;
+    align-items: center;
 }
 .base--container nav{
     position: fixed;
     top: 0;
     width: 100%;
     background-color: white;
+    display: flex;
+    justify-content: center;
 }
 .nav-container{
     display: flex;
@@ -123,6 +31,18 @@
     align-items: center;
     margin-top: 10px;
 }
+.nav-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.nav-right-footer{
+    /* 가려지는 부분 */
+    display: none;
+    /* font-size: 0; */
+    
+}
+
 .footer-custom{
     display: flex;
     justify-content: space-between;
@@ -149,7 +69,8 @@
 .footer-custom{
     position: fixed;
     bottom: 0;
-    background-color: white;
+    background: rgb(181, 181, 181);
+    height: 62px;
 }
 
 .search-room {
@@ -177,3 +98,36 @@
     justify-content: space-between;
 }
 
+@media (min-width: 768px) {
+    .base--container nav{
+        position: relative;
+        width: 100%;
+        background-color: white;
+    }
+
+    .footer-custom {
+        display: none;
+    }
+
+    .nav-title {
+        font-size: 20px;
+        margin: 0;
+    }
+    .nav-right-footer{
+        /* 가려지는 부분 */
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        padding-left: 0;
+    }
+    .nav-right {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    
+        width: 77%;
+    }
+    .nav-right-logo{
+        width: 26%;
+    }
+}
