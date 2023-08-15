@@ -95,7 +95,7 @@
 .create-room-button{
     display: block;
     width: 80%;
-    background-color: rgb(20, 128, 174);
+    background-color: var(--button-color);
     text-align: center;
     border-radius: 10px;
     margin: 15px auto;
