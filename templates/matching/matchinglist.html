@@ -43,13 +43,17 @@
             <div class="matching-room" data-bs-toggle="modal" data-bs-target="#login_required_modal">
             {% endif %}
                 <div class="matching-room--left">
-                    <div>
-                        {{ room.departure_date }}
+                    <div class="matching-room--left-top">
+                        <h2 class="matching-room--left-1">
+                            {{ room.departure_date }}
+                        </h2>
+                        <h2 class="matching-room--left-2">
+                            {{ room.departure_time }}
+                        </h2>
                     </div>
-                    <div>{{ room.departure_time }}</div>
-                    <div>
+                    <h2 class="matching-room--left-3">
                        {{ room.current_num }} / {{ room.max_num }}
-                    </div>
+                    </h2>
                 </div>
                 <div class="matching-room--right">
                     <div class="matching--departure">
