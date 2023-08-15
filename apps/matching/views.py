@@ -50,7 +50,6 @@ def main(request):
             'rooms':rooms,
             'pagetype':json.dumps(pagetype),
             'is_host':is_host,
-            'already_apply': already_apply,
         }
 
         return render(request, 'matching/matchinglist.html', context=ctx)
