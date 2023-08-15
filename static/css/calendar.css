@@ -42,6 +42,7 @@
 .days {
     display: flex;
     margin: 25px 0 10px;
+    justify-content: space-around;
 }
 
 .day {
@@ -96,4 +97,66 @@
     background-color: #FF0000;
     border-radius: 50%;
     content: '';
+}
+
+/* -------input------ */
+.vacation-departure_date-input,
+.vacation-arrival_date-input{
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 0;
+    width: 40%;
+}
+
+.vacation-submit{
+    padding: 8px 15px;
+    font-size: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    width: 18%;
+}
+
+.vacation-form{
+    display: flex;
+    justify-content: space-between;
+
+    margin: auto;
+    padding: 10px 0;
+
+    width: 98%;
+}
+.vacation-myvacation{
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+.vacation-myvacation div{
+    font-size: 14px;
+}
+.vacation-arrival_date,
+.vacation-departure_date{
+    width: 40%;
+}
+
+.vacation-nth{
+    border: solid gray 1px;
+    border-radius: 5px;
+    padding: 8px;
+}
+.vacation-submit-button{
+    padding: 8px 15px;
+    font-size: 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
