@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="create-room">
+<div class="apply-room">
     <form action="{% url 'matching:apply' matching_room.pk %}" method="post">{% csrf_token %}
         <div class="direction-container">
             <div class="form-floating locations">
@@ -31,9 +31,9 @@
 
     <p>현재인원: {{matching_room.current_num}} / 최대인원: {{matching_room.max_num}}</p>
     </div>
-        <div class="create-container">
+        <div class="apply-container">
             <p>좌석 선택</p>
-            <div class="create-option">
+            <div class="apply-option">
                 <div class="seat-container">
                     <label for="rating0" class="seat-option">
                         <img src="{% static 'img/selected_seat.png' %}" alt="Image 0" class="disabled">
@@ -81,7 +81,7 @@
             </div>
         </div>
 
-        <button type="submit" class="create-room-button">방 신청하기</button>
+        <button type="submit" class="apply-room-button">방 신청하기</button>
     </form>
 </div>
 <script>
