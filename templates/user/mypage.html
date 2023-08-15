@@ -40,12 +40,9 @@
             </div>
             <div class="info-row">
                 <div class="info-label">이메일:</div>
-                <div class="info-value">{{user.email}}</div>
+                <div class="info-value">{{user.username}}</div>
             </div>
-            <!--<div class="info-row">
-                <div class="info-label">비밀번호:</div>
-                <div class="info-value">********</div>
-            </div>-->
+           
             <div class="info-row">
                 <div class="info-label">전화번호:</div>
                 <div class="info-value">{{user.phone}}</div>
@@ -97,10 +94,10 @@
 
     <div class="profile-actions">
         <button class="edit-profile-button">회원정보 수정</button>
-        <button class="logout-button">로그아웃</button>
-        
+        <a href="{% url 'user:logout' %}">
+        <button class="logout-button">&nbsp;&nbsp;&nbsp;&nbsp;로그아웃&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+        </a>
     </div>
-    
 </div>
    
     

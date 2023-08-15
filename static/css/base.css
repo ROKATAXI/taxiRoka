@@ -1,8 +1,10 @@
 :root{
     --gutter: 16px;
-
+    --button-color:rgb(20, 128, 174);
     --grey_bg: #FBFBFA;
+    --bg-color:#e1ecf1;
 }
+* { font-family: 'Spoqa Han Sans Neo', sans-serif; }
 
 body{
     display: flex;

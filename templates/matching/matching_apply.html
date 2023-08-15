@@ -9,28 +9,30 @@
     <form action="{% url 'matching:apply' matching_room.pk %}" method="post">{% csrf_token %}
         <div class="direction-container">
             <div class="form-floating locations">
-                <p>출발지점</p>
-                {{ matching_room.departure_area }}
+                <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area" value="{{ matching_room.departure_area }}" disabled></input>
+                <label for="floatingTextarea">출발지점</label>
             </div>
-            <img class="img-direction" src="{% static 'img/direction.png' %}" alt="Image 2">
+            <img class="img-direction" src="{% static 'img/moveto.png' %}" alt="Image 2">
             <div class="form-floating locations">
-                <p>도착지점</p>
-                {{ matching_room.destination_area }}
+                <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area" value="{{ matching_room.destination_area }}" disabled></input>
+                <label for="floatingTextarea">도착지점</label>
+                
             </div>
         </div>
         <div class="direction-container">
             <div class="matching-date">
                 <p>예약 날짜</p>
-                {{ matching_room.departure_date }}
+                <input type="date" name="departure_date" id="create-departure_date" value="{{ matching_room.departure_date|date:'Y-m-d' }}" disabled>
             </div>
-            <div>
+            <div class="matching-time">
                 <p>예약 시간</p>
-                {{ matching_room.departure_time }}
+                <input type="time" class="form-control" value="{{ matching_room.departure_time|time:'H:i' }}" name="departure_time">
+                
             </div>
         </div>
 
-    <p>현재인원: {{matching_room.current_num}} / 최대인원: {{matching_room.max_num}}</p>
-    </div>
+    <p class="apply-current_num">현재인원: {{matching_room.current_num}} / 최대인원: {{matching_room.max_num}}</p>
+
         <div class="apply-container">
             <p>좌석 선택</p>
             <div class="apply-option">
