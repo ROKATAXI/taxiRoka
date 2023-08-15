@@ -92,7 +92,7 @@ def matching_create(request):
         alarm_type = "matching_create"
         alarm_activate(request, matching_room, alarm_type)
 
-        return redirect('/matching/')
+        return redirect('/matching/history/')
     
     return render(request, "matching/createroom.html")
 

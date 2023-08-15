@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id="my-matching-history">
-    <h1>나의 매칭 이력</h1>
-    <ul>
-        <li>참여한 매칭방: <span>{{number_all}}</span> 개</li>
-        <li>열려있는 매칭방: <span>{{number_matching}}</span> 개</li>
-        <li>종료된 매칭방: <span>{{number_matched}}</span> 개</li>
-    </ul>
+<div class="application_details">
+    <div class="row expected_rooms">
+        <div class="col">
+            <p>예정</p>
+            참여한 매칭방: <span>{{number_all}}</span> 개
+        </div>
+        <div class="col-6">
+            열려있는 매칭방: <span>{{number_matching}}</span> 개
+        </div>
+        <div class="col">
+            종료된 매칭방: <span>{{number_matched}}</span> 개
+        </div>
+    </div>
 </div>
 
 <div id="opened-room-list">
