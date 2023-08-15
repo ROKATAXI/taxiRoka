@@ -59,26 +59,38 @@
                 {% endblock %}
             </div>
             <footer class="footer-custom">
-                
                 <a href="/matching/">
                     <img src="/static/img/home.png" alt="home이미지">
                 </a>
+                {% if user.is_authenticated %}
+                    <a href="/matching/history/">
+                        <img src="/static/img/chating.png" alt="chatingroom이미지">
+                    </a>
+                
             
-            
-                <a href="/matching/history/">
-                    <img src="/static/img/chating.png" alt="chatingroom이미지">
-                </a>
+                    <a href="/vacation/">
+                        <img src="/static/img/calendar.png" alt="calendar이미지">
+                    </a>
             
         
-                <a href="/vacation/">
-                    <img src="/static/img/calendar.png" alt="calendar이미지">
-                </a>
-        
-    
-                <a href="/user/mypage/">
-                    <img src="/static/img/mypage2.png" alt="mypage이미지">
-                </a>
-        
+                    <a href="/user/mypage/">
+                        <img src="/static/img/mypage2.png" alt="mypage이미지">
+                    </a>
+                {% else %}
+                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                        <img src="/static/img/chating.png" alt="chatingroom이미지">
+                    </button>
+                
+                
+                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                        <img src="/static/img/calendar.png" alt="calendar이미지">
+                    </button>
+                
+                
+                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                        <img src="/static/img/mypage2.png" alt="mypage이미지">
+                    </button>
+                {% endif %}
             </footer>
         </div>
     </main>
@@ -111,3 +123,21 @@
 </html>
 
 
+<!-- 로그인 필수 모달 -->
+<div class="modal fade" id="login_required_modal" tabindex="-1" aria-labelledby="login_required_modal" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">필수</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        로그인이 필요한 페이지입니다.
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <a href="/user/main/"><button type="button" class="btn btn-primary">로그인</button></a>
+        </div>
+    </div>
+    </div>
+</div>
