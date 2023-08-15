@@ -5,6 +5,7 @@
 <head>
     <title>TaxiRoka</title>
     <meta charset="UTF-8">
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <link rel="shortcut icon" href="{% static 'img/favicon.png' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -83,10 +84,10 @@
                         </div>
                               
                               <div class="menu" id="menu">
-                                <a href="taxi_intro.html">택시로카 소개</a>
-                                <a href="notice.html">공지사항</a>
-                                <a href="taxi_instagram.html">택시로카 인스타그램 바로가기</a>
-                                <a href="questions.html">자주묻는 질문</a>
+                                <a href="#">택시로카 소개</a>
+                                <a href="#">공지사항</a>
+                                <a href="#">택시로카 인스타그램 바로가기</a>
+                                <a href="/matching/questions/">자주묻는 질문</a>
                               </div>
 
                     </div>
@@ -174,48 +175,44 @@
                     {% endif %}
                 </div>
             </nav>
-            
             <div class="main-container">
                 {% block content %}
                 {% endblock %}
             </div>
             <footer class="footer-custom">
+            
                 <a href="/matching/">
                     <img src="/static/img/home.png" alt="home이미지">
                 </a>
+            
                 {% if user.is_authenticated %}
-                    <a href="/matching/history/">
-                        <img src="/static/img/chating.png" alt="chatingroom이미지">
-                    </a>
-                
+                <a href="/matching/history/">
+                    <img src="/static/img/chating.png" alt="chatingroom이미지">
+                </a>
             
-                    <a href="/vacation/">
-                        <img src="/static/img/calendar.png" alt="calendar이미지">
-                    </a>
-            
+                <a href="/vacation/">
+                    <img src="/static/img/calendar.png" alt="calendar이미지">
+                </a>
         
-                    <a href="/user/mypage/">
-                        <img src="/static/img/mypage2.png" alt="mypage이미지">
-                    </a>
+                <a href="/user/mypage/">
+                    <img src="/static/img/mypage2.png" alt="mypage이미지">
+                </a>
                 {% else %}
-                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
-                        <img src="/static/img/chating.png" alt="chatingroom이미지">
-                    </button>
-                
-                
-                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
-                        <img src="/static/img/calendar.png" alt="calendar이미지">
-                    </button>
-                
-                
-                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
-                        <img src="/static/img/mypage2.png" alt="mypage이미지">
-                    </button>
+                <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                    <img src="/static/img/chating.png" alt="chatingroom이미지">
+                </button>
+            
+                <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                    <img src="/static/img/calendar.png" alt="calendar이미지">
+                </button>
+            
+                <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                    <img src="/static/img/mypage2.png" alt="mypage이미지">
+                </button>
                 {% endif %}
             </footer>
         </div>
     </main>
-    </div>  
     <!-- 알람모달 -->
     <div class="modal fade" id="alarmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">

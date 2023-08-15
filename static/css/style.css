@@ -8,6 +8,11 @@
 @import 'mypage.css';
 @import 'matching_apply.css';
 
+body{
+    background-color: var(--bg-color);
+}
+
+
 .base--container{
     display: flex;
     flex-direction: column;

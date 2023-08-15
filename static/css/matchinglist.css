@@ -1,3 +1,6 @@
+.body{
+    background-color: var(--bg-color);
+}
 .mainpage{
     width: 100%;
     display: flex;
@@ -181,7 +184,7 @@
 .main-date-click{
     padding: 8px 15px;
     font-size: 12px;
-    background-color: #4CAF50;
+    background-color: var(--button-color);
     color: white;
     border: none;
     border-radius: 5px;
@@ -189,7 +192,7 @@
     transition: background-color 0.3s;
 }
 .main-date-click:hover {
-    background-color: #45a049;
+    background-color: var(--button-color);
 }
 
 .modal-content {
@@ -224,7 +227,7 @@
 }
 
 #matching-button {
-    background-color: #198754;
+    background-color: var(--button-color);
 }
 
 .taxiimg {
