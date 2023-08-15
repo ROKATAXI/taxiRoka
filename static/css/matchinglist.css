@@ -105,6 +105,10 @@
     align-items: flex-start;
     justify-content: space-between;
 }
+.matching-room--left-top-m > h2 {
+    margin: 0;
+    font-size: 16px;
+}
 .matching-room--left-1{
     font-weight: 600;
     font-size: 18px;
