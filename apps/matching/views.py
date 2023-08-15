@@ -8,7 +8,6 @@ from datetime import datetime, timedelta
 import json
 import uuid
 import random
-import time
 
 # 매칭 방 리스트
 
@@ -19,8 +18,6 @@ def main(request):
     if request.user.is_authenticated:
         user_location = request.user.location
         rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location, end_yn = True).distinct()
-        
-        print(rooms)
 
         # 날짜 선택 안 했을 시
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
@@ -48,14 +45,11 @@ def main(request):
         # 날짜 정보
         # today = datetime.date.today()
 
-        # 이미 신청한 매칭인지 여부
-        already_apply = Matching.objects.filter(matching_room_id__in=rooms, user_id=request.user).exists()
         pagetype = 1
         ctx = {
             'rooms':rooms,
             'pagetype':json.dumps(pagetype),
             'is_host':is_host,
-            'already_apply': already_apply,
         }
 
         return render(request, 'matching/matchinglist.html', context=ctx)
@@ -116,7 +110,7 @@ def matching_create(request):
         alarm_type = "matching_create"
         alarm_activate(request, matching_room, alarm_type)
 
-        return redirect('/matching/')
+        return redirect('/matching/history/')
     
     return render(request, "matching/createroom.html")
 
@@ -128,7 +122,6 @@ def matching_apply(request, pk):
     user = request.user
     already_apply = Matching.objects.filter(matching_room_id = matching_room, user_id = request.user).exists()
     
-    #이미 신청했거나, 매칭방의 최대 인원수가 충족되었다면 신청 불가능
     if already_apply or matching_room.current_num == matching_room.max_num:
         return redirect('/matching/')
     
