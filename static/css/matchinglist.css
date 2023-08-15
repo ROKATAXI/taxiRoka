@@ -91,6 +91,11 @@
     display: flex;
     justify-content: space-between;
 }
+.matching-room--left{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
 .matching-room--left div:nth-child(1){
     font-weight: 600;
     font-size: 18px;

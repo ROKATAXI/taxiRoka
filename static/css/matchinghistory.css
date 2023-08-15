@@ -1,10 +1,24 @@
+.history-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+}
+
 .application_details{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     padding: 5px;
-    background-color: palegoldenrod;
+    /* background-color: palegoldenrod; */
+
+    width: 95%;
+}
+
+.history-container > hr{
+    width: 95%;
 }
 
 .history_expected{
@@ -16,6 +30,32 @@
     
 }
 
-.history_expected{
+.expected_rooms{
+    width: 100%;
+    margin-right: 0;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.matching-room--left-sec{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3px;
+}
+.matching-room--right-history{
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    gap: 15px;
+    margin-right: 10px;
+}
+.movetochatbutton{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: aqua;
+    font-size: 5px;
 }
