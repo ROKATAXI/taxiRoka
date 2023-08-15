@@ -6,6 +6,7 @@
 @import 'createroom.css';
 @import 'calendar.css';
 @import 'mypage.css';
+@import 'matching_apply.css';
 
 .base--container{
     display: flex;
