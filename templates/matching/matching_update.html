@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="create-room">
-    <form action="{% url 'matching:create' %}" method="post">{% csrf_token %}
+    <form action="{% url 'matching:update' matching_room.pk %}" method="post">{% csrf_token %}
         <div class="direction-container">
             <div class="form-floating locations">
                 <p>출발지점</p>

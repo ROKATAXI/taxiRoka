@@ -19,6 +19,7 @@ def main(request):
     if request.user.is_authenticated:
         user_location = request.user.location
         rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location, end_yn = True).distinct()
+        
         print(rooms)
 
         # 날짜 선택 안 했을 시
@@ -47,11 +48,14 @@ def main(request):
         # 날짜 정보
         # today = datetime.date.today()
 
+        # 이미 신청한 매칭인지 여부
+        already_apply = Matching.objects.filter(matching_room_id__in=rooms, user_id=request.user).exists()
         pagetype = 1
         ctx = {
             'rooms':rooms,
             'pagetype':json.dumps(pagetype),
             'is_host':is_host,
+            'already_apply': already_apply,
         }
 
         return render(request, 'matching/matchinglist.html', context=ctx)
@@ -81,6 +85,7 @@ def main(request):
         }
 
         return render(request, 'matching/matchinglist.html', context=ctx)
+    
 
 # 매칭 방 생성
 @login_required
@@ -159,6 +164,7 @@ def matching_apply(request, pk):
         ctx = {
             'matching_room': matching_room,
             'selected_seats': json.dumps(selected_seats), #jsno화
+            'already_apply':already_apply
         }
         return render(request, 'matching/matching_apply.html', context=ctx)
 
@@ -169,9 +175,10 @@ def matching_update(request, pk):
     matching_room = MatchingRoom.objects.get(id=pk)
     is_host = Matching.objects.get(matching_room_id = matching_room, host_yn = True)
     is_guest = Matching.objects.filter(matching_room_id = matching_room, host_yn = False).exists()
-    selected_seats = list(Matching.objects.filter(matching_room_id=matching_room, host_yn = True).values_list('seat_num', flat=True))
+    selected_seats = list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True))
     current_num = matching_room.current_num
     max_num = int(matching_room.max_num)
+    
 
     # 현재 인원수보다 적게 max_num을 변경할 수는 없음 (추후에 변경해야 될 하드코딩)
     if current_num == 4:
@@ -191,6 +198,7 @@ def matching_update(request, pk):
                 matching_room.departure_date = request.POST["departure_date"]
                 matching_room.departure_time = request.POST["departure_time"]
                 matching_room.max_num = request.POST["max_num"]
+               
                 matching_room.save()
 
                 is_host.seat_num = request.POST['seat_num']
@@ -246,6 +254,7 @@ def matching_delete(request, pk):
 
     if request.method == 'POST':
         user = request.user
+        # 히스토리 페이지에서 Matching 객체들을 받았기 때문에 Matching의 pk가 적용된다.
         matching = Matching.objects.get(id=pk)
         matching_room = matching.matching_room_id
         is_host = Matching.objects.filter(matching_room_id = matching_room, host_yn = True, user_id = user).exists()
@@ -273,9 +282,7 @@ def matching_delete(request, pk):
             alarm_activate(request, matching_room, alarm_type)
             matching_room.current_num -= 1 
             matching_room.save()
-            
-            if matching_room.current_num == 0: #이런 경우가 있을까?(영진)
-                matching_room.delete()
+
 
 
     return redirect('/matching/')
