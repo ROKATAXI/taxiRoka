@@ -16,7 +16,7 @@
 }
 
 #chat-log {
-    height: 350px;
+    height: 470px;
     border: none;
     background-color: white;
     overflow-y: auto; /* 세로 스크롤 */
