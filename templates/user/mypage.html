@@ -22,10 +22,10 @@
         </div>
         <div class="profile-info">
             <div class="profile-name">
-                <h1>홍길동</h1>
+                <h1>{{user.username}}</h1>
             </div>
             <div class="profile-intro">
-                <p>정문위병소.광주송정역</p>
+                <p>{{user.location}}</p>
             </div>
         </div>
     </div>
@@ -36,23 +36,23 @@
         <div class="profile-info">
             <div class="info-row">
                 <div class="info-label">이름:</div>
-                <div class="info-value">홍길동</div>
+                <div class="info-value">{{user.first_name}}</div>
             </div>
             <div class="info-row">
                 <div class="info-label">이메일:</div>
-                <div class="info-value">piro@naver.com</div>
+                <div class="info-value">{{user.email}}</div>
             </div>
-            <div class="info-row">
+            <!--<div class="info-row">
                 <div class="info-label">비밀번호:</div>
                 <div class="info-value">********</div>
-            </div>
+            </div>-->
             <div class="info-row">
                 <div class="info-label">전화번호:</div>
-                <div class="info-value">010-1234-5678</div>
+                <div class="info-value">{{user.phone}}</div>
             </div>
             <div class="info-row">
                 <div class="info-label">부대위치:</div>
-                <div class="info-value">부대 위치 정보</div>
+                <div class="info-value">{{user.location}}</div>
             </div>
         </div>
     </div>
@@ -63,17 +63,17 @@
         <div class="match-history">
             <div class="match-status">
                 <h3>전체</h3>
-                <p class="match-count">10</p>
+                <p class="match-count">{{matching_all}}</p>
                
             </div>
             <div class="match-status">
                 <h3>예정</h3>
-                <p class="match-count-reservation">3</p>
+                <p class="match-count-reservation">{{matching_ing}}</p>
                
             </div>
             <div class="match-status">
                 <h3>완료</h3>
-                <p class="match-count">7</p>
+                <p class="match-count">{{matching_end}}</p>
                
             </div>
         </div>
