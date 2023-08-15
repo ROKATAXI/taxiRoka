@@ -152,7 +152,8 @@ body{
 }
 
 .vacation-status {
-  
+    display: flex;
+    justify-content: space-around;
     padding: 10px 0;
 }
 
@@ -201,3 +202,5 @@ body{
     opacity: 0.8;
     background-color: #395067;
 }
+
+
