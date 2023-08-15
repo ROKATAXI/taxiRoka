@@ -32,8 +32,28 @@
                 <div class="calendar-day">월</div>
             </div>
             <div class="dates"></div>
+            <form action="/vacation/create/" class="vacation-form" method="post">
+                {% csrf_token %}
+                <input type="date" class="vacation-departure_date-input" name="departure_date" placeholder="departure_date">
+                <input type="date" class="vacation-arrival_date-input" name="arrival_date" placeholder="arrival_date">
+                <button type="submit" class="vacation-submit">등록</button>
+            </form>
+            
             {% for vacation in vacations %}
-            <div>{{ vacation.departure_date }} ~ {{ vacation.arrival_date }}</div>
+            <div class="vacation-nth">
+                <span>{{ forloop.counter }}차 휴가</span>
+                <div class="vacation-myvacation">
+                    <div class="col-5 vacation-departure_date">
+                        {{ vacation.departure_date }}
+                    </div>
+                    <div class="col-5 vacation-arrival_date">
+                        {{ vacation.arrival_date }}
+                    </div>
+                    <form class="col" action="/vacation/delete/{{vacation.id}}/" method="post">{% csrf_token %}
+                        <button type="submit" class="vacation-submit-button">삭제</button>
+                    </form>
+                </div>
+            </div>
             {% endfor %}
         </div>
     </div>
