@@ -86,7 +86,7 @@
     background-color: var(--grey_bg);
     margin-top: 2px;
     margin-bottom: 10px;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -137,14 +137,38 @@
 }
 
 .selected_date{
-    margin-top: 53px;
+    /* margin-top: 53px; */
     width: 100%;
     display: flex;
     justify-content: flex-start;
 }
 
+
+.main-date-choose{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+}
 .main-date-input {
-    margin-left: 5px;
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.main-date-click{
+    padding: 8px 15px;
+    font-size: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.main-date-click:hover {
+    background-color: #45a049;
 }
 
 
@@ -161,3 +185,6 @@
         justify-content: center;
     }
 }
+
+
+

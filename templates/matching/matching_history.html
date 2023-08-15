@@ -3,17 +3,17 @@
 {% block content %}
 <div class="history-container">
     <div class="application_details">
-        <div class="col row history_expected">
-            <span>예정</span>
-            <span>{{number_matching}}</span>
+        <div class="col history_expected">
+            <span class="history-expected-text">예정</span>
+            <span class="history-number-matching" style="color: #6ABB72;">{{number_matching}}</span>
         </div>
-        <div class="col row history_expected">
-            <span>전체</span>
-            <span>{{number_all}}</span>
+        <div class="col history_expected">
+            <span class="history-expected-text">전체</span>
+            <span class="history-number-matching">{{number_all}}</span>
         </div>
-        <div class="col row history_expected">
-            <span>완료</span>
-            <span>{{number_matched}}</span>
+        <div class="col history_expected">
+            <span class="history-expected-text">완료</span>
+            <span class="history-number-matching">{{number_matched}}</span>
         </div>
     </div>
     <hr>

@@ -18,7 +18,6 @@ def main(request):
     if request.user.is_authenticated:
         user_location = request.user.location
         rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location, end_yn = True).distinct()
-        print(rooms)
 
         # 날짜 선택 안 했을 시
         rooms = rooms.order_by("departure_date", "departure_time", "create_date")
@@ -44,11 +43,13 @@ def main(request):
             rooms = rooms.filter(departure_date = selected_date)
         
         pagetype = 1
-        print(rooms)
+        current_date = datetime.now().date().strftime('%Y-%m-%d')
+        print(current_date)
         ctx = {
             'rooms':rooms,
             'pagetype':json.dumps(pagetype),
             'is_host':is_host,
+            'current_date':json.dumps(current_date),
         }
 
         return render(request, 'matching/matchinglist.html', context=ctx)
