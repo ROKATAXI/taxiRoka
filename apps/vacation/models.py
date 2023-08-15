@@ -6,6 +6,6 @@ class Vacation(models.Model):
     departure_date = models.DateField()
     arrival_date = models.DateField()
 
-    departure_area = models.CharField(max_length=10)
-    destination_area = models.CharField(max_length=10)
+    departure_area = models.CharField(max_length=10, null=True, blank=True)
+    destination_area = models.CharField(max_length=10, null=True, blank=True)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE) 
