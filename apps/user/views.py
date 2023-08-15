@@ -157,7 +157,7 @@ def kakao_Auth_Redirect(request):
         content = {
         "grant_type": "authorization_code",
         "client_id": "7e2293a02b5609b94e47fc7bd7929328",
-        "redirect_url": "http://127.0.0.1:8000/user/kakao/redirect",
+        "redirect_url": "http://taxiroka.p-e.kr:8000/user/kakao/redirect",
         "code": code,
         }
         res = requests.post("https://kauth.kakao.com/oauth/token",headers=headers, data=content)
