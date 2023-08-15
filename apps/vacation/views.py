@@ -33,3 +33,9 @@ def vacation_list(request):
 
 # def update_vacation(request, pk):
 #     user = Cust
+
+def delete_vacation(request, pk):
+    if request.method == 'POST':
+        vacation = Vacation.objects.filter(id=pk)
+        vacation.delete()
+    return redirect('/vacation/')

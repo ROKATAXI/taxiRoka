@@ -130,11 +130,12 @@ def matching_apply(request, pk):
 
     if request.method == 'POST':
         seat_num = request.POST['seat_num']
-        #신청자 Matching객체 생성해주기
+
         alarm_type = "matching_apply"
         alarm_activate(request, matching_room, alarm_type)
 
-        Matching.objects.create(    
+        #신청자 Matching객체 생성해주기
+        Matching.objects.create(
             matching_room_id=matching_room,
             user_id=user,
             host_yn=False,
@@ -331,6 +332,9 @@ def alarm_activate(request, matching_room, alarm_type, *args):
                 content = content,
             )
 
+    
+    # 그럼 신청한 신청방 정보를 받아와서 매칭 테이블에서 필터링으로 속해있는 유저들이 누군지 확인해볼까?
+    
     # 어떤 사람이 매칭방에서 나갔을 때! (참여 부분이랑 겹치는 것 나중에 처리하기)
     elif alarm_type == "matching_delete":
         content = "내 채팅방에서 누군가 나갔습니다."
@@ -370,3 +374,6 @@ def alarm_activate(request, matching_room, alarm_type, *args):
 def alarm_delete(request, alarm_id):
     Alarm.objects.filter(id=alarm_id).delete()
     return redirect(request.META['HTTP_REFERER'])
+
+def questions(request):
+    return render(request, 'matching/questions.html')
