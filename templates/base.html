@@ -174,48 +174,44 @@
                     {% endif %}
                 </div>
             </nav>
-            
             <div class="main-container">
                 {% block content %}
                 {% endblock %}
             </div>
             <footer class="footer-custom">
+            
                 <a href="/matching/">
                     <img src="/static/img/home.png" alt="home이미지">
                 </a>
+            
                 {% if user.is_authenticated %}
-                    <a href="/matching/history/">
-                        <img src="/static/img/chating.png" alt="chatingroom이미지">
-                    </a>
-                
+                <a href="/matching/history/">
+                    <img src="/static/img/chating.png" alt="chatingroom이미지">
+                </a>
             
-                    <a href="/vacation/">
-                        <img src="/static/img/calendar.png" alt="calendar이미지">
-                    </a>
-            
+                <a href="/vacation/">
+                    <img src="/static/img/calendar.png" alt="calendar이미지">
+                </a>
         
-                    <a href="/user/mypage/">
-                        <img src="/static/img/mypage2.png" alt="mypage이미지">
-                    </a>
+                <a href="/user/mypage/">
+                    <img src="/static/img/mypage2.png" alt="mypage이미지">
+                </a>
                 {% else %}
-                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
-                        <img src="/static/img/chating.png" alt="chatingroom이미지">
-                    </button>
-                
-                
-                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
-                        <img src="/static/img/calendar.png" alt="calendar이미지">
-                    </button>
-                
-                
-                    <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
-                        <img src="/static/img/mypage2.png" alt="mypage이미지">
-                    </button>
+                <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                    <img src="/static/img/chating.png" alt="chatingroom이미지">
+                </button>
+            
+                <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                    <img src="/static/img/calendar.png" alt="calendar이미지">
+                </button>
+            
+                <button data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                    <img src="/static/img/mypage2.png" alt="mypage이미지">
+                </button>
                 {% endif %}
             </footer>
         </div>
     </main>
-    </div>  
     <!-- 알람모달 -->
     <div class="modal fade" id="alarmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">

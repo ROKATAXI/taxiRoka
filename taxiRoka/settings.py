@@ -173,3 +173,5 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+SITE_ID = 1
