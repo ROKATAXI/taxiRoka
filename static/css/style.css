@@ -6,6 +6,7 @@
 @import 'createroom.css';
 @import 'calendar.css';
 @import 'mypage.css';
+@import 'matching_apply.css';
 
 .base--container{
     display: flex;
@@ -30,6 +31,18 @@
     align-items: center;
     margin-top: 10px;
 }
+.nav-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.nav-right-footer{
+    /* 가려지는 부분 */
+    display: none;
+    /* font-size: 0; */
+    
+}
+
 .footer-custom{
     display: flex;
     justify-content: space-between;
@@ -56,7 +69,8 @@
 .footer-custom{
     position: fixed;
     bottom: 0;
-    background-color: white;
+    background: rgb(181, 181, 181);
+    height: 62px;
 }
 
 .search-room {
@@ -98,5 +112,22 @@
     .nav-title {
         font-size: 20px;
         margin: 0;
+    }
+    .nav-right-footer{
+        /* 가려지는 부분 */
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        padding-left: 0;
+    }
+    .nav-right {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    
+        width: 77%;
+    }
+    .nav-right-logo{
+        width: 26%;
     }
 }

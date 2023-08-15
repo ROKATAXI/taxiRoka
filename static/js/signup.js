@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const modalEmptyFields = document.getElementById("modalEmptyFields");
     const modalMismatchPassword = document.getElementById("modalMismatchPassword");
     const closeModalButtons = document.querySelectorAll(".close");
-  
+    const modalShortPassword = document.getElementById("modalShortPassword");
     signupForm.addEventListener("submit", function (event) {
       event.preventDefault();
   
@@ -29,7 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
         modalMismatchPassword.style.display = "block";
         return;
       }
-  
+
+      if (passwordInput.value.length < 8) {
+        modalShortPassword.style.display = "block";
+        return;
+    }
       // 유효성 검사 통과 시 폼 제출
       signupForm.submit();
     });
@@ -39,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
       button.addEventListener("click", function () {
         modalEmptyFields.style.display = "none";
         modalMismatchPassword.style.display = "none";
+        modalShortPassword.style.display = "none";
       });
     });
   });
