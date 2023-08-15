@@ -88,6 +88,10 @@ def main(request):
 # 매칭 방 생성
 @login_required
 def matching_create(request):
+    # 방 생성은 3번까지만 가능
+    if Matching.objects.filter(user_id = request.user, host_yn = True).count()>3:
+        return render(request, "matching/createroom.html", {'create_limit': True})
+
     if request.method == 'POST':
         matching_room = MatchingRoom.objects.create(
             departure_area = request.POST["departure_area"],
