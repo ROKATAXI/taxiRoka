@@ -36,6 +36,8 @@
                     function loginWithKakao() {
                     Kakao.Auth.authorize({
                         redirectUri: "http://127.0.0.1:8000/user/kakao/redirect",
+                        // redirectUri: "http://taxiroka.p-e.kr:8000/user/kakao/redirect",
+
                     });
                     }
                 </script>
@@ -47,7 +49,6 @@
                     <img src="{% static 'img/google.png' %}" alt="구글소셜 로그인">
                 </button>
             </form>
-            
         </div>
     
         

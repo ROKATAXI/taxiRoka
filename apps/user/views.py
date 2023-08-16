@@ -172,7 +172,7 @@ def send_email(request):
 
 def kakao_Auth_Redirect(request):
     code = request.GET.get('code',None)
-    print(code)
+    print("함수호출횟수",code)
     if code:
         print("code", code)
         #이제 토큰을 받아야함.
@@ -182,7 +182,8 @@ def kakao_Auth_Redirect(request):
         content = {
         "grant_type": "authorization_code",
         "client_id": "7e2293a02b5609b94e47fc7bd7929328",
-        "redirect_url": "http://taxiroka.p-e.kr:8000/user/kakao/redirect",
+        # "redirect_url": "http://taxiroka.p-e.kr:8000/user/kakao/redirect",
+        "redirect_url": "http://127.0.0.1:8000/user/kakao/redirect",
         "code": code,
         }
         res = requests.post("https://kauth.kakao.com/oauth/token",headers=headers, data=content)
@@ -199,6 +200,7 @@ def kakao_Auth_Redirect(request):
             if res.status_code == 200:
                 profile_res = res.json()
                 username = profile_res['properties']['nickname']
+                kakao_email = profile_res['kakao_account']['email']
                 id = profile_res['id']
                 user = User.objects.filter(kakaoId=id).first()
                 print(id, username)
@@ -210,7 +212,7 @@ def kakao_Auth_Redirect(request):
                     print("새로 생성")
                     user = User()
                     print(user)
-                    user.username = f"{id}@kakao.com"
+                    user.username = kakao_email
                     print(user.username)
                     user.first_name = username
                     user.kakaoId = id
