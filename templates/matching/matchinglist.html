@@ -90,10 +90,18 @@
                         {% elif room.id in already_apply_ids %} <!--이미 신청한 방일 때-->    
                         <div class="matchinglist-modal-body">
                             <img class="taxiimg" src="{% static 'img/taxiimg.png' %}">
-                            <h3>채팅방으로<br>이동하기</h3>
+                            <h3>이미 신청한 방입니다</h3>
                         </div>
                         <div class="matchinglist-modal-footer">                            
                             <a href="/chat/{{ room.uuid }}/"><button type="button" class="btn btn-primary" id="matching-button">채팅방 이동</button></a>
+                        </div>
+                        {% elif room.current_num == room.max_num %} <!--해당 방의 인원이 모두 찼을 때-->
+                        <div class="matchinglist-modal-body">
+                            <img class="taxiimg" src="{% static 'img/taxiimg.png' %}">
+                            <h3>인원이 가득 찬 방입니다</h3>
+                        </div>
+                        <div class="matchinglist-modal-footer">   
+                            <a href="/matching/"><button type="button" class="btn btn-primary" id="matching-button">돌아가기</button></a>
                         </div>
                         {% else %} <!--해당 방의 게스트일 때-->
                         <div class="matchinglist-modal-body">

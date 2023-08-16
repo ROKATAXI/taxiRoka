@@ -89,7 +89,7 @@ def main(request):
 @login_required
 def matching_create(request):
     # 방 생성은 3번까지만 가능
-    if Matching.objects.filter(user_id = request.user, host_yn = True).count()>3:
+    if Matching.objects.filter(user_id = request.user, matching_room_id__end_yn = True).count()>=3:
         return render(request, "matching/createroom.html", {'create_limit': True})
 
     if request.method == 'POST':
@@ -125,9 +125,14 @@ def matching_create(request):
 # 매칭 신청하기
 @login_required
 def matching_apply(request, pk):
+    # 방 신청 제한
+    if Matching.objects.filter(user_id = request.user, matching_room_id__end_yn = True).count()>=3:
+        return render(request, "matching/matching_apply.html", {'create_limit': True})
+
     matching_room = MatchingRoom.objects.get(id=pk)
     selected_seats = list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True)) # 이미 선택된 좌석들(더 좋은 방법이 없을까..?)
     user = request.user
+    #이미 신청한 방인지 여부 파악
     already_apply = Matching.objects.filter(matching_room_id = matching_room, user_id = request.user).exists()
     
     if already_apply or matching_room.current_num == matching_room.max_num:
@@ -376,7 +381,7 @@ def alarm_activate(request, matching_room, alarm_type, *args):
                 content = content,
             )
         
-    # 
+    
     
     
 def alarm_delete(request, alarm_id):
@@ -385,3 +390,21 @@ def alarm_delete(request, alarm_id):
 
 def questions(request):
     return render(request, 'matching/questions.html')
+
+#매칭방 정보
+@login_required
+def matching_detail(request, pk):
+
+    matching_room = MatchingRoom.objects.get(id=pk)
+    matching = Matching.objects.get(matching_room_id = matching_room, user_id = request.user)
+    selected_seats = list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True))
+    user_seat = str(matching.seat_num)
+    max_num = int(matching_room.max_num)
+    
+    ctx={
+        'matching_room':matching_room,
+        'selected_seats':json.dumps(selected_seats),
+        'user_seat':user_seat,
+        'max_num':max_num,
+    }
+    return render(request, "matching/matching_detail.html", context=ctx)
