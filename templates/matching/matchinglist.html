@@ -42,7 +42,7 @@
             {% else %}
             <div class="matching-room" data-bs-toggle="modal" data-bs-target="#login_required_modal">
             {% endif %}
-                <div class="matching-room--left">
+                <div class="col matching-room--left">
                     <div class="matching-room--left-top-m">
                         <h2 class="matching-room--left-1">
                             {{ room.departure_date }}
@@ -55,7 +55,7 @@
                        {{ room.current_num }} / {{ room.max_num }}
                     </h2>
                 </div>
-                <div class="matching-room--right">
+                <div class="col matching-room--right">
                     <div class="matching--departure">
                         <span>출발: {{ room.departure_area }}</span>
                         <span>도착: {{ room.destination_area }}</span>

@@ -131,7 +131,6 @@
 .matching--departure{
     display: flex;
     flex-direction: column;
-    gap: 2px;
 }
 .modal-dialog {
     display: flex;
@@ -148,7 +147,7 @@
 }
 
 .host-icon-box {
-    text-align: right;
+    /* text-align: left; */
 }
 
 .host-icon {
