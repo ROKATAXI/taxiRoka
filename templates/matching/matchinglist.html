@@ -8,6 +8,50 @@
 
 {% block content %}
 <div class="mainpage">
+    
+    <!-- 주단위 날짜 -->
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide">
+                <ul id="slide1">
+                    <li>
+                        <p id="todaysDate"></p>
+                        <p id="todaysDay"></p>
+                    </li>
+                    <li>화</li>
+                    <li>수</li>
+                    <li>목</li>
+                    <li>금</li>
+                    <li>토</li>
+                    <li>일</li>
+                </ul>
+            </div>
+            <div class="slide">
+                <ul id="slide2">
+                    <li>월</li>
+                    <li>화</li>
+                    <li>수</li>
+                    <li>목</li>
+                    <li>금</li>
+                    <li>토</li>
+                    <li>일</li>
+                </ul>
+            </div>
+            <div class="slide">
+                <ul id="slide3">
+                    <li>월</li>
+                    <li>화</li>
+                    <li>수</li>
+                    <li>목</li>
+                    <li>금</li>
+                    <li>토</li>
+                    <li>일</li>
+                </ul>
+            </div>
+        </div>
+        <button class="prev-button">&#10094;</button>
+        <button class="next-button">&#10095;</button>
+    </div>
     <!-- 방목록 -->
     <div class="matchinglist-container">
         <div class="matchingroom-container">
@@ -125,17 +169,6 @@
         </div>
     </div>
 </div>
-<script>
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const monthh = String(currentDate.getMonth() + 2).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const minDate = `${year}-${month}-${day}`;
-    const maxDate = `${year}-${monthh}-${day}`;
 
-    const selectedDateInput = document.getElementById('selected_date');
-    selectedDateInput.min = minDate;
-    selectedDateInput.max = maxDate;
-</script>
+<script src="{% static 'js/matchinglist.js' %}"></script>
 {% endblock %}
