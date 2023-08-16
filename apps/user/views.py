@@ -242,5 +242,6 @@ def mypage(request):
     return render(request, 'user/mypage.html', context=ctx)
 
 
-
+def modify(request):
+    return render(request, 'user/modify.html')
 
