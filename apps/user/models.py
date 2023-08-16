@@ -10,7 +10,7 @@ class Location(models.TextChoices):
 class CustomUser(AbstractUser):
     # 아이디, 비밀번호, 이름, 전화번호, 이메일, 부대위치, 신고횟수, 가입일, 입대일, 전역일, 알림수
     phone = models.CharField(max_length=11)
-    location = models.CharField(max_length=10, choices=Location.choices, default=Location.Sangmudae)
+    location = models.CharField(max_length=10, choices=Location.choices)
     count = models.IntegerField(default=0)
     join_date = models.DateTimeField(default=timezone.now)
     in_date = models.DateField(null=True,blank=True)
