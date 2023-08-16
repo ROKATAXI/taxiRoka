@@ -16,9 +16,9 @@
 }
 
 #chat-log {
-    height: 350px;
+    height: 470px;
     border: none;
-    background-color: #CFEBF7;
+    background-color: white;
     overflow-y: auto; /* 세로 스크롤 */
     display: flex;
     flex-direction: column;
@@ -36,10 +36,21 @@
     background-color: #969696; /* 스크롤바 hover 시 */
 }
 
-#chat-log > .in-out-msg {
-    margin: 0;
+.in-out-msg-div {
+    padding: 3px 0;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
+}
+
+.in-out-msg-div > .in-out-msg {
+    width: max-content;
+    padding: 3px 15px;
+    margin: 0;
+    background-color: rgba(241, 241, 241, 0.5);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 10px;
 }
 
 .mine-div {
@@ -52,22 +63,22 @@
 .msg-div > .msg {
     width: max-content;
     max-width: 200px;
-    padding: 7px;
+    padding: 10px;
     margin: 0;
-    border-radius: 5px;
-    background-color: white;
+    border-radius: 15px;
+    background-color: #C0E8FF;
     word-wrap: break-word;
     white-space: pre-line;
 }
 .mine-div > .mine {
-    background-color: rgb(255, 230, 0);
+    background-color: #d5eccc;
 }
 
 #chat-field {
     height: 50px;
     padding-top: 10px;
     padding-bottom: 10px;
-    background-color: white;
+    background-color: #f3f3f3;
     display: flex;
     justify-content: space-between;
 }
@@ -78,14 +89,16 @@
     resize: none;
     overflow: hidden;
     flex: 1;
+    background-color: #f3f3f3;
 }
 #chat-message-submit, #chat-room-leave {
     border: none;
+    border-radius: 10px;
     padding-left: 10px;
     padding-right: 10px;
 }
 #chat-message-submit {
-    background-color: rgb(240, 240, 240);
+    background-color: #D9D9D9;
     color: rgb(163, 162, 162);
 }
 #chat-room-leave {

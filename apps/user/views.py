@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .models import CustomUser
 from apps.matching.models import MatchingRoom, Matching 
+from apps.vacation.models import Vacation
 from django.http import Http404
 from django.contrib.auth.backends import ModelBackend
 from email.mime.multipart import MIMEMultipart
@@ -229,11 +230,13 @@ def mypage(request):
     matching_all = Matching.objects.filter(user_id = request.user).count()
     matching_ing = Matching.objects.filter(user_id = request.user, matching_room_id__end_yn = True).count()
     matching_end = Matching.objects.filter(user_id = request.user, matching_room_id__end_yn = False).count()
+    vacations = Vacation.objects.filter(user_id = request.user)
 
     ctx= {
         "matching_all": matching_all,
         "matching_ing": matching_ing,
         "matching_end": matching_end,
+        "vacations":vacations,
     }
 
     return render(request, 'user/mypage.html', context=ctx)

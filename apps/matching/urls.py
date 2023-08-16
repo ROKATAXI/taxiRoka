@@ -12,4 +12,5 @@ urlpatterns = [
     path('delete/room/<int:pk>', views.matching_delete, name="delete"),
     path('history/', views.matching_history, name="history"),
     path('alarm-delete/<int:alarm_id>/', views.alarm_delete, name="alarm-delete"),
+    path('questions/', views.questions, name="questions"),
 ]
