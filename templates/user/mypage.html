@@ -79,12 +79,20 @@
     <div class="section">
         <h2>휴가 이력</h2>
         <div class="vacation-history">
+            {% if vacations|length != 0 %}
             {% for vacation in vacations %}
             <div class="vacation-status">
+                
                 <h3>휴가 신청일: {{ vacation.departure_date }}</h3> 
                 <h3>휴가 복귀일: {{ vacation.arrival_date }}</h3>
             </div>
             {% endfor %}
+            {% else %}
+            <div class="vacation-status">
+                <h3>등록된 휴가 일정이 없습니다.</h3> 
+                <h3>휴가 복귀일: {{ vacation.arrival_date }}</h3>
+            </div>
+            {% endif %}
         </div>
     </div>
 

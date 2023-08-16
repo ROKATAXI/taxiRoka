@@ -200,6 +200,7 @@ def kakao_Auth_Redirect(request):
             if res.status_code == 200:
                 profile_res = res.json()
                 username = profile_res['properties']['nickname']
+                kakao_email = profile_res['kakao_account']['email']
                 id = profile_res['id']
                 user = User.objects.filter(kakaoId=id).first()
                 print(id, username)
@@ -211,7 +212,7 @@ def kakao_Auth_Redirect(request):
                     print("새로 생성")
                     user = User()
                     print(user)
-                    user.username = f"{id}@kakao.com"
+                    user.username = kakao_email
                     print(user.username)
                     user.first_name = username
                     user.kakaoId = id
