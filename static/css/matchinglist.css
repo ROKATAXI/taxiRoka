@@ -268,7 +268,11 @@
     flex-direction: column;
     justify-content: center;
   }
-  #todaysDate, #todaysDay{
+  .slide ul li:hover {
+    cursor: pointer;
+  }
+
+  .slide ul li p{
     margin: 0;
     font-size: 14px;
   }

@@ -47,6 +47,7 @@ prevButton.addEventListener('click', prevSlide);
 nextButton.addEventListener('click', nextSlide);
 
 
+const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 
 // 오늘 날짜 객체 생성
 const today = new Date();
@@ -56,31 +57,44 @@ const year = today.getFullYear();
 const month = today.getMonth() + 1;
 const day = today.getDate();
 
-// 태그에 오늘 일수 넣기
-const todaysDateTag = document.getElementById('todaysDate');
-todaysDateTag.textContent = `${day}`;
+// 함수를 통해 slide에 날짜와 요일 추가하는 기능 생성
+function addDatesToSlide(slideId, startDay) {
+    const slide = document.getElementById(slideId);
+    
+    for (let dayn = startDay; dayn < startDay + 7; dayn++) {
+        const nDaysLater = new Date(today);
+        nDaysLater.setDate(today.getDate() + dayn);
 
+        const nyear = nDaysLater.getFullYear();
+        const nmonth = nDaysLater.getMonth() + 1;
+        const nday = nDaysLater.getDate();
 
-const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
-const date = new Date(year, month - 1, day);
-const dayOfWeek = date.getDay();
-  
-  
+        const ndate = new Date(nyear, nmonth - 1, nday);
+        const ndayOfWeek = ndate.getDay();
+        const ndaysDay = daysOfWeek[ndayOfWeek];
 
-// // 태그에 오늘 요일 넣기
-const todaysDay = daysOfWeek[dayOfWeek];
-const todaysDayTag = document.getElementById('todaysDay');
-todaysDayTag.textContent = `${todaysDay}`;
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <p id="todaysDate-${dayn}">${nday}</p>
+            <p id="todaysDay-${dayn}">${ndaysDay}</p>
+        `;
 
+        // 클릭 이벤트 리스너 추가
+        listItem.addEventListener('click', () => {
+            const clickedDate = `${nyear}-${nmonth.toString().padStart(2, '0')}-${nday.toString().padStart(2, '0')}`;
+            const url = `?selected_date=${clickedDate}`;
+            window.location.href = url;
+        });
 
+        slide.appendChild(listItem);
+    }
+}
 
+// slide1에 7일치 날짜와 요일 추가
+addDatesToSlide('slide1', 0);
 
+// slide2에 다음 7일치 날짜와 요일 추가
+addDatesToSlide('slide2', 7);
 
-
-// n일 뒤의 날짜 계산
-const dayn = 0; // 예를 들어, 7일 뒤의 날짜를 구하려면 n 값을 7로 설정
-const nDaysLater = new Date(today);
-// nDaysLater.setDate(today.getDate() + dayn);
-
-// 결과 출력
-console.log(`${year}-${month}-${day}`);
+// slide3에 그 다음 7일치 날짜와 요일 추가
+addDatesToSlide('slide3', 14);
