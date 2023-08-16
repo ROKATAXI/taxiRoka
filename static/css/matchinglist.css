@@ -222,7 +222,7 @@
 }
 
 #matching-button {
-    background-color: var(--button-color);
+    background-color: rgb(2, 94, 2);
 }
 
 .taxiimg {
