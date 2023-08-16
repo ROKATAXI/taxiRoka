@@ -5,28 +5,57 @@
 {% endblock %}
 
 {% block content %}
+<!-- 모달 창 -->
+{% if create_limit %}
+<div class="modal fade" id="maxRoomsModal" tabindex="-1" aria-labelledby="maxRoomsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="maxRoomsModalLabel">방 신청 제한</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                이미 3개 이상의 방에 참여하셨습니다. 더 이상 방에 참여할 수 없습니다.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // 모달 띄우기
+        $('#maxRoomsModal').modal('show');
+    });
+    $('#maxRoomsModal').on('hidden.bs.modal', function () {
+            window.location.href = "{% url 'matching:main' %}";
+        });
+</script>
+{% else %}
 <div class="apply-room">
     <form action="{% url 'matching:apply' matching_room.pk %}" method="post">{% csrf_token %}
         <div class="direction-container">
             <div class="form-floating locations">
                 <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area" value="{{ matching_room.departure_area }}" disabled></input>
-                <label for="floatingTextarea">출발지점</label>
+                <label for="floatingTextarea">출발 지점</label>
             </div>
             <img class="img-direction" src="{% static 'img/moveto.png' %}" alt="Image 2">
             <div class="form-floating locations">
                 <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area" value="{{ matching_room.destination_area }}" disabled></input>
-                <label for="floatingTextarea">도착지점</label>
+                <label for="floatingTextarea">도착 지점</label>
                 
             </div>
         </div>
         <div class="direction-container">
             <div class="matching-date">
-                <p>예약 날짜</p>
+                <p>출발 날짜</p>
                 <input type="date" name="departure_date" id="create-departure_date" value="{{ matching_room.departure_date|date:'Y-m-d' }}" disabled>
             </div>
             <div class="matching-time">
-                <p>예약 시간</p>
-                <input type="time" class="form-control" value="{{ matching_room.departure_time|time:'H:i' }}" name="departure_time">
+                <p>출발 시간</p>
+                <input type="time" class="form-control" value="{{ matching_room.departure_time|time:'H:i' }}" name="departure_time" disabled>
                 
             </div>
         </div>
@@ -82,7 +111,7 @@
                 </div>
             </div>
         </div>
-
+        <p class="error-msg">{{ error_msg_seat }}</p>
         <button type="submit" class="apply-room-button">방 신청하기</button>
     </form>
 </div>
@@ -116,7 +145,7 @@
         });        
     });
 </script>
-
+{% endif %}
 
 {% endblock %}
 

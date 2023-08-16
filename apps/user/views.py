@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import login as authlogin
+from django.contrib.auth.forms import UserChangeForm
 from allauth.account.views import LoginView
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
@@ -173,7 +174,7 @@ def send_email(request):
 
 def kakao_Auth_Redirect(request):
     code = request.GET.get('code',None)
-    print(code)
+    print("함수호출횟수",code)
     if code:
         print("code", code)
         #이제 토큰을 받아야함.
@@ -200,6 +201,7 @@ def kakao_Auth_Redirect(request):
             if res.status_code == 200:
                 profile_res = res.json()
                 username = profile_res['properties']['nickname']
+                kakao_email = profile_res['kakao_account']['email']
                 id = profile_res['id']
                 user = User.objects.filter(kakaoId=id).first()
                 print(id, username)
@@ -211,7 +213,7 @@ def kakao_Auth_Redirect(request):
                     print("새로 생성")
                     user = User()
                     print(user)
-                    user.username = f"{id}@kakao.com"
+                    user.username = kakao_email
                     print(user.username)
                     user.first_name = username
                     user.kakaoId = id
@@ -242,6 +244,25 @@ def mypage(request):
 
     return render(request, 'user/mypage.html', context=ctx)
 
+@login_required
+def modify(request):
+    user = request.user
 
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        phone = request.POST.get('phone')
+        location = request.POST.get('location')
 
+        user.first_name = first_name
+        user.phone = phone
+        user.location = location
+        user.save()
 
+        messages.success(request, '사용자 정보가 수정되었습니다.')
+        return redirect('/')
+
+    context = {
+        'user': user,  # 수정된 사용자 정보를 넘겨줍니다.
+    }
+
+    return render(request, 'user/modify.html', context)
