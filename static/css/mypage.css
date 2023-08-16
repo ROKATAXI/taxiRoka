@@ -48,6 +48,7 @@ body{
 
 .profile-info-container {
     margin-bottom: 20px;
+    width:100%;
 }
 .section-title {
     font-size: 18px;
@@ -62,7 +63,7 @@ body{
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 5px;
-    max-width: 300px; 
+    width:100%; 
     text-overflow: ellipsis; 
 }
 
