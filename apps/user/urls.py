@@ -15,4 +15,5 @@ urlpatterns = [
     path('login/social/', views.social_login,name='social_login'),
     path('kakao/redirect/',views.kakao_Auth_Redirect,name="kakaoAuth"),
     path('mypage/',views.mypage,name="mypage"),
+    path('modify/',views.modify,name="modify"),
 ]

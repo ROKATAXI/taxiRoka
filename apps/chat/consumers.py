@@ -25,12 +25,12 @@ class ChatConsumer(WebsocketConsumer):
 
             self.save_msg(content, None)
 
-            async_to_sync(self.channel_layer.group_send)( 
-                self.room_group_name, {"type": "chat.message", "message": content}
-            )
-
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name, self.channel_name
+        )
+        
+        async_to_sync(self.channel_layer.group_send)( 
+            self.room_group_name, {"type": "chat.message", "message": content}
         )
 
 

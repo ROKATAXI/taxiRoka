@@ -206,7 +206,7 @@
     height: 70px;
 }
 
-.matchinglist-modal-header {
+.modal-content .modal-header {
     border-bottom: none;
 }
 
