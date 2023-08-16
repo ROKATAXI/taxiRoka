@@ -109,4 +109,12 @@
     align-items: center;
     margin-top: 10px;
 }
-
+.error-msg {
+    text-align: center;
+    color: red;
+    margin: 20px 0;
+}
+.create-container .error-msg-max-num {
+    width: 100%;
+    margin-bottom: 20px;
+}

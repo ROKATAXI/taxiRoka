@@ -9,29 +9,35 @@
     <form action="{% url 'matching:update' matching_room.pk %}" method="post">{% csrf_token %}
         <div class="direction-container">
             <div class="form-floating locations">
-                <p>출발지점</p>
-                <input name="departure_area" value="{{ matching_room.departure_area }}"
+                <p>출발 지점</p>
+                <input name="departure_area"
+                value="{% if not ret_bec_error %}{{ matching_room.departure_area }}{% else %}{{ departure_area }}{% endif %}"
                 {% if is_guest %} checked {% endif %}>
             </div>
             <img class="img-direction" src="{% static 'img/direction.png' %}" alt="Image 2">
             <div class="form-floating locations">
-                <p>도착지점</p>
-                <input name="destination_area" value="{{ matching_room.destination_area }}"
+                <p>도착 지점</p>
+                <input name="destination_area"
+                value="{% if not ret_bec_error %}{{ matching_room.destination_area }}{% else %}{{ destination_area }}{% endif %}"
                 {% if is_guest %} checked {% endif %}>
             </div>
         </div>
+        <p class="error-msg">{{ error_msg_area }}</p>
         <div class="direction-container">
             <div class="matching-date">
-                <p>예약 날짜</p>
-                <input type="date" name="departure_date" value="{{ matching_room.departure_date|date:'Y-m-d' }}"
+                <p>출발 날짜</p>
+                <input type="date" name="departure_date"
+                value="{% if not ret_bec_error %}{{ matching_room.departure_date|date:'Y-m-d' }}{% else %}{{ departure_date }}{% endif %}"
                 {% if is_guest %} checked {% endif %}>
             </div>
             <div>
-                <p>예약 시간</p>
-                <input type="time" name="departure_time" value="{{ matching_room.departure_time|time:'H:i' }}"
+                <p>출발 시간</p>
+                <input type="time" name="departure_time"
+                value="{% if not ret_bec_error %}{{ matching_room.departure_time|time:'H:i' }}{% else %}{{ departure_time }}{% endif %}"
                 {% if is_guest %} checked {% endif %}>
             </div>
         </div>
+        <p class="error-msg">{{ error_msg_date_time }}</p>
     
         <div class="create-container">
             <p>좌석 선택</p>
@@ -79,17 +85,19 @@
                         {% endif %}
                     </label>
                 </div>
+                <p class="error-msg">{{ error_msg_seat }}</p>
             </div>
             <div class="create-option-row">
                 <div>
-                    <input type="radio" name="max_num" value="3" id="rating3" {% if max_num == 3 %}checked{% endif %}>
+                    <input type="radio" name="max_num" value="3" id="rating3" {% if max_num == 3 or max_num == "3" %}checked{% endif %}>
                     <label for="rating3">최대 3인 매칭</label>
                 </div>
                 <div>
-                    <input type="radio" name="max_num" value="4" id="rating4" {% if max_num == 4 %}checked{% endif %}>
+                    <input type="radio" name="max_num" value="4" id="rating4" {% if max_num == 4 or max_num == "4" %}checked{% endif %}>
                     <label for="rating4">최대 4인 매칭</label>
                 </div>
             </div>
+            <p class="error-msg error-msg-max-num">{{ error_msg_max_num }}</p>
         </div>
         <button type="submit" class="create-room-button">방 수정하기</button>
     </form>

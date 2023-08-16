@@ -9,22 +9,22 @@
     <form action="{% url 'matching:apply' matching_room.pk %}" method="post">{% csrf_token %}
         <div class="direction-container">
             <div class="form-floating locations">
-                <p>출발지점</p>
+                <p>출발 지점</p>
                 {{ matching_room.departure_area }}
             </div>
-            <img class="img-direction" src="{% static 'img/direction.png' %}" alt="Image 2">
+            <img class="img-direction" src="{% static 'img/moveto.png' %}" alt="Image 2">
             <div class="form-floating locations">
-                <p>도착지점</p>
+                <p>도착 지점</p>
                 {{ matching_room.destination_area }}
             </div>
         </div>
         <div class="direction-container">
             <div class="matching-date">
-                <p>예약 날짜</p>
+                <p>출발 날짜</p>
                 {{ matching_room.departure_date }}
             </div>
             <div>
-                <p>예약 시간</p>
+                <p>출발 시간</p>
                 {{ matching_room.departure_time }}
             </div>
         </div>
@@ -80,7 +80,7 @@
                 </div>
             </div>
         </div>
-
+        <p class="error-msg">{{ error_msg_seat }}</p>
         <button type="submit" class="apply-room-button">방 신청하기</button>
     </form>
 </div>
