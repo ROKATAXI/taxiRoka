@@ -13,6 +13,6 @@ urlpatterns = [
     path('send_email/', views.send_email, name='send_email'),
     path('activate/<int:pk>/', views.activate_account, name='activate_account'),
     path('login/social/', views.social_login,name='social_login'),
-    path('kakao/redirect/',views.kakao_Auth_Redirect,name="kakaoAuth"),
+    path('kakao/redirect/',views.kakao_Auth_Redirect,name="kakaoAuth"), # 카카오디벨로퍼스
     path('mypage/',views.mypage,name="mypage"),
 ]
