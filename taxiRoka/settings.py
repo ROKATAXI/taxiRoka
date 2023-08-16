@@ -11,10 +11,20 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import ssl
-
+from environ import Env
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+
+
 BASE_DIR = Path(__file__).resolve().parent
+
+env = Env()
+env_path = BASE_DIR / ".env"
+
+if env_path.exists():
+    with env_path.open("rt", encoding="utf8") as f:
+        env.read_env(f, overwrite=True)
 # BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -24,9 +34,9 @@ BASE_DIR = Path(__file__).resolve().parent
 SECRET_KEY = 'django-insecure-^08$j8s0fk7oe-9eqnvk%y5a57w&w(q6#9h6()s)@b$%1a)%rh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-# ALLOWED_HOSTS = ['3.35.235.36', 'taxiroka.p-e.kr', 'www.taxiroka.p-e.kr']
+ALLOWED_HOSTS = ['3.35.235.36', 'taxiroka.p-e.kr', 'www.taxiroka.p-e.kr']
 
 SITE_ID = 1
 # Application definition
@@ -59,8 +69,8 @@ INSTALLED_APPS = [
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com' 		 # 메일 호스트 서버
 EMAIL_PORT = 587 			 # 서버 포트
-EMAIL_HOST_USER = 'taxiroka2@gmail.com' 	 # 우리가 사용할 Gmail
-EMAIL_HOST_PASSWORD = 'dwupjxznhziubjxl'		 # 우리가 사용할 Gmail p
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")	
 EMAIL_USE_SSL = False
 EMAIL_USE_TLS = True			 # TLS 보안 설정
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER	 # 응답 메일 관련 설정
@@ -113,8 +123,12 @@ WSGI_APPLICATION = 'taxiRoka.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config("DATABASE_NAME"),
+        'USER': config("DATABASE_USERNAME"),
+        'PASSWORD': config("DATABASE_PASSWORD"),
+        'HOST': config("DATABASE_HOST"),
+        'PORT': config("DATABASE_PORT", cast=int),
     }
 }
 
@@ -169,9 +183,8 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("taxiroka.p-e.kr:8000", 6379)],
         },
     },
 }
 
-SITE_ID = 1

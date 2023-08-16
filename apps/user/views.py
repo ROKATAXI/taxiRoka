@@ -13,6 +13,7 @@ from django.http import Http404
 from django.contrib.auth.backends import ModelBackend
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from decouple import config
 import requests
 import smtplib
 import os
@@ -117,12 +118,12 @@ def send_activation_email(user):
     try:
         smtp_server = smtplib.SMTP('smtp.gmail.com', 587)
         smtp_server.starttls()
-        smtp_server.login('taxiroka2@gmail.com', 'dwupjxznhziubjxl')
+        smtp_server.login(config("EMAIL_HOST_USER"), config("EMAIL_HOST_PASSWORD"))
 
         subject = '[TaxiRoka] 본인 확인을 위한 이메일 인증을 완료해주세요!'
         activation_link = f'http://taxiroka.p-e.kr:8000/user/activate/{user.pk}/'
         
-        sender_email = 'taxiroka2@gmail.com'
+        sender_email = config("EMAIL_HOST_USER")
         recipient_email = user.email
 
         email_body = f'''
@@ -181,7 +182,7 @@ def kakao_Auth_Redirect(request):
         }
         content = {
         "grant_type": "authorization_code",
-        "client_id": "7e2293a02b5609b94e47fc7bd7929328",
+        "client_id": config("KAKAO_CLIENT_ID"),
         "redirect_url": "http://taxiroka.p-e.kr:8000/user/kakao/redirect",
         "code": code,
         }
