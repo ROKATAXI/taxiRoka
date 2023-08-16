@@ -381,7 +381,7 @@ def alarm_activate(request, matching_room, alarm_type, *args):
                 content = content,
             )
         
-    # 
+    
     
     
 def alarm_delete(request, alarm_id):
@@ -390,3 +390,21 @@ def alarm_delete(request, alarm_id):
 
 def questions(request):
     return render(request, 'matching/questions.html')
+
+#매칭방 정보
+@login_required
+def matching_detail(request, pk):
+
+    matching_room = MatchingRoom.objects.get(id=pk)
+    matching = Matching.objects.get(matching_room_id = matching_room, user_id = request.user)
+    selected_seats = list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True))
+    user_seat = str(matching.seat_num)
+    max_num = int(matching_room.max_num)
+    
+    ctx={
+        'matching_room':matching_room,
+        'selected_seats':json.dumps(selected_seats),
+        'user_seat':user_seat,
+        'max_num':max_num,
+    }
+    return render(request, "matching/matching_detail.html", context=ctx)
