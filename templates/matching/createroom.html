@@ -5,6 +5,35 @@
 {% endblock %}
 
 {% block content %}
+<!-- 모달 창 -->
+{% if create_limit %}
+<div class="modal fade" id="maxRoomsModal" tabindex="-1" aria-labelledby="maxRoomsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="maxRoomsModalLabel">방 생성 제한</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                이미 3개 이상의 방에 참여하셨습니다. 더 이상 방을 생성할 수 없습니다.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // 모달 띄우기
+        $('#maxRoomsModal').modal('show');
+    });
+    $('#maxRoomsModal').on('hidden.bs.modal', function () {
+            window.location.href = "{% url 'matching:main' %}";
+        });
+</script>
+{% endif %}
 <div class="create-room">
     <form action="{% url 'matching:create' %}" method="post">
         {% csrf_token %}

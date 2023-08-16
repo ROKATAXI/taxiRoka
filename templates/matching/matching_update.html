@@ -9,17 +9,18 @@
     <form action="{% url 'matching:update' matching_room.pk %}" method="post">{% csrf_token %}
         <div class="direction-container">
             <div class="form-floating locations">
-                <p>출발 지점</p>
-                <input name="departure_area"
+
+                <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area"
                 value="{% if not ret_bec_error %}{{ matching_room.departure_area }}{% else %}{{ departure_area }}{% endif %}"
-                {% if is_guest %} checked {% endif %}>
+                {% if is_guest %} disabled {% endif %}></input>
+                <label for="floatingTextarea">출발지점</label>
             </div>
-            <img class="img-direction" src="{% static 'img/direction.png' %}" alt="Image 2">
+            <img class="img-direction" src="{% static 'img/moveto.png' %}" alt="Image 2">
             <div class="form-floating locations">
-                <p>도착 지점</p>
-                <input name="destination_area"
+                <input class="form-control" placeholder="" id="floatingTextarea" name="destination_area"
                 value="{% if not ret_bec_error %}{{ matching_room.destination_area }}{% else %}{{ destination_area }}{% endif %}"
-                {% if is_guest %} checked {% endif %}>
+                {% if is_guest %} disabled {% endif %}></input>
+                <label for="floatingTextarea">도착지점</label>
             </div>
         </div>
         <p class="error-msg">{{ error_msg_area }}</p>
@@ -28,13 +29,13 @@
                 <p>출발 날짜</p>
                 <input type="date" name="departure_date"
                 value="{% if not ret_bec_error %}{{ matching_room.departure_date|date:'Y-m-d' }}{% else %}{{ departure_date }}{% endif %}"
-                {% if is_guest %} checked {% endif %}>
+                {% if is_guest %} disabled {% endif %}>
             </div>
             <div>
                 <p>출발 시간</p>
                 <input type="time" name="departure_time"
                 value="{% if not ret_bec_error %}{{ matching_room.departure_time|time:'H:i' }}{% else %}{{ departure_time }}{% endif %}"
-                {% if is_guest %} checked {% endif %}>
+                {% if is_guest %} disabled {% endif %}>
             </div>
         </div>
         <p class="error-msg">{{ error_msg_date_time }}</p>
@@ -52,7 +53,7 @@
                         {% if "1" in selected_seats %} 
                             <img src="{% static 'img/selected_seat.png' %}" alt="Image 1">
                         {% else %}
-                            <img src="{% static 'img/seat.png' %}" alt="Image 1">
+                            <img src="{% static 'img/seat.png' %}" alt="Image 1" class ="disabled">
                         {% endif %}
                     </label>
                 </div>
@@ -61,7 +62,7 @@
                     checked {% endif %}>
                     <label for="rating2" class="seat-option">
                         {% if "2" in selected_seats %} 
-                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 2">
+                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 2" class ="disabled">
                         {% else %}
                             <img src="{% static 'img/seat.png' %}" alt="Image 2">
                         {% endif %}
@@ -70,7 +71,7 @@
                     checked {% endif %}>
                     <label for="rating3" class="seat-option">
                         {% if "3" in selected_seats %} 
-                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 3">
+                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 3" class ="disabled">
                         {% else %}
                             <img src="{% static 'img/seat.png' %}" alt="Image 3">
                         {% endif %}
@@ -79,7 +80,7 @@
                     checked {% endif %}>
                     <label for="rating4" class="seat-option">
                         {% if "4" in selected_seats %} 
-                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 4">
+                            <img src="{% static 'img/selected_seat.png' %}" alt="Image 4" class ="disabled">
                         {% else %}
                             <img src="{% static 'img/seat.png' %}" alt="Image 4">
                         {% endif %}

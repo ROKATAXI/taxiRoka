@@ -1,12 +1,16 @@
 :root{
     --gutter: 16px;
-
+    --button-color:rgb(31, 144, 192);
     --grey_bg: #FBFBFA;
+    --bg-color:#ebf4f8;
 }
+
+* { font-family: 'Spoqa Han Sans Neo', sans-serif; }
 
 body{
     display: flex;
     justify-content: center;
+    background-color: var(--bg-color);
 }
 .main-right{
     width: 80%;
@@ -41,6 +45,7 @@ main{
     body {
         display: flex;
         justify-content: center;
+        
     }
     main {
         width: 70%;

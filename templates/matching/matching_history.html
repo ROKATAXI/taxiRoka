@@ -49,6 +49,7 @@
             <div class="matching-room--right-history">
                 <a href="/chat/{{ matching.matching_room_id.uuid }}/"><button class="movetochatbutton">채팅</button></a>
                 <button class="movetochatbutton" data-bs-toggle="modal" data-bs-target="#roomExitModal-{{ matching.id }}">나가기</button>
+                <a href="/matching/detail/room/{{matching.matching_room_id.id}}"><button class="movetochatbutton">방정보</button></a>
             </div>
         </div>
         {% endfor %}
@@ -84,6 +85,7 @@
             <div class="matching-room--right-history">
                 <a href="/chat/{{ matching.matching_room_id.uuid }}/"><button class="movetochatbutton">채팅</button></a>
                 <button class="movetochatbutton">나가기</button>
+                <a href="/matching/detail/room/{{matching.matching_room_id.id}}"><button class="movetochatbutton">방정보</button></a>
             </div>
         </div>
         {% endfor %}

@@ -72,3 +72,23 @@ const goToday = () => {
 
 
 
+// ... (기존 코드)
+
+day.forEach((items) => {
+  items.addEventListener('click', (e) => {
+      // 기존 클릭 이벤트 코드
+
+      // 새로운 부분: 날짜 클릭 시 선택한 날짜를 특정 요소에 표시
+      if (Number(items.innerHTML)) {
+          const selectedDate = `${selMonth} ${items.innerHTML}`;
+          document.querySelector('.selected-date').textContent = selectedDate;
+      }
+
+      // 기존 AJAX 요청 코드
+  });
+});
+
+// ... (기존 코드)
+
+// 선택한 날짜를 구체적으로 표시할 엘리먼트를 찾아야 합니다.
+// 여기서는 예시로 <p class="selected-date"></p>를 추가하여 사용합니다.
