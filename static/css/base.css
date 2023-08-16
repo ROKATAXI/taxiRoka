@@ -40,7 +40,7 @@ main{
     width: 100%;
 }
 
-/* Styles for PC screens */
+
 @media (min-width: 768px) {
     body {
         display: flex;
