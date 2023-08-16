@@ -146,10 +146,6 @@
     flex-direction: column;
 }
 
-.host-icon-box {
-    /* text-align: left; */
-}
-
 .host-icon {
     display: inline-block;
     text-align: center;
@@ -233,6 +229,48 @@
     height:200px;
     width:200px;
 }
+
+/* -----달력------ */
+.slider-container {
+    position: relative;
+    width: 90%; /* Adjust the width as needed */
+    overflow: hidden;
+    margin: auto;
+  }
+  
+  .slider {
+    display: flex;
+    transition: transform 0.6s ease-in-out; /* Transition effect for smooth slide */
+  }
+  
+  .slide {
+    flex: 0 0 100%; /* Adjust the width as needed */
+    height: 100px; /* Adjust the height as needed */
+    background-color: #ccc;
+    padding: 20px;
+  }
+  
+  .prev-button,
+  .next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .prev-button {
+    left: 0;
+  }
+  
+  .next-button {
+    right: 0;
+  }
+  
+
+
 
 
 @media (min-width: 768px) {

@@ -244,5 +244,8 @@ def mypage(request):
     return render(request, 'user/mypage.html', context=ctx)
 
 
+def test(request):
+    return render(request, 'user/test.html')
+
 
 

@@ -1,4 +1,58 @@
-const slider = document.querySelector('.slider');
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="slider-container">
+    <div class="slider">
+      <div class="slide">Content 1</div>
+      <div class="slide">Content 2</div>
+      <div class="slide">Content 3</div>
+    </div>
+    <button class="prev-button">&#10094;</button>
+    <button class="next-button">&#10095;</button>
+</div>
+
+<style>
+    .slider-container {
+      position: relative;
+      width: 90%; /* Adjust the width as needed */
+      overflow: hidden;
+      margin: auto;
+    }
+    
+    .slider {
+      display: flex;
+      transition: transform 0.6s ease-in-out; /* Transition effect for smooth slide */
+    }
+    
+    .slide {
+      flex: 0 0 100%; /* Adjust the width as needed */
+      height: 100px; /* Adjust the height as needed */
+      background-color: #ccc;
+      padding: 20px;
+    }
+    
+    .prev-button,
+    .next-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .prev-button {
+      left: 0;
+    }
+    
+    .next-button {
+      right: 0;
+    }
+    
+    </style>
+<script>
+    const slider = document.querySelector('.slider');
     const slides = document.querySelectorAll('.slide');
     const prevButton = document.querySelector('.prev-button');
     const nextButton = document.querySelector('.next-button');
@@ -44,3 +98,5 @@ const slider = document.querySelector('.slider');
     // Button click event listeners
     prevButton.addEventListener('click', prevSlide);
     nextButton.addEventListener('click', nextSlide);
+    </script> 
+{% endblock %}
