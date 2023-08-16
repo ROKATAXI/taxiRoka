@@ -61,22 +61,8 @@
 
 </div>
 
-<style>
-  
-  
-  /* 부대위치 입력 박스 스타일 */
-  .form-group #inputLocation {
-      background-color: #f5f5f5; 
-      border: 1px solid #101010; 
-      padding: 8px; 
-      width: 100%; 
-      border-radius: 10px; 
-      font-size: 14px;
-      cursor: pointer; 
-      margin-bottom: 10px;
-  }
       
-  </style>
+  
 
 
     
@@ -94,7 +80,7 @@
     <span class="close">&times;</span>
     <p>모든 필드를 입력해주세요.</p>
   </div>
-</div> 
+</div>
 
 <div id="modalShortPassword" class="modal" style="display: none;">
   <div class="modal-content">
@@ -103,8 +89,27 @@
   </div>
 </div>
 
+<div id="modifySuccessModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>회원정보 수정이 완료되었습니다!</p>
+  </div>
+</div>
+
+
 
 <style>
+/* 부대위치 입력 박스 스타일 */
+.form-group #inputLocation {
+      background-color: #f5f5f5; 
+      border: 1px solid #101010; 
+      padding: 8px; 
+      width: 100%; 
+      border-radius: 10px; 
+      font-size: 14px;
+      cursor: pointer; 
+      margin-bottom: 10px;
+  }
 
 .signup-error-messages {
     color: red;
@@ -113,7 +118,9 @@
     text-align: center;
       }
 
-.modal {
+  .modal {
+
+
   display: none;
   position: fixed;
   top: 0;
@@ -131,9 +138,7 @@
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  position: fixed;
-  top: 50%;
-  left: 55%;
+  
 }
 
 .close {
@@ -144,7 +149,56 @@
   cursor: pointer;
 }
 
+
+
 </style>
+<script>
+  const form = document.querySelector('form');
+  const modalEmptyFields = document.getElementById('modalEmptyFields');
+  
+  form.addEventListener('submit', (event) => {
+    const inputs = form.querySelectorAll('input, select');
+    let allFieldsFilled = true;
+
+    inputs.forEach((input) => {
+      if (!input.value) {
+        allFieldsFilled = false;
+      }
+    });
+
+    if (!allFieldsFilled) {
+      event.preventDefault(); 
+      modalEmptyFields.style.display = 'block';
+    }
+  });
+
+// 외부 클릭시 모달 닫기 이벤트 리스너 추가
+const modals = document.querySelectorAll('.modal');
+modals.forEach((modal) => {
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+
+  const closeButton = modal.querySelector('.close');
+  closeButton.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+});
+
+// 모달이 나타날 때, 특정 시간 이후에 자동으로 닫히도록 설정
+const modifySuccessModal = document.getElementById('modifySuccessModal');
+if (modifySuccessModal) {
+  modifySuccessModal.style.display = 'block'; 
+  setTimeout(() => {
+    modifySuccessModal.style.display = 'none'; 
+  }, 3000); 
+}
+
+  
+</script>
+
 
 <script src="{% static 'js/signup.js' %}"></script>
 {% endblock %}
