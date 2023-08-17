@@ -5,7 +5,9 @@
     --bg-color:#ebf4f8;
 }
 
-* { font-family: 'Spoqa Han Sans Neo', sans-serif; }
+
+* { font-family: 'Spoqa Han Sans Neo', sans-serif !important; 
+}
 
 body{
     display: flex;
