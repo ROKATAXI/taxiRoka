@@ -24,6 +24,9 @@
 }
 .create-departure_date, .create-departure_time{
     text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 .create-departure_date p, .create-departure_time p{
     font-size: 14px;
@@ -37,6 +40,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-top: 10px;
+    text-align: center;
 
     width: 60%;
     height: 45px;
@@ -158,7 +162,7 @@
 }
 
 .create-date-container{
-    width: 90%;
+    width: 100%;
     justify-content: space-around;
     align-items: center;
 }

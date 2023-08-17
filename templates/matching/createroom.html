@@ -69,6 +69,8 @@
             <p class="error-msg">{{ error_msg_date_time }}</p>
         </div>
         <hr>
+
+
         <div class="create-container">
             <p>좌석 선택</p>
             <div class="create-option">
@@ -84,6 +86,7 @@
                         <img src="{% static 'img/seat.png' %}" alt="Image 1">
                         {% endif %}
                     </label>
+
                 </div>
                 <div class="seat-container">
                     <input type="radio" name="seat_num" id="rating2" value="2" class="hidden-radio" {% if seat_num == "2" %}checked{% endif %}>
@@ -113,6 +116,8 @@
                 </div>
                 <p class="error-msg">{{ error_msg_seat }}</p>
             </div>
+
+            
             <div class="create-option-row">
                 <div>
                     <input type="radio" name="max_num" value="3" id="rating3">
