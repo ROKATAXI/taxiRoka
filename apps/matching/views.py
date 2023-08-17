@@ -461,8 +461,11 @@ def validate_matching_info(departure_area, destination_area, departure_date, dep
         if departure_area == "" or destination_area == "":
             context["error_msg_area"] = "출발 지점과 도착 지점을 모두 입력해주세요."
 
-        if departure_date == "" or departure_time == "":
-            context["error_msg_date_time"] = "출발 날짜와 출발 시각을 모두 입력해주세요."
+        if departure_date == "":
+            context["error_msg_date_date"] = "출발 날짜를 입력해주세요."
+
+        if departure_time == "":
+            context["error_msg_date_time"] = "출발 시각을 입력해주세요."
 
         if seat_num is None:
             context["error_msg_seat"] = "좌석을 선택해주세요."

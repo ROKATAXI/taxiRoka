@@ -53,17 +53,20 @@
             
         </div>
         <hr>
-        <div class="row create-date-container">
-            <div class="col create-departure_date">
+        <div class="create-date-container">
+            <div class="create-departure_date">
                 <p>출발일</p>
                 <input type="date" name="departure_date" id="departure-date" value="{{ departure_date }}">
             </div>
-            <div class="col create-departure_time">
+            <p class="error-msg">{{ error_msg_date_date }}</p>
+        </div>
+        <hr>
+        <div class="create-date-container">
+            <div class="create-departure_time">
                 <p>시간</p>
                 <input type="time" id="departure-time" name="departure_time">
             </div>
             <p class="error-msg">{{ error_msg_date_time }}</p>
-            
         </div>
         <hr>
         <div class="create-container">

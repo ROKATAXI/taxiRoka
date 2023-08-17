@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 95%;
+    width: 90%;
     margin: 5px auto;
     gap: 20px;
 }
@@ -30,6 +30,16 @@
     color: skyblue;
 
     margin: 0;
+}
+.create-departure_date input, .create-departure_time input{
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+
+    width: 60%;
+    height: 45px;
 }
 
 .seat-option > img[alt="Image 0"] {
@@ -133,9 +143,9 @@
     font-size: 12px;
 
     margin-bottom: 0px;
-    margin-top: 15px;
+    /* margin-top: 15px; */
 
-    height: 20px;
+    /* height: 20px; */
 }
 .create-container .error-msg-max-num {
     width: 100%;
@@ -149,8 +159,6 @@
 
 .create-date-container{
     width: 90%;
-
-    display: grid;
     justify-content: space-around;
     align-items: center;
 }
