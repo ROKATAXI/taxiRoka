@@ -20,7 +20,7 @@
     justify-content: space-between;
     align-items: center;
     height: 100%;
-    padding: 35px 0;
+    padding: 10px 0 35px 0;
 }
 .create-departure_date, .create-departure_time{
     text-align: center;
