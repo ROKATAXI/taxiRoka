@@ -483,3 +483,6 @@ def validate_matching_seat(seat_num):
         }
 
     return context
+
+def questions(request):
+    return render(request, 'matching/questions.html')
