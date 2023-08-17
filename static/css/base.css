@@ -1,6 +1,7 @@
 :root{
     --gutter: 16px;
-    --button-color:rgb(31, 144, 192);
+    --button-color2: #6bd3f7;
+    --button-color: #1570FF;
     --grey_bg: #FBFBFA;
     --bg-color:#ebf4f8;
 }

@@ -37,7 +37,7 @@
 }
 .create-departure_date p, .create-departure_time p{
     font-size: 14px;
-    color: skyblue;
+    color: var(--button-color);
 
     margin: 0;
 }
