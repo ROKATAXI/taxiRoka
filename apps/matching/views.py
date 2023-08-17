@@ -129,7 +129,7 @@ def matching_create(request):
 
         #alarm
         alarm_type = "matching_create"
-        alarm_activate(request, matching_room, alarm_type)
+        alarm_activate(matching_room, alarm_type)
 
         return redirect('/matching/history/')
     
@@ -165,7 +165,7 @@ def matching_apply(request, pk):
             return render(request, 'matching/matching_apply.html', context = context)
 
         alarm_type = "matching_apply"
-        alarm_activate(request, matching_room, alarm_type)
+        alarm_activate(matching_room, alarm_type)
 
         #신청자 Matching객체 생성해주기
         Matching.objects.create(
@@ -254,7 +254,7 @@ def matching_update(request, pk):
                 is_host.seat_num = request.POST['seat_num']
                 is_host.save()
                 alarm_type = "matching_update"
-                alarm_activate(request, matching_room, alarm_type)
+                alarm_activate(matching_room, alarm_type)
 
                 return redirect('/matching/')
         else:
@@ -312,16 +312,16 @@ def matching_delete(request, pk):
                 matching.delete()
 
                 alarm_type = "matching_delete"
-                alarm_activate(request, matching_room, alarm_type)
+                alarm_activate(matching_room, alarm_type)
                 alarm_type = "new_host"
-                alarm_activate(request, matching_room, alarm_type, new_host) # 불필요한 연산 줄이기 위해
+                alarm_activate(matching_room, alarm_type, new_host) # 불필요한 연산 줄이기 위해
 
                 matching_room.current_num -= 1         # 해당 유저의 Matching을 삭제하면 MatchingRoom의 현재 인원 수 -1
                 matching_room.save()
         else: 
             matching.delete() 
             alarm_type = "matching_delete"
-            alarm_activate(request, matching_room, alarm_type)
+            alarm_activate(matching_room, alarm_type)
             matching_room.current_num -= 1 
             matching_room.save()
 
@@ -355,8 +355,7 @@ def getAnonName(matching_room_id):
 ## 매칭 시 사이트 내에 알림 표시
 from django.views.decorators.csrf import csrf_exempt
 #이거 써도 보안상 문제 없는지 확인 필요(영진)
-@csrf_exempt
-def alarm_activate(request, matching_room, alarm_type, *args):
+def alarm_activate(matching_room, alarm_type, *args):
     # 어떤 사람이 매칭방을 만들었을 때! -> 이날 휴가출발일을 등록해놓은 유저들에게
     if alarm_type == "matching_create":
         content = "나의 휴가 날짜에 새로운 방이 생성되었어요!"
