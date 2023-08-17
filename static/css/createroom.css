@@ -24,6 +24,10 @@
     align-items: center;
     height: 100%;
     padding: 10px 0 35px 0;
+    width: 100%;
+}
+.create-room-form > div{
+    width: 100%;
 }
 .create-departure_date, .create-departure_time{
     text-align: center;
