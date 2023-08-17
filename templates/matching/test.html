@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="create-room">
-    <form class="create-room-form" action="{% url 'matching:update' matching_room.pk %}" method="post">
+    <form action="{% url 'matching:update' matching_room.pk %}" method="post">
         {% csrf_token %}
         <div>
             <div class="direction-container">
