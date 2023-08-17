@@ -6,31 +6,41 @@
 
 {% block content %}
 <div class="create-room">
-    <div class="direction-container">
-        <div class="form-floating locations">
-            <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area" value="{{ matching_room.departure_area }}"
-            disabled></input>
-            <label for="floatingTextarea">출발지점</label>
-        </div>
-        <img class="img-direction" src="{% static 'img/moveto.png' %}" alt="Image 2">
-        <div class="form-floating locations">
-            <input class="form-control" placeholder="" id="floatingTextarea" name="destination_area" value="{{ matching_room.destination_area}}"
-            disabled></input>
-            <label for="floatingTextarea">도착지점</label>
-        </div>
+    <div>
+        <div class="direction-container">
+            <div class="form-floating locations">
+                <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area" value="{{ matching_room.departure_area }}"
+                disabled></input>
+                <label for="departure_area">출발 지점을 입력하세요.</label>
+            </div>
+            <img class="img-direction" src="{% static 'img/moveto.png' %}" alt="Image 2">
+            <div class="form-floating locations">
+                <input class="form-control" placeholder="" id="floatingTextarea" name="destination_area" value="{{ matching_room.destination_area}}"
+                disabled></input>
+                <label for="destination_area">도착 지점을 입력하세요.</label>
+            </div>
+        </div>            
     </div>
-    <div class="direction-container">
-        <div class="matching-date">
-            <p>예약 날짜</p>
+    <hr>
+    <div class="create-date-container">
+        <div class="create-departure_date">
+            <p>출발일</p>
             <input type="date" name="departure_date" value="{{ matching_room.departure_date|date:'Y-m-d' }}"
             disabled>
         </div>
-        <div>
-            <p>예약 시간</p>
+        <p class="error-msg">{{ error_msg_date_date }}</p>
+    </div>
+    <hr>
+    <div class="create-date-container">
+        <div class="create-departure_time">
+            <p>시간</p>
             <input type="time" name="departure_time" value="{{ matching_room.departure_time|time:'H:i' }}"
             disabled>
         </div>
     </div>
+    <hr>
+
+
     <div class="create-container">
         <p>좌석 선택</p>
         <div class="create-option">
@@ -104,40 +114,7 @@
                 <label for="rating4">최대 4인 매칭</label>
             </div>
         </div>
-    </div>    
+    </div>
     <a href="/matching/history/"><button type="button" class="create-room-button">돌아가기</button></a>
 </div>
-<!--<script>
-    var staticSeatImage = "{% static 'img/seat.png' %}";
-    var staticSelectedSeatImage = "{% static 'img/selected_seat.png' %}";
-</script>
-<script>
-    $(document).ready(function(){
-        // 기본적으로 선택된 라디오 버튼 값을 가져옴
-        var defaultMaxNum = $("input[name='max_num']:checked").val();
-
-
-        $(".seat-option img").click(function() {
-            // 클릭한 이미지의 부모 라벨 요소
-            var label = $(this).parent("label");
-            // 클릭한 이미지의 연결된 input 요소
-            var input = label.next("input[type='radio']");
-
-            // 이미지 클래스가 disabled가 아닌 경우에만 처리
-            if (!label.find("img").hasClass("disabled")) {
-                // 이미지 클릭 시 연결된 input 체크
-                input.prop("checked", true);
-
-                // 모든 이미지 초기화 (선택되지 않은 상태로 변경)
-                $(".seat-option img:not(.disabled)").attr("src", "{% static 'img/seat.png' %}");
-                $(".seat-option img:not(.disabled)").removeClass("checked");
-                // 클릭한 이미지만 선택된 이미지로 변경
-                label.find("img").attr("src", "{% static 'img/selected_seat.png' %}");
-                label.find("img").addClass("checked");
-            }
-
-        });
-    });
-</script>
-
-{% endblock %}-->
+{% endblock %}
