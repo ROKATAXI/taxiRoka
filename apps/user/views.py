@@ -122,7 +122,7 @@ def send_activation_email(user):
         smtp_server.login(config("EMAIL_HOST_USER"), config("EMAIL_HOST_PASSWORD"))
 
         subject = '[TaxiRoka] 본인 확인을 위한 이메일 인증을 완료해주세요!'
-        activation_link = f'http://taxiroka.p-e.kr:8000/user/activate/{user.pk}/'
+        activation_link = f'https://taxiroka.p-e.kr/user/activate/{user.pk}/'
         
         sender_email = config("EMAIL_HOST_USER")
         recipient_email = user.email
@@ -184,7 +184,7 @@ def kakao_Auth_Redirect(request):
         content = {
         "grant_type": "authorization_code",
         "client_id": config("KAKAO_CLIENT_ID"),
-        "redirect_url": "http://taxiroka.p-e.kr:8000/user/kakao/redirect",
+        "redirect_url": "https://taxiroka.p-e.kr/user/kakao/redirect",
         "code": code,
         }
         res = requests.post("https://kauth.kakao.com/oauth/token",headers=headers, data=content)

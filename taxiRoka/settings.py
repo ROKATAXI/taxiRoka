@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from environ import Env
 from decouple import config
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 
@@ -36,7 +38,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# ALLOWED_HOSTS = ['3.35.235.36', 'taxiroka.p-e.kr', 'www.taxiroka.p-e.kr']
+ALLOWED_HOSTS = ['*']
 
 SITE_ID = 1
 # Application definition
@@ -166,13 +168,20 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATICFILES_DIRS = [
-    'static',
-]
 
 # 정적 파일 URL 설정
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = []
+
+if DEBUG == True:
+        STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+else:
+        STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -183,7 +192,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("taxiroka.p-e.kr:8000", 6379)],
+            "hosts": [("taxiroka.p-e.kr", 6379)],
         },
     },
 }
