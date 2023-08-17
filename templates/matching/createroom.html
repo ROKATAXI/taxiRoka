@@ -23,19 +23,9 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        // 모달 띄우기
-        $('#maxRoomsModal').modal('show');
-    });
-    $('#maxRoomsModal').on('hidden.bs.modal', function () {
-            window.location.href = "{% url 'matching:main' %}";
-        });
-</script>
 {% endif %}
 <div class="create-room">
-    <form action="{% url 'matching:create' %}" method="post">
+    <form class="create-room-form" action="{% url 'matching:create' %}" method="post">
         {% csrf_token %}
         <div class="direction-container">
             <div class="form-floating locations">
@@ -49,23 +39,15 @@
             </div>
         </div>
         <p class="error-msg">{{ error_msg_area }}</p>
-        <div class="direction-container">
-            <div class="matching-date">
-                <p>출발 날짜</p>
-                <input type="date" name="departure_date" id="departure-date" value="{{ departure_date }}">
-            </div>
-            <div>
-                <p>출발 시간</p>
-                <div class="input-group clockpicker" data-placement="top" data-align="top" data-autoclose="true">
-                    <input type="text" class="form-control" id="departure-time" name="departure_time" value="{{ departure_time }}">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </span>
-                </div>
-                <script>
-                    $('.clockpicker').clockpicker();
-                </script>
-            </div>
+        <hr>
+        <div>
+            <p>출발일</p>
+            <input type="date" name="departure_date" id="departure-date" value="{{ departure_date }}">
+        </div>
+        <div>
+            <p>출발 시간</p>
+            <input type="time" id="departure-time" name="departure_time">
+        </div>
         </div>
         <p class="error-msg">{{ error_msg_date_time }}</p>
     

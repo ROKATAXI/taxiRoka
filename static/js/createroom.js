@@ -6,4 +6,4 @@ $(document).ready(function(){
         // Change image for selected option
         var selectedSeat = $(this).val();
         $(".seat-option:nth-child(" + selectedSeat + ") img").attr("src", "{% static 'img/selected_seat.png' %}");
-    });
+    })})

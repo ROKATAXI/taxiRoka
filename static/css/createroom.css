@@ -11,9 +11,32 @@
     justify-content: center;
     align-items: center;
     width: 95%;
-    margin: 15px auto;
+    margin: 5px auto;
     gap: 20px;
 }
+.create-room-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+/* .create-date-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+.matching-date{
+    text-align: center;
+}
+.matching-date{
+    color: skyblue;
+    margin: 5px;
+
+} */
+
 
 .seat-option > img[alt="Image 0"] {
     pointer-events: none;
@@ -116,9 +139,18 @@
 .error-msg {
     text-align: center;
     color: red;
-    margin: 20px 0;
+    font-size: 12px;
+
+    margin-bottom: 6px;
+    margin-top: 10px;
+
+    height: 20px;
 }
 .create-container .error-msg-max-num {
     width: 100%;
     margin-bottom: 20px;
+}
+
+.create-room-form hr{
+    margin: 0;
 }
