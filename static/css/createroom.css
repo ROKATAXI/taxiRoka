@@ -4,6 +4,7 @@
 
 .create-room{
     width: 100%;
+    height: 100%;
 }
 .direction-container {
     display: flex;
@@ -18,12 +19,17 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    height: 100%;
+    padding: 35px 0;
 }
-.create-departure_date{
+.create-departure_date, .create-departure_time{
     text-align: center;
 }
-.create-departure_date p{
-    font-size: 10px;
+.create-departure_date p, .create-departure_time p{
+    font-size: 14px;
+    color: skyblue;
+
+    margin: 0;
 }
 
 .seat-option > img[alt="Image 0"] {
@@ -35,11 +41,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    width: 95%;
-    margin: auto;
-    padding-top: 20px;
-    /* background-color: gray; */
+    gap: 14px;
+    width: 90%;
 }
 
 .create-container > p{
@@ -130,7 +133,7 @@
     font-size: 12px;
 
     margin-bottom: 0px;
-    margin-top: 6px;
+    margin-top: 15px;
 
     height: 20px;
 }
@@ -142,4 +145,12 @@
 .create-room-form hr{
     margin: 0;
     width: 90%;
+}
+
+.create-date-container{
+    width: 90%;
+
+    display: grid;
+    justify-content: space-around;
+    align-items: center;
 }

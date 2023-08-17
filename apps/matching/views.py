@@ -92,6 +92,7 @@ def matching_create(request):
         return render(request, "matching/createroom.html", {'create_limit': True})
 
     if request.method == 'POST':
+        print("create요청성공")
 
         departure_area = request.POST.get("departure_area")
         destination_area = request.POST.get("destination_area")
