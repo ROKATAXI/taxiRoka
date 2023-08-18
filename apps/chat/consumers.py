@@ -18,6 +18,10 @@ class ChatConsumer(WebsocketConsumer):
         self.room_group_name = f"chat_{self.room_uuid}"
         type = self.scope['query_string'].decode('utf-8').split('=')[1]
 
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name, self.channel_name
+        )
+        
         # 채팅방에 처음 입장 또는 재입장
         content = ""
         if type == 'initial':
@@ -26,13 +30,9 @@ class ChatConsumer(WebsocketConsumer):
 
             self.save_msg(content, None)
 
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_group_name, self.channel_name
-        )
-        
-        async_to_sync(self.channel_layer.group_send)( 
-            self.room_group_name, {"type": "chat.message", "message": content}
-        )
+            async_to_sync(self.channel_layer.group_send)( 
+                self.room_group_name, {"type": "chat.message", "message": content}
+            )
 
 
     # websocket 서버가 클라이언트로부터 데이터를 전달받은 경우
