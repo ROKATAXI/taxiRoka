@@ -8,7 +8,6 @@
         <textarea id="chat-message-input"></textarea>
         <input id="chat-message-submit" type="button" value="전송" disabled>
     </div>
-    <input type="button" value="채팅방 나가기" id="chat-room-leave">
 </div>
 
 <!-- Modal -->
@@ -116,11 +115,6 @@
         }));
 
         messageInputDom.value = '';
-    };
-
-    document.querySelector('#chat-room-leave').onclick = function(e) {
-        // 클라이언트에서 WebSocket 연결 끊기 -> 클라이언트와 서버 간의 WebSocket 연결 종료
-        chatSocket.close();
     };
 </script>
 <script>
