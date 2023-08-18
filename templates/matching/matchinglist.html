@@ -8,15 +8,38 @@
 
 {% block content %}
 <div class="mainpage">
+    
+    <!-- 주단위 날짜 -->
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide">
+                <ul id="slide1">
+                    <!-- 자바스크립트로 추가될 요소들 -->
+                </ul>
+            </div>
+            <div class="slide">
+                <ul id="slide2">
+                    <!-- 자바스크립트로 추가될 요소들 -->
+                </ul>
+            </div>
+            <div class="slide">
+                <ul id="slide3">
+                    <!-- 자바스크립트로 추가될 요소들 -->
+                </ul>
+            </div>
+        </div>
+        <button class="prev-button">&#10094;</button>
+        <button class="next-button">&#10095;</button>
+    </div>
     <!-- 방목록 -->
     <div class="matchinglist-container">
         <div class="matchingroom-container">
             <div class="selected_date">
-                <form action="{% url 'matching:main' %}" class="main-date-choose" method="get">
+                <!-- <form action="{% url 'matching:main' %}" class="main-date-choose" method="get">
                     <label for="selected_date"></label>
-                    <input type="date" class="main-date-input" id="selected_date" name="selected_date" value="{{request.Get.selected_date}}" min="" max="2023-09-14">
+                    <input type="date" class="main-date-input" id="selected_date" name="selected_date" value="{{request.Get.selected_date}}" min="" max="">
                     <input type="submit" class="main-date-click" value="선택">
-                </form>
+                </form> -->
             </div>
             <!-- 부대위치와 방생성 -->
             <div class="matchinglist-info">
@@ -30,7 +53,7 @@
                 {% else %}
                     <a href="/user/main/">로그인</a>
                     <!-- 방만들기 -->
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#login_required_modal">
+                    <button type="button" class="makeroom-button" data-bs-toggle="modal" data-bs-target="#login_required_modal">
                         방 만들기
                     </button>
                 {% endif %}
@@ -42,7 +65,7 @@
             {% else %}
             <div class="matching-room" data-bs-toggle="modal" data-bs-target="#login_required_modal">
             {% endif %}
-                <div class="matching-room--left">
+                <div class="col matching-room--left">
                     <div class="matching-room--left-top-m">
                         <h2 class="matching-room--left-1">
                             {{ room.departure_date }}
@@ -55,7 +78,7 @@
                        {{ room.current_num }} / {{ room.max_num }}
                     </h2>
                 </div>
-                <div class="matching-room--right">
+                <div class="col matching-room--right">
                     <div class="matching--departure">
                         <span>출발: {{ room.departure_area }}</span>
                         <span>도착: {{ room.destination_area }}</span>
@@ -90,10 +113,18 @@
                         {% elif room.id in already_apply_ids %} <!--이미 신청한 방일 때-->    
                         <div class="matchinglist-modal-body">
                             <img class="taxiimg" src="{% static 'img/taxiimg.png' %}">
-                            <h3>채팅방으로<br>이동하기</h3>
+                            <h3>이미 신청한 방입니다</h3>
                         </div>
                         <div class="matchinglist-modal-footer">                            
                             <a href="/chat/{{ room.uuid }}/"><button type="button" class="btn btn-primary" id="matching-button">채팅방 이동</button></a>
+                        </div>
+                        {% elif room.current_num == room.max_num %} <!--해당 방의 인원이 모두 찼을 때-->
+                        <div class="matchinglist-modal-body">
+                            <img class="taxiimg" src="{% static 'img/taxiimg.png' %}">
+                            <h3>인원이 가득 찬 방입니다</h3>
+                        </div>
+                        <div class="matchinglist-modal-footer">   
+                            <a href="/matching/"><button type="button" class="btn btn-primary" id="matching-button">돌아가기</button></a>
                         </div>
                         {% else %} <!--해당 방의 게스트일 때-->
                         <div class="matchinglist-modal-body">
@@ -125,17 +156,6 @@
         </div>
     </div>
 </div>
-<script>
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const monthh = String(currentDate.getMonth() + 2).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const minDate = `${year}-${month}-${day}`;
-    const maxDate = `${year}-${monthh}-${day}`;
 
-    const selectedDateInput = document.getElementById('selected_date');
-    selectedDateInput.min = minDate;
-    selectedDateInput.max = maxDate;
-</script>
+<script src="{% static 'js/matchinglist.js' %}"></script>
 {% endblock %}

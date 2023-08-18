@@ -19,6 +19,7 @@ body{
     width: 100%;
     justify-content: center;
     align-items: center;
+    height: 100%;
 }
 .base--container nav{
     position: fixed;
@@ -27,6 +28,7 @@ body{
     background-color: white;
     display: flex;
     justify-content: center;
+
 }
 .nav-container{
     display: flex;

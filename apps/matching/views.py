@@ -10,7 +10,6 @@ import uuid
 import random
 
 # 매칭 방 리스트
-
 def main(request):
 
     now = timezone.now()
@@ -89,15 +88,29 @@ def main(request):
 @login_required
 def matching_create(request):
     # 방 생성은 3번까지만 가능
-    if Matching.objects.filter(user_id = request.user, host_yn = True).count()>3:
+    if Matching.objects.filter(user_id = request.user, matching_room_id__end_yn = True).count()>=3:
         return render(request, "matching/createroom.html", {'create_limit': True})
 
     if request.method == 'POST':
+        print("create요청성공")
+
+        departure_area = request.POST.get("departure_area")
+        destination_area = request.POST.get("destination_area")
+        departure_date = request.POST.get("departure_date")
+        departure_time = request.POST.get("departure_time")
+        seat_num = request.POST.get("seat_num")
+        max_num = request.POST.get("max_num")
+
+        # 클라이언트가 넘긴 값에 대한 유효성 검사
+        context = validate_matching_info(departure_area, destination_area, departure_date, departure_time, seat_num, max_num)
+        if context:
+            return render(request, "matching/createroom.html", context = context)
+
         matching_room = MatchingRoom.objects.create(
-            departure_area = request.POST["departure_area"],
-            destination_area = request.POST["destination_area"],
-            departure_date = request.POST["departure_date"],
-            departure_time = request.POST["departure_time"],
+            departure_area = departure_area,
+            destination_area = destination_area,
+            departure_date = departure_date,
+            departure_time = departure_time,
             max_num = request.POST["max_num"],
             current_num = 1,
             end_yn =True,
@@ -109,14 +122,14 @@ def matching_create(request):
             matching_room_id=matching_room,
             user_id=request.user,
             host_yn=True,
-            seat_num=request.POST["seat_num"],
+            seat_num=seat_num,
             matching_date=timezone.now(),
             anon_name=getAnonName(matching_room.id)
         )
 
         #alarm
         alarm_type = "matching_create"
-        alarm_activate(request, matching_room, alarm_type)
+        alarm_activate(matching_room, alarm_type)
 
         return redirect('/matching/history/')
     
@@ -125,9 +138,14 @@ def matching_create(request):
 # 매칭 신청하기
 @login_required
 def matching_apply(request, pk):
+    # 방 신청 제한
+    if Matching.objects.filter(user_id = request.user, matching_room_id__end_yn = True).count()>=3:
+        return render(request, "matching/matching_apply.html", {'create_limit': True})
+
     matching_room = MatchingRoom.objects.get(id=pk)
     selected_seats = list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True)) # 이미 선택된 좌석들(더 좋은 방법이 없을까..?)
     user = request.user
+    #이미 신청한 방인지 여부 파악
     already_apply = Matching.objects.filter(matching_room_id = matching_room, user_id = request.user).exists()
     
     if already_apply or matching_room.current_num == matching_room.max_num:
@@ -137,10 +155,17 @@ def matching_apply(request, pk):
     
 
     if request.method == 'POST':
-        seat_num = request.POST['seat_num']
+        seat_num = request.POST.get("seat_num")
+
+        # 클라이언트가 넘긴 값에 대한 유효성 검사
+        context = validate_matching_seat(seat_num)
+        if context:
+            context['matching_room'] = matching_room
+            context['selected_seats'] = json.dumps(selected_seats)
+            return render(request, 'matching/matching_apply.html', context = context)
 
         alarm_type = "matching_apply"
-        alarm_activate(request, matching_room, alarm_type)
+        alarm_activate(matching_room, alarm_type)
 
         #신청자 Matching객체 생성해주기
         Matching.objects.create(
@@ -195,15 +220,30 @@ def matching_update(request, pk):
     if is_host.user_id == user:
         if request.method == 'POST':
             if not is_guest:  # 방장만 존재하는 경우
-                matching_room.departure_area = request.POST["departure_area"]
-                matching_room.destination_area = request.POST["destination_area"]
-                matching_room.departure_date = request.POST["departure_date"]
-                matching_room.departure_time = request.POST["departure_time"]
-                matching_room.max_num = request.POST["max_num"]
-               
+                
+                departure_area = request.POST.get("departure_area")
+                destination_area = request.POST.get("destination_area")
+                departure_date = request.POST.get("departure_date")
+                departure_time = request.POST.get("departure_time")
+                seat_num = request.POST.get("seat_num")
+                max_num = request.POST.get("max_num")
+
+                # 클라이언트가 넘긴 값에 대한 유효성 검사
+                context = validate_matching_info(departure_area, destination_area, departure_date, departure_time, seat_num, max_num)
+                if context:
+                    context['matching_room'] = matching_room
+                    context['selected_seats'] = json.dumps(list(seat_num))
+                    context['ret_bec_error'] = True
+                    return render(request, "matching/matching_update.html", context = context)
+
+                matching_room.departure_area = departure_area
+                matching_room.destination_area = destination_area
+                matching_room.departure_date = departure_date
+                matching_room.departure_time = departure_time
+                matching_room.max_num = max_num
                 matching_room.save()
 
-                is_host.seat_num = request.POST['seat_num']
+                is_host.seat_num = seat_num
                 is_host.save()
 
                 return redirect('/matching/')
@@ -214,7 +254,7 @@ def matching_update(request, pk):
                 is_host.seat_num = request.POST['seat_num']
                 is_host.save()
                 alarm_type = "matching_update"
-                alarm_activate(request, matching_room, alarm_type)
+                alarm_activate(matching_room, alarm_type)
 
                 return redirect('/matching/')
         else:
@@ -272,16 +312,16 @@ def matching_delete(request, pk):
                 matching.delete()
 
                 alarm_type = "matching_delete"
-                alarm_activate(request, matching_room, alarm_type)
+                alarm_activate(matching_room, alarm_type)
                 alarm_type = "new_host"
-                alarm_activate(request, matching_room, alarm_type, new_host) # 불필요한 연산 줄이기 위해
+                alarm_activate(matching_room, alarm_type, new_host) # 불필요한 연산 줄이기 위해
 
                 matching_room.current_num -= 1         # 해당 유저의 Matching을 삭제하면 MatchingRoom의 현재 인원 수 -1
                 matching_room.save()
         else: 
             matching.delete() 
             alarm_type = "matching_delete"
-            alarm_activate(request, matching_room, alarm_type)
+            alarm_activate(matching_room, alarm_type)
             matching_room.current_num -= 1 
             matching_room.save()
 
@@ -315,8 +355,7 @@ def getAnonName(matching_room_id):
 ## 매칭 시 사이트 내에 알림 표시
 from django.views.decorators.csrf import csrf_exempt
 #이거 써도 보안상 문제 없는지 확인 필요(영진)
-@csrf_exempt
-def alarm_activate(request, matching_room, alarm_type, *args):
+def alarm_activate(matching_room, alarm_type, *args):
     # 어떤 사람이 매칭방을 만들었을 때! -> 이날 휴가출발일을 등록해놓은 유저들에게
     if alarm_type == "matching_create":
         content = "나의 휴가 날짜에 새로운 방이 생성되었어요!"
@@ -376,12 +415,77 @@ def alarm_activate(request, matching_room, alarm_type, *args):
                 content = content,
             )
         
-    # 
+    
     
     
 def alarm_delete(request, alarm_id):
     Alarm.objects.filter(id=alarm_id).delete()
     return redirect(request.META['HTTP_REFERER'])
+
+def questions(request):
+    return render(request, 'matching/questions.html')
+
+#매칭방 정보
+@login_required
+def matching_detail(request, pk):
+
+    matching_room = MatchingRoom.objects.get(id=pk)
+    matching = Matching.objects.get(matching_room_id = matching_room, user_id = request.user)
+    selected_seats = list(Matching.objects.filter(matching_room_id=matching_room).values_list('seat_num', flat=True))
+    user_seat = str(matching.seat_num)
+    max_num = int(matching_room.max_num)
+    
+    ctx={
+        'matching_room':matching_room,
+        'selected_seats':json.dumps(selected_seats),
+        'user_seat':user_seat,
+        'max_num':max_num,
+    }
+    return render(request, "matching/matching_detail.html", context=ctx)
+# 매칭 관련 페이지(생성, 수정, 지원)에서 클라이언트가 넘긴 값에 대한 유효성 검사
+def validate_matching_info(departure_area, destination_area, departure_date, departure_time, seat_num, max_num):
+
+    context = {}
+
+    if departure_area == "" or destination_area == "" or departure_date == "" or departure_time == "" or seat_num is None or max_num is None:
+        context = {
+            "departure_area": departure_area,
+            "destination_area": destination_area,
+            "departure_date": departure_date,
+            "departure_time": departure_time,
+            "seat_num": seat_num,
+            "max_num": max_num
+        }
+
+        if departure_area == "" or destination_area == "":
+            context["error_msg_area"] = "출발 지점과 도착 지점을 모두 입력해주세요."
+
+        if departure_date == "":
+            context["error_msg_date_date"] = "출발 날짜를 입력해주세요."
+
+        if departure_time == "":
+            context["error_msg_date_time"] = "출발 시각을 입력해주세요."
+
+        if seat_num is None:
+            context["error_msg_seat"] = "좌석을 선택해주세요."
+
+        if max_num is None:
+            context["error_msg_max_num"] = "최대 인원 수를 선택해주세요."
+
+    return context
+
+
+def validate_matching_seat(seat_num):
+
+    context = {}
+
+    if seat_num == None:
+        context = { 
+            "seat_num": seat_num,
+            "error_msg_seat": "좌석을 선택해주세요."
+        }
+
+    return context
 
 def questions(request):
     return render(request, 'matching/questions.html')
