@@ -296,6 +296,11 @@
   .next-button {
     right: 5px;
   }
+
+  
+.btn-secondary {
+    background-color: var(--button-color) !important;
+}
   
 
 
@@ -315,6 +320,5 @@
         justify-content: center;
     }
 }
-
 
 

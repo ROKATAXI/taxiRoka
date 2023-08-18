@@ -9,7 +9,6 @@
         <input id="chat-message-submit" type="button" value="전송" disabled>
     </div>
 </div>
-<!-- <input id="chat-room-leave" type="button" value="채팅방 나가기"> -->
 
 <!-- Modal -->
 <div class="modal fade report-modal" id="exampleModal">
@@ -118,13 +117,6 @@
         messageInputDom.value = '';
 
         console.log("전송 버튼에 클릭 이벤트 발생")
-    };
-
-    document.querySelector('#chat-room-leave').onclick = function(e) {
-        // 클라이언트에서 WebSocket 연결 끊기 -> 클라이언트와 서버 간의 WebSocket 연결 종료
-        chatSocket.close();
-
-        console.log("채팅방 나가기 버튼에 클릭 이벤트 발생")
     };
 </script>
 <script>

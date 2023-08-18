@@ -5,6 +5,7 @@
 #chat-room {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 #chat-log, #chat-field {
@@ -16,13 +17,13 @@
 }
 
 #chat-log {
-    height: 470px;
     border: none;
     background-color: white;
     overflow-y: auto; /* 세로 스크롤 */
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex: 1;
 }
 
 #chat-log::-webkit-scrollbar {

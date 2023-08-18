@@ -46,5 +46,11 @@ document.addEventListener("DOMContentLoaded", function () {
         modalShortPassword.style.display = "none";
       });
     });
+
+  const signupBtn = document.getElementById("signupBtn");
+
+  signupForm.addEventListener("submit", function () {
+    signupBtn.disabled = true; // 버튼을 비활성화
+  });
   });
   

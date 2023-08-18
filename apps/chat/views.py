@@ -27,21 +27,21 @@ def get_refined_msg_history(request, room_uuid):
 
 def get_my_msg_history(request, room_uuid):
     matching_room = MatchingRoom.objects.get(uuid = room_uuid)
-    msgs = Message.objects.filter(chatting_room_id = matching_room.id)
+    msgs = Message.objects.filter(chatting_room_id = matching_room)
 
     my_anon_name = get_anon(request, room_uuid, request.user)
     enter_msg = my_anon_name  + ' 님이 입장하였습니다.'
     leave_msg =  my_anon_name + ' 님이 퇴장하였습니다.'
 
     enter_msg_row = msgs.filter(msg_content = enter_msg).last()
-    leave_msg_row = msgs.filter(msg_content = leave_msg).first()
+    leave_msg_row = msgs.filter(msg_content = leave_msg).last()
 
     # 입장 메시지 x: 채팅방에 처음 입장한 유저
     # 퇴장 메시지 o: 채팅방에 재입장한 유저
-    if (enter_msg_row is None) or (leave_msg_row is not None):
+    if (enter_msg_row is None) or (leave_msg_row and enter_msg_row.id < leave_msg_row.id):
         return None
     
-    return msgs.filter(id__gt = enter_msg_row.id)
+    return msgs.filter(id__gte = enter_msg_row.id)
 
 
 def get_anon(request, room_uuid, msg_sender):
