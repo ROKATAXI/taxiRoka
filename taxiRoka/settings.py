@@ -39,9 +39,21 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-
 SITE_ID = 1
 # Application definition
+
+CSRF_TRUSTED_ORIGINS = [
+    # 기존에 허용된 도메인들
+    "https://taxiroka.p-e.kr",
+]
+
+CSRF_COOKIE_DOMAIN = None
+
+CORS_ALLOWED_ORIGINS = [
+    "https://taxiroka.p-e.kr",
+    # 기존에 허용된 도메인들도 여기에 추가해야 합니다
+]
+
 
 INSTALLED_APPS = [
     'daphne',
@@ -187,12 +199,25 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://django@localhost:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": "taxiroka"
+        }
+    }
+}
+
 ASGI_APPLICATION = "taxiRoka.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("taxiroka.p-e.kr", 6379)],
+            "hosts": ["redis://:taxiroka@localhost:6379/0"], 
         },
     },
 }
