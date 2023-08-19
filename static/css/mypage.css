@@ -1,4 +1,4 @@
-body{
+/*body{
     background-color: var(--bg-color);
 }
 
@@ -204,5 +204,134 @@ body{
     opacity: 0.8;
     background-color: #395067;
 }
+*/
+.mypage-container {
+    height: auto;
+}
 
+.mypage-banner img {
+    opacity: 0;
+    animation: fade-in 1s ease-in-out forwards; /* 1초 동안 부드럽게 나타나는 애니메이션 적용 */
+}
+  
+@keyframes fade-in {
+    from {
+      opacity: 0; /* 시작할 때 투명도 0으로 설정 */
+    }
+    to {
+      opacity: 1; /* 애니메이션의 끝까지 투명도를 1로 설정하여 나타나게 함 */
+    }
+}
 
+.mypage-banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+.mypage-content {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    width: 60%;
+}
+
+.user-name {
+    letter-spacing: 20px;
+    color: #0f0f6cb3;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.user-location {
+    text-align: center;
+}
+
+.user-detail-info {
+    margin-top:40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.user-detail-label, .user-detail-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section {
+    margin: 40px;
+}
+
+.section h2 {
+    text-align: center;
+}
+.vacation-history {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.vacation-status {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+
+.vacation-status:last-child {
+    border-bottom: none; 
+}
+
+.vacation-status h3 {
+    font-size: 15px;
+    margin-bottom: 5px;
+    margin-left:5px;
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    justify-content: space-evenly;
+}
+
+.edit-profile-button {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px; 
+    border-radius: 15px;
+}
+
+.logout-button {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 15px;
+}
+
+.edit-profile-button:hover,
+.logout-button:hover {
+    opacity: 0.8;
+    background-color: #395067;
+}
