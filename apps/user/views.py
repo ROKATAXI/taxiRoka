@@ -69,8 +69,9 @@ def social_login(request):
             user.location = location  # location 업데이트
             user.save()
         return redirect('matching:main')  # 메인 페이지로 리디렉트
-
-    return render(request, 'user/social.html')
+    if not request.user.location:
+        return render(request, 'user/social.html')
+    return redirect('matching:main')
 
 def logout(request) :
     auth.logout(request)
