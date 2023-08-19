@@ -15,6 +15,8 @@ def main(request):
     now = timezone.now()
 
     if request.user.is_authenticated:
+        if not request.user.location:
+            return redirect('user:social_login')
         user_location = request.user.location
         rooms = MatchingRoom.objects.filter(matching__user_id__location = user_location, end_yn = True).distinct()
 
