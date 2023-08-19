@@ -188,7 +188,7 @@ def kakao_Auth_Redirect(request):
         "code": code,
         }
         res = requests.post("https://kauth.kakao.com/oauth/token",headers=headers, data=content)
-        print(res.status_code)
+        print(res)
         if res.status_code == 200:
             print("성공")
             token_res = res.json()
@@ -208,7 +208,7 @@ def kakao_Auth_Redirect(request):
                 if user is not None:
                     print("로그인")
                     authlogin(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                    return redirect("/matching/")
+                    return redirect('user:social_login')
                 else:
                     print("새로 생성")
                     user = User()
@@ -216,6 +216,7 @@ def kakao_Auth_Redirect(request):
                     user.username = kakao_email
                     print(user.username)
                     user.first_name = username
+                    user.email = kakao_email
                     user.kakaoId = id
                     user.save()
                     authlogin(request, user, backend='django.contrib.auth.backends.ModelBackend')
