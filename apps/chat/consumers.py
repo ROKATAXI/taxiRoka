@@ -6,6 +6,8 @@ from apps.chat.models import *
 from apps.user.models import *
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.serializers import serialize
+from datetime import datetime
+import pytz
 
 class ChatConsumer(WebsocketConsumer):
     
@@ -27,7 +29,7 @@ class ChatConsumer(WebsocketConsumer):
             anon_name = self.get_anon(self.room_uuid, self.scope['user'])
             content = anon_name + " 님이 입장하였습니다."
 
-            self.save_msg(content, None)
+            self.save_msg(content, None, None)
 
             async_to_sync(self.channel_layer.group_send)( 
                 self.room_group_name, {"type": "chat.message", "message": content}
@@ -36,25 +38,31 @@ class ChatConsumer(WebsocketConsumer):
 
     # websocket 서버가 클라이언트로부터 데이터를 전달받은 경우
     def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        content = text_data_json["message"]
+        data = json.loads(text_data)
+        content = data["message"]
+
         user = self.scope['user']
         anon_name = self.get_anon(self.get_uuid_from_path(self.scope['path']), user)
 
-        self.save_msg(content, user)
+        sent_time_str = data["sentTime"]
+        sent_time_datetime = datetime.strptime(sent_time_str, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=pytz.utc).astimezone(pytz.timezone('Asia/Seoul')) # datetime, kor
+        sent_time = self.get_sent_time(sent_time_datetime.hour, sent_time_datetime.minute)
+
+        self.save_msg(content, user, sent_time_datetime)
 
         async_to_sync(self.channel_layer.group_send) ( 
-            self.room_group_name, {"type": "chat.message", "message": content, "name": anon_name}
+            self.room_group_name, {"type": "chat.message", "message": content, "sent_time": sent_time, "name": anon_name}
         )
 
 
     def chat_message(self, event):
         content = event["message"]
+        sent_time = event.get("sent_time", None)
         name = event.get("name", "Anonymous")
         anon_name = self.get_anon(self.get_uuid_from_path(self.scope['path']), self.scope['user'])
         me = anon_name == name
 
-        self.send(text_data=json.dumps({"message": content, "name": name, "me": me}))
+        self.send(text_data=json.dumps({"message": content, "sent_time": sent_time, "name": name, "me": me}))
 
 
     # 클라이언트에서 websocket 연결 종료 요청을 보낸 경우 + URL이 바뀐 경우 등
@@ -70,7 +78,7 @@ class ChatConsumer(WebsocketConsumer):
             anon_name = self.get_anon(self.get_uuid_from_path(self.scope['path']), user)
             content = anon_name + " 님이 퇴장하였습니다."
 
-            self.save_msg(content, user)
+            self.save_msg(content, user, None)
 
             async_to_sync(self.channel_layer.group_send)( 
                 self.room_group_name, {"type": "chat.message", "message": content}
@@ -97,11 +105,12 @@ class ChatConsumer(WebsocketConsumer):
         return anon_name
 
 
-    def save_msg(self, content, sender):
+    def save_msg(self, content, sender, sent_time): # sent_time: datetime 객체 또는 None
         Message.objects.create(
             chatting_room_id = self.get_matching_room(),
             msg_sender = sender,
-            msg_content = content
+            msg_content = content,
+            sent_time = sent_time
         )
 
 
@@ -142,3 +151,10 @@ class ChatConsumer(WebsocketConsumer):
         self.scope['session'].save()
 
         return uuid
+    
+    def get_sent_time(self, hour, minute):
+        am_pm = "오전"
+        if hour > 12:
+            am_pm = "오후"
+            hour -= 12
+        return f"{am_pm} {hour}:{minute}"
