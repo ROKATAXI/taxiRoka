@@ -212,7 +212,7 @@ CACHES = {
     }
 }
 
-ASGI_APPLICATION = "taxiRoka.asgi.application"
+ASGI_APPLICATION = "taxiRoka.routing.application"
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",

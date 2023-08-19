@@ -16,19 +16,31 @@ from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 from django.core.asgi import get_asgi_application
+from channels.middleware import BaseMiddleware
+from channels.db import database_sync_to_async
+from django.contrib.auth.models import AnonymousUser
 from django.urls import path
 from apps.chat.routing import websocket_urlpatterns
 from apps.chat.consumers import ChatConsumer
 
 django_asgi_app = get_asgi_application()
 
+class WebSocketAuthMiddleware(BaseMiddleware):
+    async def __call__(self, scope, receive, send):
+        # Get the user from the Django authentication middleware
+        scope['user'] = await database_sync_to_async(self.get_user)(scope)
+
+        return await super().__call__(scope, receive, send)
+
+    def get_user(self, scope):
+        return AnonymousUser() if scope.get('user', None) is None else scope['user']
+
+
 application = ProtocolTypeRouter(
     {
         "http": django_asgi_app,
-        "websocket": URLRouter([
-        # 이 부분에 웹소켓 라우팅을 추가해주세요.
-        # ChatConsumer를 포함하여 필요한 라우팅을 정의하세요.
-        path("ws/chat/<str:room_uuid>/", ChatConsumer.as_asgi()),
-        ]),
+        "websocket": AllowedHostsOriginValidator(
+            AuthMiddlewareStack(URLRouter(websocket_urlpatterns))
+        ),
     }
 )

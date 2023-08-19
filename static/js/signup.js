@@ -47,10 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-  const signupBtn = document.getElementById("signupBtn");
+/* const signupBtn = document.getElementById("signupBtn");
 
   signupForm.addEventListener("submit", function () {
     signupBtn.disabled = true; // 버튼을 비활성화
-  });
+  }); */
   });
   

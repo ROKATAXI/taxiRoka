@@ -99,7 +99,7 @@ def signup(request):
         )
 
         if not created:
-            messages.error(request, '중복된 이메일입니다.')
+            messages.error(request, '인증 이메일을 보냈습니다. 확인해주세요.')
             return redirect(reverse('user:signup'))
 
         if created:
