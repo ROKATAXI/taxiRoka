@@ -184,7 +184,7 @@ def kakao_Auth_Redirect(request):
         content = {
         "grant_type": "authorization_code",
         "client_id": "7e2293a02b5609b94e47fc7bd7929328",
-        # "redirect_url": "https://taxiroka.p-e.kr/user/kakao/redirect",
+        "redirect_url": "https://taxiroka.p-e.kr/user/kakao/redirect",
         # "redirect_url": "http://127.0.0.1:8000/user/kakao/redirect",
         "code": code,
         }
@@ -207,6 +207,7 @@ def kakao_Auth_Redirect(request):
                 user = User.objects.filter(kakaoId=id).first()
                 print(id, username)
                 if user is not None:
+                    print(type(user))
                     print("로그인")
                     authlogin(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     return redirect('user:social_login')
