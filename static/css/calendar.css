@@ -24,6 +24,7 @@
 
 .calendar-nav > button {
     font-size: 5px;
+    color: var(--button-color); 
 }
 
 .nav-btn {
@@ -117,7 +118,7 @@
 .vacation-submit{
     padding: 8px 15px;
     font-size: 12px;
-    background-color: #4CAF50;
+    background-color: var(--button-color); 
     color: white;
     border: none;
     border-radius: 5px;

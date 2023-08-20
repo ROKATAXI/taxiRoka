@@ -1,11 +1,14 @@
 :root{
     --gutter: 16px;
-    --button-color:rgb(31, 144, 192);
+    --button-color2: #6bd3f7;
+    --button-color: #1570FF;
     --grey_bg: #FBFBFA;
     --bg-color:#ebf4f8;
 }
 
-* { font-family: 'Spoqa Han Sans Neo', sans-serif; }
+
+* { font-family: 'Spoqa Han Sans Neo', sans-serif !important; 
+}
 
 body{
     display: flex;
@@ -42,7 +45,7 @@ main{
     height: 100%;
 }
 
-/* Styles for PC screens */
+
 @media (min-width: 768px) {
     body {
         display: flex;

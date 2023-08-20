@@ -6,40 +6,50 @@
 
 {% block content %}
 <div class="create-room">
-    <form action="{% url 'matching:update' matching_room.pk %}" method="post">{% csrf_token %}
-        <div class="direction-container">
-            <div class="form-floating locations">
-
-                <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area"
-                value="{% if not ret_bec_error %}{{ matching_room.departure_area }}{% else %}{{ departure_area }}{% endif %}"
-                {% if is_guest %} disabled {% endif %}></input>
-                <label for="floatingTextarea">출발지점</label>
+    <form class="create-room-form" action="{% url 'matching:update' matching_room.pk %}" method="post">
+        {% csrf_token %}
+        <div>
+            <div class="direction-container">
+                <div class="form-floating locations">
+                    <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area"
+                    value="{% if not ret_bec_error %}{{ matching_room.departure_area }}{% else %}{{ departure_area }}{% endif %}"
+                    {% if is_guest %} disabled {% endif %}></input>
+                    <label for="departure_area">출발 지점을 입력하세요.</label>
+                </div>
+                <img class="img-direction" src="{% static 'img/moveto.png' %}" alt="Image 2">
+                <div class="form-floating locations">
+                    <input class="form-control" placeholder="" id="floatingTextarea" name="destination_area"
+                    value="{% if not ret_bec_error %}{{ matching_room.destination_area }}{% else %}{{ destination_area }}{% endif %}"
+                    {% if is_guest %} disabled {% endif %}></input>
+                    <label for="destination_area">도착 지점을 입력하세요.</label>
+                </div>
             </div>
-            <img class="img-direction" src="{% static 'img/moveto.png' %}" alt="Image 2">
-            <div class="form-floating locations">
-                <input class="form-control" placeholder="" id="floatingTextarea" name="destination_area"
-                value="{% if not ret_bec_error %}{{ matching_room.destination_area }}{% else %}{{ destination_area }}{% endif %}"
-                {% if is_guest %} disabled {% endif %}></input>
-                <label for="floatingTextarea">도착지점</label>
-            </div>
+            <p class="error-msg">{{ error_msg_area }}</p>
+            
         </div>
-        <p class="error-msg">{{ error_msg_area }}</p>
-        <div class="direction-container">
-            <div class="matching-date">
-                <p>출발 날짜</p>
-                <input type="date" name="departure_date"
+        <hr>
+        <div class="create-date-container">
+            <div class="create-departure_date">
+                <p>출발일</p>
+                <input type="date" name="departure_date" 
                 value="{% if not ret_bec_error %}{{ matching_room.departure_date|date:'Y-m-d' }}{% else %}{{ departure_date }}{% endif %}"
                 {% if is_guest %} disabled {% endif %}>
             </div>
-            <div>
-                <p>출발 시간</p>
-                <input type="time" name="departure_time"
+            <p class="error-msg">{{ error_msg_date_date }}</p>
+        </div>
+        <hr>
+        <div class="create-date-container">
+            <div class="create-departure_time">
+                <p>시간</p>
+                <input type="time" name="departure_time" 
                 value="{% if not ret_bec_error %}{{ matching_room.departure_time|time:'H:i' }}{% else %}{{ departure_time }}{% endif %}"
                 {% if is_guest %} disabled {% endif %}>
             </div>
+            <p class="error-msg">{{ error_msg_date_time }}</p>
         </div>
-        <p class="error-msg">{{ error_msg_date_time }}</p>
-    
+        <hr>
+
+
         <div class="create-container">
             <p>좌석 선택</p>
             <div class="create-option">
@@ -98,7 +108,6 @@
                     <label for="rating4">최대 4인 매칭</label>
                 </div>
             </div>
-            <p class="error-msg error-msg-max-num">{{ error_msg_max_num }}</p>
         </div>
         <button type="submit" class="create-room-button">방 수정하기</button>
     </form>
@@ -109,9 +118,8 @@
 </script>
 <script>
     $(document).ready(function(){
+        $(document).ready(function(){
         // 기본적으로 선택된 라디오 버튼 값을 가져옴
-        var defaultMaxNum = $("input[name='max_num']:checked").val();
-
 
         $(".seat-option img").click(function() {
             // 클릭한 이미지의 부모 라벨 요소
@@ -134,11 +142,19 @@
 
         });
     });
+    });
 </script>
+<script>
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const monthh = String(currentDate.getMonth() + 2).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const minDate = `${year}-${month}-${day}`;
+    const maxDate = `${year}-${monthh}-${day}`;
 
+    const selectedDateInput = document.getElementById('departure-date');
+    selectedDateInput.min = minDate;
+    selectedDateInput.max = maxDate;
+</script>
 {% endblock %}
-
-
-
-
-

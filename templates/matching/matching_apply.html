@@ -34,36 +34,46 @@
         });
 </script>
 {% else %}
-<div class="apply-room">
-    <form action="{% url 'matching:apply' matching_room.pk %}" method="post">{% csrf_token %}
-        <div class="direction-container">
-            <div class="form-floating locations">
-                <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area" value="{{ matching_room.departure_area }}" disabled></input>
-                <label for="floatingTextarea">출발 지점</label>
+<div class="create-room">
+    <form class="create-room-form" action="{% url 'matching:apply' matching_room.pk %}" method="post">
+        {% csrf_token %}
+        <div>
+            <div class="direction-container">
+                <div class="form-floating locations">
+                    <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area" value="{{ matching_room.departure_area }}" disabled></input>
+                    <label for="floatingTextarea">출발 지점</label>
+                </div>
+                <img class="img-direction" src="{% static 'img/moveto.png' %}" alt="Image 2">
+                <div class="form-floating locations">
+                    <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area" value="{{ matching_room.destination_area }}" disabled></input>
+                    <label for="floatingTextarea">도착 지점</label>
+                    
+                </div>
             </div>
-            <img class="img-direction" src="{% static 'img/moveto.png' %}" alt="Image 2">
-            <div class="form-floating locations">
-                <input class="form-control" placeholder="" id="floatingTextarea" name="departure_area" value="{{ matching_room.destination_area }}" disabled></input>
-                <label for="floatingTextarea">도착 지점</label>
-                
-            </div>
+
         </div>
-        <div class="direction-container">
-            <div class="matching-date">
-                <p>출발 날짜</p>
+        <hr>
+        <div class="create-date-container">
+            <div class="create-departure_date">
+                <p>출발일</p>
                 <input type="date" name="departure_date" id="create-departure_date" value="{{ matching_room.departure_date|date:'Y-m-d' }}" disabled>
             </div>
-            <div class="matching-time">
-                <p>출발 시간</p>
-                <input type="time" class="form-control" value="{{ matching_room.departure_time|time:'H:i' }}" name="departure_time">
-            </div>
         </div>
 
-    <p class="apply-current_num">현재인원: {{matching_room.current_num}} / 최대인원: {{matching_room.max_num}}</p>
+        <hr>
+        <div class="create-date-container">
+            <div class="create-departure_time">
+                <p>시간</p>
+                <input type="time" class="form-control" value="{{ matching_room.departure_time|time:'H:i' }}" name="departure_time">
+            </div>
 
-        <div class="apply-container">
+        </div>
+        <hr>
+        <p class="apply-current_num">현재인원: {{matching_room.current_num}} / 최대인원: {{matching_room.max_num}}</p>
+        <hr>
+        <div class="create-container">
             <p>좌석 선택</p>
-            <div class="apply-option">
+            <div class="create-option">
                 <div class="seat-container">
                     <label for="rating0" class="seat-option">
                         <img src="{% static 'img/selected_seat.png' %}" alt="Image 0" class="disabled">
@@ -77,7 +87,6 @@
                             <img src="{% static 'img/seat.png' %}" alt="Image 1">
                         {% endif %}
                     </label>
-
                 </div>
                 <div class="seat-container">
                     <input type="radio" name="seat_num" id="rating2" value="2" class="hidden-radio" {% if "2" in selected_seats %} 
@@ -99,7 +108,7 @@
                         {% endif %}
                     </label>
                     <input type="radio" name="seat_num" id="rating4" value="4" class="hidden-radio" {% if "4" in selected_seats %} 
-                    disabled {% endif %}">
+                    disabled {% endif %}>
                     <label for="rating4" class="seat-option">
                         {% if "4" in selected_seats %} 
                             <img src="{% static 'img/selected_seat.png' %}" alt="Image 4" class ="disabled" >
@@ -108,9 +117,9 @@
                         {% endif %}
                     </label>
                 </div>
+                <p class="error-msg">{{ error_msg_seat }}</p>
             </div>
         </div>
-        <p class="error-msg">{{ error_msg_seat }}</p>
         <button type="submit" class="apply-room-button">방 신청하기</button>
     </form>
 </div>

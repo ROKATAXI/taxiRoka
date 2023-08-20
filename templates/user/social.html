@@ -2,28 +2,29 @@
 {% block content %}
 
 <div class="logout-container">
-  <form method="POST" action="{% url 'user:social_login' %}">
-      {% csrf_token %}
-      <h1>추가정보를 입력해주세요</h1>
-      <div class="form-group">
-          <label for="id_first_name">이름</label>
-          <input type="text" class="form-control" id="id_first_name" name="first_name" />
+  <div class="form-container">
+    <form method="POST" action="{% url 'user:social_login' %}">
+        {% csrf_token %}
+        <h1>추가정보를 입력해주세요</h1>
+        <div class="form-group">
+            <label for="id_first_name">이름</label>
+            <input type="text" class="form-control" id="id_first_name" name="first_name" required/>
+          </div>
+        <div class="form-group">
+          <label for="inputPhone">전화번호</label>
+          <input type="tel" class="form-control" id="inputPhone" name="phone" required/>
         </div>
-      <div class="form-group">
-        <label for="inputPhone">전화번호</label>
-        <input type="tel" class="form-control" id="inputPhone" name="phone" />
-      </div>
-      <div class="form-group">
-        <label for="inputLocation">부대위치</label>
-      
-        <select class="form-control" id="inputLocation" name="location">
-          <option value="Sangmudae">상무대</option>
-        </select>
-      </div>
-      
-      <button type="submit" id="signupBtn">Sign up</button>
+        <div class="form-group">
+          <label for="inputLocation">부대위치</label>
+          <select class="form-control" id="inputLocation" name="location">
+            <option value="Sangmudae">상무대</option>
+          </select>
+        </div>
+        <button type="submit" id="signupBtn">Sign up</button>
+    </form>
+  </div>
+</div>
 
-  </form>
   
 <!-- 나중에 style 빼기 -->
   <div id="myModal" class="modal" style="display: none;">
@@ -34,7 +35,50 @@
   </div>
 
 </div>
+<style>
+.logout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-    
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -300px; 
+}
 
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: var(--gutter);
+  align-items: center;
+}
+
+#signupBtn {
+  margin-top: 10px;
+  position: relative;
+  left: 18px;
+}
+
+.form-group #inputLocation {
+  border: 1px solid #101010;
+  padding: 8px;
+  width: 200px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  appearance: none; 
+  background-color: #f5f5f5;
+}
+
+
+
+
+
+</style>
 {% endblock %}

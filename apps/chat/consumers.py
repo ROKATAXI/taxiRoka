@@ -25,6 +25,7 @@ class ChatConsumer(WebsocketConsumer):
         )
         
         # 채팅방에 처음 입장 또는 재입장
+        content = ""
         if type == 'initial':
             anon_name = self.get_anon(self.room_uuid, self.scope['user'])
             content = anon_name + " 님이 입장하였습니다."
