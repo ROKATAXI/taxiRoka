@@ -118,7 +118,7 @@
         <div class="profile-content">
             <div class="user-name">
                 {{user.first_name}}
-            </div>
+            </div>            
             <div class="user-location">
                 {{user.location}}
             </div>
@@ -135,7 +135,11 @@
         </div>
     </div>
     <div class="section">
-        <h2>휴가 이력</h2>
+        <div class="vacation-title-label">
+            <h2>휴가 이력</h2>
+            <div class="vacation-title-logo">
+            </div>
+        </div>
         <div class="vacation-history">
             {% if vacations|length != 0 %}
             {% for vacation in vacations %}
