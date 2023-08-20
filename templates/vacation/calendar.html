@@ -7,11 +7,6 @@
 {% endblock %}
 
 {% block content %}
-
-
-
-
-
     <div class="calendar">
         <div class="header">
             <div class="year-month"></div>
@@ -24,38 +19,208 @@
         <div class="main">
             <div class="days">
                 <div class="calendar-day">일</div>
+                <div class="calendar-day">월</div>
                 <div class="calendar-day">화</div>
                 <div class="calendar-day">수</div>
                 <div class="calendar-day">목</div>
                 <div class="calendar-day">금</div>
                 <div class="calendar-day">토</div>
-                <div class="calendar-day">월</div>
             </div>
             <div class="dates"></div>
-            <form action="/vacation/create/" class="vacation-form" method="post">
-                {% csrf_token %}
-                <input type="date" class="vacation-departure_date-input" name="departure_date" placeholder="departure_date">
-                <input type="date" class="vacation-arrival_date-input" name="arrival_date" placeholder="arrival_date">
-                <button type="submit" class="vacation-submit">등록</button>
-            </form>
-            
-            {% for vacation in vacations %}
-            <div class="vacation-nth">
-                <span>{{ forloop.counter }}차 휴가</span>
-                <div class="vacation-myvacation">
-                    <div class="col-5 vacation-departure_date">
-                        {{ vacation.departure_date }}
+            <h2 class="vacation-list-title">나의 휴가 목록</h2>
+            <div class="vacation-list">
+                {% for vacation in vacations %}
+                <div class="vacation-nth" id="vac-{{ vacation.id }}">
+                    <div class="vacation-myvacation">
+                        <div class="col-5 vacation-departure_date">{{ vacation.departure_date }}</div>
+                        <div class="col-5 vacation-arrival_date">{{ vacation.arrival_date }}</div>
+                        <button type="button" class="col vacation-rm-button" id="{{ vacation.id }}" onclick="deleteVacation(this.id)">삭제</button>
                     </div>
-                    <div class="col-5 vacation-arrival_date">
-                        {{ vacation.arrival_date }}
-                    </div>
-                    <form class="col" action="/vacation/delete/{{vacation.id}}/" method="post">{% csrf_token %}
-                        <button type="submit" class="vacation-submit-button">삭제</button>
-                    </form>
                 </div>
+                {% empty %}
+                    <p class="non-vacation-msg">
+                        등록된 휴가 일정이 없습니다!<br>
+                        캘린더에서 휴가 시작일과 종료일을 클릭해서 나의 휴가 일정을 등록해보세요
+                    </p>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
-    <script src="{% static 'js/calendar.js' %}"></script>
+<script>
+    const dates = document.querySelector('.dates');
+    const httpRequest = new XMLHttpRequest();
+
+    dates.addEventListener('click', function(e) {
+        if (e.target.classList.contains('date')) {
+
+            let startDate = localStorage.getItem('start-date');
+            const targetInnerStr = e.target.innerHTML;
+            const yearMonth = document.querySelector('.year-month').innerText;
+            const [year, month] = getYearMonth(yearMonth);
+
+            if (startDate == null) { // 사용자가 '휴가 출발일' 클릭
+                localStorage.setItem('start-year', year);
+                localStorage.setItem('start-month', month);
+                localStorage.setItem('start-date', getDate(targetInnerStr));
+                localStorage.setItem('start-prev-next', getPrevNext(targetInnerStr));
+            }
+            else { // 사용자가 '휴가 도착일' 클릭
+                const startYear = localStorage.getItem('start-year');
+                const startMonth = localStorage.getItem('start-month');
+                const startDate = localStorage.getItem('start-date');
+                const startPrevNext = localStorage.getItem('start-prev-next');
+
+                const endDate = getDate(targetInnerStr);
+                const endPrevNext = getPrevNext(targetInnerStr);
+
+                const startEndInfo = getStartEndInfo(startYear, startMonth, startDate, startPrevNext, year, month, endDate, endPrevNext);
+                sendAjaxReq(...startEndInfo);
+                
+                localStorage.removeItem('start-date');
+            }
+
+            markDate(e.target);
+        }
+    });
+
+    function sendAjaxReq(startYear, startMonth, startDate, endYear, endMonth, endDate) {
+        httpRequest.open('post', '/vacation/create/', true);
+
+        httpRequest.setRequestHeader(
+            'Content-Type',
+            'application/json'
+        );
+
+        const requestData = {
+            'startYear': startYear,
+            'startMonth': startMonth,
+            'startDate': startDate,
+            'endYear': endYear,
+            'endMonth': endMonth,
+            'endDate': endDate,
+        };
+        httpRequest.send(JSON.stringify(requestData));
+    }
+
+    httpRequest.onreadystatechange = () => {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status < 400) {
+
+                const {start_date, end_date, vacation_id} = JSON.parse(httpRequest.response);
+                updateUI(start_date, end_date, vacation_id);
+                
+                const nonVacMsg = document.querySelector('.non-vacation-msg');
+                if (nonVacMsg) {
+                    nonVacMsg.remove();
+                }
+            }
+        }
+    }
+
+    function updateUI(start_date, end_date, vacation_id) {
+        const vacList = document.querySelector('.vacation-list');
+        const divTag = document.createElement('div');
+
+        divTag.setAttribute('class', 'vacation-nth');
+        divTag.setAttribute('id', `vac-${vacation_id}`);
+        divTag.innerHTML = 
+            `<div class="vacation-myvacation">
+                <div class="col-5 vacation-departure_date">${start_date}</div>
+                <div class="col-5 vacation-arrival_date">${end_date}</div>
+                <button type="button" class="col vacation-rm-button" id="${vacation_id}" onclick="deleteVacation(this.id)">삭제</button>
+            </div>`;
+
+        vacList.appendChild(divTag);
+    }
+
+    function getDate(spanStr) {
+        const starIdx = spanStr.indexOf('>') + 1;
+        const endIdx = spanStr.lastIndexOf('<');
+        return spanStr.slice(starIdx, endIdx);
+    }
+
+    function getYearMonth(yearMonth) {
+        const year = yearMonth.match(/\d+/)[0];
+        const month = yearMonth.match(/(\d+)월/)[1];
+        return [year, month];
+    }
+
+    function getPrevNext(dateSpan) {
+        if (dateSpan.includes('pre')) {
+            return 'pre';
+        } 
+        if (dateSpan.includes('next')) {
+            return 'next';
+        } 
+    }
+
+    function markDate(target) {
+        target.style.backgroundColor = '#d5eccc';
+    }
+    
+    function getStartEndInfo(startYear, startMonth, startDate, startPrevNext, endYear, endMonth, endDate, endPrevNext) {
+
+        if (startPrevNext == 'next') {
+            startMonth++;
+        } else if (startPrevNext == 'pre') {
+            startMonth--;
+        }
+
+        if (endPrevNext == 'pre') {
+            endMonth--;
+        } else if (endPrevNext == 'next') {
+            endMonth++;
+        }
+
+        if (startMonth > 12) {
+            startMonth -= 12;
+            startYear++;
+        }
+        if (endMonth > 12) {
+            endMonth -= 12;
+            endYear++;
+        }
+
+        if (startMonth < 1) {
+            startMonth += 12;
+            startYear--;
+        }
+        if (endMonth < 1) {
+            endMonth += 12;
+            endYear--;
+        }
+
+        return [startYear, startMonth, startDate, endYear, endMonth, endDate];
+    }
+</script>
+<script>
+    const vacList = document.querySelector('.vacation-list');
+    const rmhttpRequest = new XMLHttpRequest();
+    
+    function deleteVacation(vacId) {
+        rmhttpRequest.open('post', `/vacation/delete/${vacId}/`, true);
+        rmhttpRequest.send();
+    }
+
+    rmhttpRequest.onreadystatechange = () => {
+        if (rmhttpRequest.readyState === XMLHttpRequest.DONE) {
+            if (rmhttpRequest.status < 400) {
+
+                const {vac_id} = JSON.parse(rmhttpRequest.response);
+                const vacDiv = document.querySelector(`#vac-${vac_id}`);
+                vacDiv.remove();
+
+                const vacList = document.querySelector('.vacation-list');
+                if (vacList.innerText == '') {
+                    vacList.innerHTML = 
+                    `<p class="non-vacation-msg">
+                        등록된 휴가 일정이 없습니다!<br>
+                        캘린더에서 휴가 시작일과 종료일을 클릭해서 나의 휴가 일정을 등록해보세요
+                    </p>`;
+                }
+            }
+        }
+    }
+</script>
+<script src="{% static 'js/calendar.js' %}"></script>
 {% endblock %}

@@ -34,10 +34,17 @@ const renderCalender = () => {
   const lastDateIndex = dates.lastIndexOf(TLDate);
 
   dates.forEach((date, i) => {
-    const condition = i >= firstDateIndex && i < lastDateIndex + 1
-                      ? 'this'
-                      : 'other';
-    dates[i] = `<div class="date"><span class=${condition}>${date}</span></div>`;
+    let condition = i >= firstDateIndex && i < lastDateIndex + 1
+      ? 'this'
+      : 'other';
+    
+    if (condition === 'other') {
+      condition = i < firstDateIndex
+        ? condition + ' pre'
+        : condition + ' next';
+    }
+
+    dates[i] = `<div class="date"><span class="${condition}">${date}</span></div>`;
   });
 
   document.querySelector('.dates').innerHTML = dates.join('');
@@ -74,19 +81,19 @@ const goToday = () => {
 
 // ... (기존 코드)
 
-day.forEach((items) => {
-  items.addEventListener('click', (e) => {
+// day.forEach((items) => {
+//   items.addEventListener('click', (e) => {
       // 기존 클릭 이벤트 코드
 
       // 새로운 부분: 날짜 클릭 시 선택한 날짜를 특정 요소에 표시
-      if (Number(items.innerHTML)) {
-          const selectedDate = `${selMonth} ${items.innerHTML}`;
-          document.querySelector('.selected-date').textContent = selectedDate;
-      }
+      // if (Number(items.innerHTML)) {
+      //     const selectedDate = `${selMonth} ${items.innerHTML}`;
+      //     document.querySelector('.selected-date').textContent = selectedDate;
+      // }
 
       // 기존 AJAX 요청 코드
-  });
-});
+  // });
+// });
 
 // ... (기존 코드)
 
