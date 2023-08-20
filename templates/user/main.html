@@ -16,7 +16,7 @@
     
         <span>---------or sign up with---------</span>
         <div class="social-container">
-           <!-- <button class="social-btn">
+            <button class="social-btn">
                 <a href="javascript:loginWithKakao()">
                     <img src="{% static 'img/kakao.png' %}" alt="카카오 소셜 로그인">
                 </a>
@@ -40,7 +40,7 @@
                     });
                     }
                 </script>
-	   </button> -->
+	   </button> 
             <!-- 구글 소셜 로그인 버튼 -->
             <form action="{% provider_login_url 'google' %}" method="post" class="login__google Flex_cc">
                 {% csrf_token %}
