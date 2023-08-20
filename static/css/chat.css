@@ -57,11 +57,16 @@
 .mine-div {
     display: flex;
     justify-content: right;
+    align-items: end;
+}
+.msg-div > .msg-div-div {
+    display: flex;
+    align-items: end;
 }
 .msg-div > .name:hover {
     cursor: pointer;
 }
-.msg-div > .msg {
+.msg-div .msg {
     width: max-content;
     max-width: 200px;
     padding: 10px;
@@ -73,6 +78,16 @@
 }
 .mine-div > .mine {
     background-color: #d5eccc;
+}
+.msg-div-div > .sent-time,
+.mine-div > .sent-time {
+    font-size: 10px;
+}
+.msg-div-div > .sent-time {
+    margin: 0 0 3px 7px;
+}
+.mine-div > .sent-time {
+    margin: 0 7px 3px 0;
 }
 
 #chat-field {

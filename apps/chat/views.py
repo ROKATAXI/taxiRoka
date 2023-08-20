@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from apps.matching.models import *
 from apps.chat.models import *
+from django.utils import timezone
 
 def chat(request, room_uuid):
     msg_history = get_refined_msg_history(request, room_uuid)
@@ -18,9 +19,11 @@ def get_refined_msg_history(request, room_uuid):
         {
             "sender": get_anon(request, room_uuid, msg.msg_sender) if msg.msg_sender else None,
             "content": msg.msg_content,
-            "me" : get_me_tf(request, msg.msg_sender)
+            "me" : get_me_tf(request, msg.msg_sender),
+            "sent_time": get_sent_time(sent_time.hour, sent_time.minute)
         }
         for msg in my_msg_history
+        for sent_time in [timezone.localtime(msg.sent_time)]
     ]
     return refined_my_msg_history
 
@@ -65,3 +68,11 @@ def get_anon_from_db(request, room_uuid, msg_sender):
 
 def get_me_tf(request, msg_sender):
     return request.user == msg_sender
+
+
+def get_sent_time(hour, minute):
+    am_pm = "오전"
+    if hour > 12:
+        am_pm = "오후"
+        hour -= 12
+    return f"{am_pm} {hour}:{minute}"

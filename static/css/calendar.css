@@ -60,6 +60,7 @@
     height: 300px;
     border-top: 1px solid #333333;
     border-right: 1px solid #333333;
+    margin-bottom: 40px;
 }
 
 .date {
@@ -153,4 +154,22 @@
     border: solid gray 1px;
     border-radius: 5px;
     padding: 8px;
+    margin-bottom: 12px;
+}
+.vacation-rm-button{
+    padding: 8px 15px;
+    font-size: 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.vacation-list-title {
+    font-size: 22px;
+}
+.non-vacation-msg {
+    font-size: 15px;
 }

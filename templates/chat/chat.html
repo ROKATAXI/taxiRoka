@@ -44,15 +44,30 @@
             msg = msgHistory[i];
 
             const sender = msg.sender;
-            const content = msg.content;
             const me = msg.me;
+            const content = msg.content;
+            const sentTime = msg.sent_time;
             
             if (sender == null) { // 입장 메시지, 퇴장 메시지
-                chatLog.innerHTML += ('<div class="in-out-msg-div"><p class="in-out-msg">' + content + '</p></div>');
+                chatLog.innerHTML += 
+                `<div class="in-out-msg-div">
+                    <p class="in-out-msg">${content}</p>
+                </div>`;
             } else if (me) { // 내가 보낸 메시지
-                chatLog.innerHTML += ('<div class="msg-div mine-div"><p class="msg mine">' + content + '</p></div>');
+                chatLog.innerHTML += 
+                `<div class="msg-div mine-div">
+                    <span class="sent-time">${sentTime}</span>
+                    <p class="msg mine">${content}</p>
+                </div>`;
             } else { // 남이 보낸 메시지
-                chatLog.innerHTML += ('<div class="msg-div"><div class="user"><div class="profile"></div><span class="name" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clickName(this)">' + sender + '</span></div><p class="msg">' + content + '</p></div>');
+                chatLog.innerHTML += 
+                `<div class="msg-div">
+                    <span class="name" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clickName(this)">${sender}</span>
+                    <div class="msg-div-div">
+                        <p class="msg">${content}</p>
+                        <span class="sent-time">${sentTime}</span>
+                    </div>
+                </div>`;
             }
         }
     }
@@ -81,14 +96,32 @@
         console.log('클라이언트가 websocket 서버로부터 메시지를 받았습니다.');
 
         const data = JSON.parse(e.data);
-
+        const name = data.name;
+        const me = data.me;
+        const message = data.message;
+        const sentTime = data.sent_time;
         let chatLog = document.querySelector('#chat-log');
-        if (data.name == 'Anonymous') {
-            chatLog.innerHTML += ('<div class="in-out-msg-div"><p class="in-out-msg">' + data.message + '</p></div>');
-        } else if (data.me == true) {
-            chatLog.innerHTML += ('<div class="msg-div mine-div"><p class="msg mine">' + data.message + '</p></div>');
+
+        if (name == 'Anonymous') {
+            chatLog.innerHTML +=
+            `<div class="in-out-msg-div">
+                <p class="in-out-msg">${message}</p>
+            </div>`;
+        } else if (me == true) {
+            chatLog.innerHTML += 
+            `<div class="msg-div mine-div">
+                <span class="sent-time">${sentTime}</span>
+                <p class="msg mine">${message}</p>
+            </div>`;
         } else {
-            chatLog.innerHTML += ('<div class="msg-div"><div class="user"><div class="profile"></div><span class="name" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clickName(this)">' + data.name + '</span></div><p class="msg">' + data.message + '</p></div>');
+            chatLog.innerHTML += 
+            `<div class="msg-div">
+                <span class="name" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="clickName(this)">${name}</span>
+                <div class="msg-div-div">
+                    <p class="msg">${message}</p>
+                    <span class="sent-time">${sentTime}</span>
+                </div>
+            </div>`;
         }
 
         makeBtnInActive();
@@ -113,9 +146,12 @@
     document.querySelector('#chat-message-submit').onclick = function(e) {
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
+        const now = new Date();
+        const sentTime = now.toISOString()
 
         chatSocket.send(JSON.stringify({
-            'message': message
+            'message': message,
+            'sentTime': sentTime
         }));
 
         messageInputDom.value = '';
