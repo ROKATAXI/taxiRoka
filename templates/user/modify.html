@@ -153,24 +153,31 @@
 
 </style>
 <script>
-  const form = document.querySelector('form');
-  const modalEmptyFields = document.getElementById('modalEmptyFields');
-  
-  form.addEventListener('submit', (event) => {
-    const inputs = form.querySelectorAll('input, select');
-    let allFieldsFilled = true;
+const form = document.querySelector('form');
+const modalEmptyFields = document.getElementById('modalEmptyFields');
+const modifySuccessModal = document.getElementById('modifySuccessModal');
 
-    inputs.forEach((input) => {
-      if (!input.value) {
-        allFieldsFilled = false;
-      }
-    });
+form.addEventListener('submit', (event) => {
+  const inputs = form.querySelectorAll('input, select');
+  let allFieldsFilled = true;
 
-    if (!allFieldsFilled) {
-      event.preventDefault(); 
-      modalEmptyFields.style.display = 'block';
+  inputs.forEach((input) => {
+    if (!input.value) {
+      allFieldsFilled = false;
     }
   });
+
+  if (!allFieldsFilled) {
+    event.preventDefault(); 
+    modalEmptyFields.style.display = 'block';
+  } else {
+    // 모든 필드가 입력되었을 때만 수정 성공 모달을 나타냅니다.
+    modifySuccessModal.style.display = 'block';
+    setTimeout(() => {
+      modifySuccessModal.style.display = 'none';
+    }, 3000);
+  }
+});
 
 // 외부 클릭시 모달 닫기 이벤트 리스너 추가
 const modals = document.querySelectorAll('.modal');
@@ -187,14 +194,6 @@ modals.forEach((modal) => {
   });
 });
 
-// 모달이 나타날 때, 특정 시간 이후에 자동으로 닫히도록 설정
-const modifySuccessModal = document.getElementById('modifySuccessModal');
-if (modifySuccessModal) {
-  modifySuccessModal.style.display = 'block'; 
-  setTimeout(() => {
-    modifySuccessModal.style.display = 'none'; 
-  }, 3000); 
-}
 
   
 </script>
