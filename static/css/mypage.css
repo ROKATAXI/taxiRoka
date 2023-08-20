@@ -239,20 +239,24 @@
 .profile-content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     text-align: center;
     width: 60%;
+    background-color: #f3f2ec;
+    border-radius: 20px;
 }
 
 .user-name {
     letter-spacing: 20px;
-    color: #0f0f6cb3;
-    font-size: 1.5rem;
+    color:#0a0a67e3;
+    font-size: 1.7rem;
     text-align: center;
+    font-weight: 500;
 }
 
 .user-location {
     text-align: center;
+    color:  #aaaaaa;
 }
 
 .user-detail-info {
@@ -262,6 +266,10 @@
     justify-content: space-evenly;
 }
 
+.user-detail-label {
+    color:  #aaaaaa;
+}
+
 .user-detail-label, .user-detail-content {
     display: flex;
     flex-direction: column;
@@ -269,11 +277,12 @@
 }
 
 .section {
-    margin: 40px;
+    margin-top: 80px;
 }
 
 .section h2 {
     text-align: center;
+    font-size: 1.2rem;
 }
 .vacation-history {
     display: flex;
@@ -288,6 +297,11 @@
     display: flex;
     justify-content: space-around;
     padding: 10px 0;
+}
+
+.vacation-status h3 {
+    text-align: center;
+    color: #aaaaaa;
 }
 
 .vacation-status:last-child {
@@ -334,4 +348,14 @@
 .logout-button:hover {
     opacity: 0.8;
     background-color: #395067;
+}
+
+.vacation-arrow {
+    display: flex;
+    align-items: center;
+}
+@media (min-width: 768px) {
+    .section {
+        margin-top: 80px;
+    }
 }
