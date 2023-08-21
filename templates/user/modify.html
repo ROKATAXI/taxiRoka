@@ -1,15 +1,15 @@
-{% extends './base.html' %}{% load static %}
+{% extends 'base.html' %}{% load static %}
 {% block content %}
 
 <div class="logout-container">
   <form method="POST" action="{% url 'user:modify' %}">
       {% csrf_token %}
-      <h1>회원정보수정</h1>
+      <h1>회원정보 수정</h1>
     <!--이메일은 수정 못하게-->
       <div class="form-group">
         <label for="inputEmail3">이메일</label>
         <input type="email" class="form-control" id="inputEmail3" name="email" value="{{ user.email }}" disabled/>
-    </div>
+      </div>
   
       <div class="form-group">
         <label for="inputPassword3">비밀번호</label>
@@ -34,12 +34,12 @@
         />
       </div>
       <div class="form-group">
-          <label for="id_first_name">이름</label>
-          <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{ user.first_name }}" />
-        </div>
+        <label for="id_first_name">이름</label>
+        <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{ user.first_name }}" required/>
+      </div>
       <div class="form-group">
         <label for="inputPhone">전화번호</label>
-        <input type="tel" class="form-control" id="inputPhone" name="phone" value="{{ user.phone }}" />
+        <input type="tel" class="form-control" id="inputPhone" name="phone" value="{{ user.phone }}" required/>
       </div>
       <div class="form-group">
         <label for="inputLocation">부대위치</label>
@@ -47,8 +47,9 @@
           <option value="Sangmudae" {% if user.location == "Sangmudae" %}selected{% endif %}>상무대</option>
         </select>
       </div>
-      
+      <div class="modify-button">
       <button type="submit" id="signupBtn">수정완료</button>
+      </div>
   </form>
   
 
@@ -99,6 +100,34 @@
 
 
 <style>
+.logout-container {
+  display: flex;
+  justify-content: center;
+}
+
+.logout-container button {
+  background-color: var(--button-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 10px; 
+  border-radius: 15px;
+}
+
+.modify-button {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.logout-container h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.form-group {
+  margin-top: 20px;
+}
 /* 부대위치 입력 박스 스타일 */
 .form-group #inputLocation {
       background-color: #f5f5f5; 
@@ -109,18 +138,16 @@
       font-size: 14px;
       cursor: pointer; 
       margin-bottom: 10px;
-  }
+  }  
 
 .signup-error-messages {
     color: red;
     font-size:10px;
     margin-top: 6px;
     text-align: center;
-      }
+}
 
-  .modal {
-
-
+.modal {
   display: none;
   position: fixed;
   top: 0;
@@ -196,6 +223,63 @@ modals.forEach((modal) => {
 
 
   
+</script>-->
+
+<script>
+  const form = document.querySelector('form');
+  const modalEmptyFields = document.getElementById('modalEmptyFields');
+  const modifySuccessModal = document.getElementById('modifySuccessModal');
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const inputs = form.querySelectorAll('input, select');
+    let allFieldsFilled = true;
+
+    inputs.forEach((input) => {
+      if (!input.value) {
+        allFieldsFilled = false;
+      }
+    });
+
+    if (!allFieldsFilled) {
+      modalEmptyFields.style.display = 'block';
+    } else {
+      // 서버에 수정 요청 전송
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+      });
+
+      if (response.ok) {
+          // 성공적으로 수정되었을 때 모달 띄우기
+          // modifySuccessModal.style.display = 'block';
+          setTimeout(() => {
+            modifySuccessModal.style.display = 'none'; 
+          }, 5000); // 5초 후에 모달을 자동으로 닫도록 설정
+      } else {
+          // 에러 처리
+      }
+    }
+  });
+
+  // 외부 클릭시 모달 닫기 이벤트 리스너 추가
+  const modals = document.querySelectorAll('.modal');
+  modals.forEach((modal) => {
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    const closeButton = modal.querySelector('.close');
+    closeButton.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+  });
 </script>
 
 

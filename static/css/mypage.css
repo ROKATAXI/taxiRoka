@@ -4,8 +4,10 @@ body{
 
 .logo-container {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     margin-top: 10px;
+    align-items: center;
+    
 }
 
 .logo-container img {
@@ -36,7 +38,8 @@ body{
 .profile-picture {
     margin-right: 20px;
     margin-left:10px;
-    margin-top:40px;
+    margin-top:28px;
+    
 }
 
 .profile-picture img {
@@ -46,9 +49,12 @@ body{
     object-fit: cover;
 }
 
+.profile-intro p {
+    margin: 0;
+}
+
 .profile-info-container {
     margin-bottom: 20px;
-    width:100%;
 }
 .section-title {
     font-size: 18px;
@@ -63,13 +69,19 @@ body{
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 5px;
-    width:100%; 
+    max-width: 300px; 
     text-overflow: ellipsis; 
+    width:100%;
+    text-align: center;
 }
 
 .profile-info h1{
     font-size:14px;
     font-weight:bold;
+}
+
+.profile-intro {
+    margin-top: 3px;
 }
 
 .info-row {
@@ -88,7 +100,7 @@ body{
     background-color: #D9D9D9; 
     padding: 5px 5px;
     border-radius: 15px;
-    margin-left: 0px;
+    margin-left: 3px;
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 
@@ -168,6 +180,8 @@ body{
     font-size: 15px;
     margin-bottom: 5px;
     margin-left:5px;
+    text-align: center;
+    color: #aaaaaa;
 }
 
 .profile-actions {
@@ -206,4 +220,183 @@ body{
     background-color: #395067;
 }
 
+.mypage-banner img {
+    margin-top: 10px;
+    opacity: 0;
+    animation: fade-in 1s ease-in-out forwards; 
+}
+  
+@keyframes fade-in {
+    from {
+      opacity: 0; 
+    }
+    to {
+      opacity: 1; 
+    }
+}
 
+.mypage-banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/*여기까지 기존*/
+/*.mypage-container {
+    height: auto;
+}
+
+.mypage-banner img {
+    opacity: 0;
+    animation: fade-in 1s ease-in-out forwards; 
+}
+  
+@keyframes fade-in {
+    from {
+      opacity: 0; 
+    }
+    to {
+      opacity: 1; 
+    }
+}
+
+.mypage-banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.mypage-content {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    width: 60%;
+    background-color: #EEEEEE;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.user-name {
+    text-align: center;
+    color:#0a0a67e3;
+    font-size: 1.7rem;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 1em;
+    padding-left: 1em;
+}
+
+.user-location {
+    text-align: center;
+    color:  #aaaaaa;
+}
+
+.user-detail-info {
+    margin-top:40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.user-detail-label {
+    color:  #aaaaaa;
+}
+
+.user-detail-label, .user-detail-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section {
+    margin-top: 100px;
+}
+
+.section h2 {
+    text-align: center;
+    font-size: 1.2rem;
+}
+.vacation-history {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.vacation-status {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+
+.vacation-status h3 {
+    text-align: center;
+    color: #aaaaaa;
+}
+
+.vacation-status:last-child {
+    border-bottom: none; 
+}
+
+.vacation-status h3 {
+    font-size: 15px;
+    margin-bottom: 5px;
+    margin-left:5px;
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    justify-content: space-evenly;
+}
+
+.edit-profile-button {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px; 
+    border-radius: 15px;
+}
+
+.logout-button {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 15px;
+}
+
+.edit-profile-button:hover,
+.logout-button:hover {
+    opacity: 0.8;
+    background-color: #395067;
+}
+
+.section h2 {
+    margin-bottom: 20px;
+}
+
+.vacation-arrow {
+    display: flex;
+    align-items: center;
+}
+*/
