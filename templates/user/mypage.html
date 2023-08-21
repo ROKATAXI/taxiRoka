@@ -7,10 +7,14 @@
 {% endblock %}
 
 {% block content %}
-<!---
+
 <div class="logo-container">
     <img src="{% static 'img/loginlogo_.png' %}" alt="로고 사진">
     <h1>정보통신대대</h1>
+
+    <div class="mypage-banner">
+        <img src="{% static 'img/banner_mypage.png' %}" alt="배너사진">
+    </div>
 </div>
 
 
@@ -32,24 +36,23 @@
         
 
     <div class="profile-info-container">
-        <h2 class="section-title">회원정보</h2>
         <div class="profile-info">
             <div class="info-row">
                 <div class="info-label">이름:</div>
-                <div class="info-value">{{user.first_name}}</div>
+                <div class="info-value">&nbsp;&nbsp;{{user.first_name}}</div>
             </div>
             <div class="info-row">
                 <div class="info-label">이메일:</div>
-                <div class="info-value">{{user.username}}</div>
+                <div class="info-value">&nbsp;&nbsp;{{user.username}}</div>
             </div>
            
             <div class="info-row">
                 <div class="info-label">전화번호:</div>
-                <div class="info-value">{{user.phone}}</div>
+                <div class="info-value">&nbsp;&nbsp;{{user.phone}}</div>
             </div>
             <div class="info-row">
                 <div class="info-label">부대위치:</div>
-                <div class="info-value">{{user.location}}</div>
+                <div class="info-value">&nbsp;&nbsp;{{user.location}}</div>
             </div>
         </div>
     </div>
@@ -105,11 +108,11 @@
         </a>
     </div>
 </div>
--->   
-    
+ 
+<!-- 수정    
 <div class="mypage-container">
     <div class="mypage-banner">
-        <img src="{% static 'img/mypage_banner4.png' %}" alt="배너사진">
+        <img src="{% static 'img/banner_mypage.png' %}" alt="배너사진">
     </div>
     <div class="mypage-content">
         <div class="profile-img">
@@ -135,11 +138,7 @@
         </div>
     </div>
     <div class="section">
-        <div class="vacation-title-label">
-            <h2>휴가 이력</h2>
-            <div class="vacation-title-logo">
-            </div>
-        </div>
+        <h2>휴가 이력</h2>
         <div class="vacation-history">
             {% if vacations|length != 0 %}
             {% for vacation in vacations %}
@@ -180,3 +179,4 @@
 
 {% endblock %}
 
+-->
