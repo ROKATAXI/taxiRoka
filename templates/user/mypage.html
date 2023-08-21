@@ -85,9 +85,17 @@
             {% if vacations|length != 0 %}
             {% for vacation in vacations %}
             <div class="vacation-status">
-                
-                <h3>휴가 신청일: {{ vacation.departure_date }}</h3> 
-                <h3>휴가 복귀일: {{ vacation.arrival_date }}</h3>
+                <div class="vacation-departure">
+                    <div class="vacation-label"><h3>휴가 신청일</h3></div>
+                    <div class="vacation-content">{{ vacation.departure_date }}</div>
+                </div>                 
+                <div class="vacation-arrow">
+                    <img src="{% static 'img/arrow_right2.png' %}" alt="화살표">
+                </div>
+                <div class="vacation-arrival">
+                    <div class="vacation-label"><h3>휴가 복귀일</h3></div>
+                    <div class="vacation-content">{{ vacation.arrival_date }}</div>
+                </div>
             </div>
             {% endfor %}
             {% else %}

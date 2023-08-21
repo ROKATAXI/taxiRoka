@@ -180,6 +180,8 @@ body{
     font-size: 15px;
     margin-bottom: 5px;
     margin-left:5px;
+    text-align: center;
+    color: #aaaaaa;
 }
 
 .profile-actions {
