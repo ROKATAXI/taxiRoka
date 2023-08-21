@@ -121,3 +121,6 @@ span {
 .sociallogin-container > span{
     font-size: 80%;
 }
+.signup-error-messages ul{
+    margin-bottom: 20px;
+}

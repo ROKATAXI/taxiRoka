@@ -100,7 +100,7 @@ def signup(request):
         )
 
         if not created:
-            messages.error(request, '인증 이메일을 보냈습니다. 확인해주세요.')
+            messages.error(request, '이미 존재하는 이메일입니다. 인증 이메일을 확인해주세요.')
             return redirect(reverse('user:signup'))
 
         if created:
@@ -204,7 +204,7 @@ def kakao_Auth_Redirect(request):
                 username = profile_res['properties']['nickname']
                 kakao_email = profile_res['kakao_account']['email']
                 id = profile_res['id']
-                user = User.objects.filter(kakaoId=id).first()
+                user = User.objects.filter(email=kakao_email).first()
                 print(id, username)
                 if user is not None:
                     print("로그인")
@@ -214,7 +214,7 @@ def kakao_Auth_Redirect(request):
                     print("새로 생성")
                     user = User()
                     print(user)
-                    user.username = kakao_email
+                    user.username = kakao_email 
                     print(user.username)
                     user.first_name = username
                     user.email = kakao_email
