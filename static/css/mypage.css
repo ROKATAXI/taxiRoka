@@ -68,8 +68,7 @@ body{
     flex-direction: column;
     border: 1px solid #ccc;
     padding: 20px;
-    border-radius: 5px;
-    max-width: 300px; 
+    border-radius: 5px; 
     text-overflow: ellipsis; 
     width:100%;
     text-align: center;
