@@ -260,7 +260,7 @@ def modify(request):
         user.save()
 
         messages.success(request, '사용자 정보가 수정되었습니다.')
-        return redirect('/')
+        return redirect('/user/mypage/')
 
     context = {
         'user': user,  # 수정된 사용자 정보를 넘겨줍니다.

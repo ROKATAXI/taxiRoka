@@ -34,12 +34,12 @@
         />
       </div>
       <div class="form-group">
-          <label for="id_first_name">이름</label>
-          <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{ user.first_name }}" />
-        </div>
+        <label for="id_first_name">이름</label>
+        <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{ user.first_name }}" required/>
+      </div>
       <div class="form-group">
         <label for="inputPhone">전화번호</label>
-        <input type="tel" class="form-control" id="inputPhone" name="phone" value="{{ user.phone }}" />
+        <input type="tel" class="form-control" id="inputPhone" name="phone" value="{{ user.phone }}" required/>
       </div>
       <div class="form-group">
         <label for="inputLocation">부대위치</label>
@@ -256,13 +256,13 @@ if (modifySuccessModal) {
       });
 
       if (response.ok) {
-        // 성공적으로 수정되었을 때 모달 띄우기
-        modifySuccessModal.style.display = 'block';
-        setTimeout(() => {
-          modifySuccessModal.style.display = 'none'; 
-        }, 300000); // 30초 동안 모달 띄워두고 자동으로 사라지도록 설정
+          // 성공적으로 수정되었을 때 모달 띄우기
+          // modifySuccessModal.style.display = 'block';
+          setTimeout(() => {
+            modifySuccessModal.style.display = 'none'; 
+          }, 5000); // 5초 후에 모달을 자동으로 닫도록 설정
       } else {
-        // 에러 처리
+          // 에러 처리
       }
     }
   });
