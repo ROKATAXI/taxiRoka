@@ -71,8 +71,8 @@ span {
     gap: var(--gutter);
     align-items: center;
 }
-.input-group i{
-    font-size: 20px;
+.input-group img{
+    height: 24px;
 }
 .login-container{
     justify-content: center;
