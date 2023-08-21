@@ -223,6 +223,7 @@ body{
     margin-top: 10px;
     opacity: 0;
     animation: fade-in 1s ease-in-out forwards; 
+    margin-bottom: 10px;
 }
   
 @keyframes fade-in {
