@@ -151,8 +151,6 @@
         }));
 
         messageInputDom.value = '';
-
-        console.log("전송 버튼에 클릭 이벤트 발생")
     };
 </script>
 <script>
@@ -192,7 +190,7 @@
         const roomUuid = document.querySelector('.room-uuid');
 
         anonName.setAttribute('value', receiverAnonName.innerText);
-        roomUuid.setAttribute('value', window.location.pathname.substr(6));
+        roomUuid.setAttribute('value', window.location.pathname.split('/')[2]);
     }
 </script>
 <script>
