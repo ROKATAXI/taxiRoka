@@ -8,7 +8,9 @@
 
 {% block content %}
 <div class="mainpage">
-    
+    <div class="mypage-banner">
+        <img src="{% static 'img/banner_mypage.png' %}" alt="배너사진">
+    </div>
     <!-- 주단위 날짜 -->
     <div class="slider-container">
         <div class="slider">
@@ -105,7 +107,7 @@
                         {% if room in is_host %} <!--해당 방의 방장일 때-->
                         <div class="matchinglist-modal-body">
                             <img class="taxiimg" src="{% static 'img/taxiimg.png' %}">
-                            <h3>매칭방을<br>수정하시겠습니까?</h3>
+                            <h4>매칭방을<br>수정하시겠습니까?</h4>
                         </div>
                         <div class="matchinglist-modal-footer">                            
                             <a href="/matching/update/room/{{ room.id }}"><button type="button" class="btn btn-primary" id="matching-button">수정</button></a>
@@ -113,7 +115,7 @@
                         {% elif room.id in already_apply_ids %} <!--이미 신청한 방일 때-->    
                         <div class="matchinglist-modal-body">
                             <img class="taxiimg" src="{% static 'img/taxiimg.png' %}">
-                            <h3>이미 신청한 방입니다</h3>
+                            <h4>이미 신청한 방입니다</h4>
                         </div>
                         <div class="matchinglist-modal-footer">                            
                             <a href="/chat/{{ room.uuid }}/"><button type="button" class="btn btn-primary" id="matching-button">채팅방 이동</button></a>
@@ -121,7 +123,7 @@
                         {% elif room.current_num == room.max_num %} <!--해당 방의 인원이 모두 찼을 때-->
                         <div class="matchinglist-modal-body">
                             <img class="taxiimg" src="{% static 'img/taxiimg.png' %}">
-                            <h3>인원이 가득 찬 방입니다</h3>
+                            <h4>인원이 가득 찬 방입니다</h4>
                         </div>
                         <div class="matchinglist-modal-footer">   
                             <a href="/matching/"><button type="button" class="btn btn-primary" id="matching-button">돌아가기</button></a>
@@ -129,7 +131,7 @@
                         {% else %} <!--해당 방의 게스트일 때-->
                         <div class="matchinglist-modal-body">
                             <img class="taxiimg" src="{% static 'img/taxiimg.png' %}">
-                            <h3>매칭에<br>참여하시겠습니까?</h3>
+                            <h4>매칭에<br>참여하시겠습니까?</h4>
                         </div>
                         <div class="matchinglist-modal-footer">   
                             <a href="/matching/apply/room/{{ room.id }}"><button type="button" class="btn btn-primary" id="matching-button">매칭 참여하기</button></a>

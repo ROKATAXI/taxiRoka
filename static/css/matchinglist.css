@@ -227,7 +227,7 @@
 
 .taxiimg {
     height:200px;
-    width:200px;
+    width:180px;
 }
 
 /* -----달력------ */
@@ -303,7 +303,9 @@
 }
   
 
-
+.mypage-banner {
+    margin-bottom: 20px;
+}
 
 
 
