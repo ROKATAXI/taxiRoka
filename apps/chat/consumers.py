@@ -19,6 +19,7 @@ class ChatConsumer(WebsocketConsumer):
         self.room_uuid = self.scope["url_route"]["kwargs"]["room_uuid"]
         self.room_group_name = f"chat_{self.room_uuid}"
         type = self.scope['query_string'].decode('utf-8').split('=')[1]
+        print(type)
 
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name, self.channel_name

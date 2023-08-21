@@ -8,7 +8,6 @@
         <textarea id="chat-message-input"></textarea>
         <input id="chat-message-submit" type="button" value="전송" disabled>
     </div>
-	<input type="button" value="채팅방 나가기" id="chat-room-leave">
 </div>
 
 <!-- Modal -->
@@ -127,11 +126,8 @@
         makeBtnInActive();
         scroll_down();
     };
-	document.querySelector('#chat-room-leave').onclick = function(e) {
-        chatSocket.close();
-    };
+	
     // onclose 이벤트: 클라이언트와 websocket 서버와의 연결이 닫힐 때. 정상적 종료 + 비정상적 종료일 때 모두 발생
-
     chatSocket.onclose = function(e) {
         console.log('chatSocket에 onClose 이벤트 발생!');
     };

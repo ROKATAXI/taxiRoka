@@ -117,14 +117,16 @@
 </div>
 <script>
     function leaveRoom(roomUuid) {
+	console.log("1")
         const chatSocket = new WebSocket(
-            'ws://'
+            'wss://'
             + window.location.host
             + '/ws/chat/'
             + roomUuid
             + '/?type=recon'
         );
 
+	console.log("2")
         chatSocket.onopen = function(e) {
             // 클라이언트에서 WebSocket 연결 끊기 -> 클라이언트와 서버 간의 WebSocket 연결 종료
             chatSocket.close();

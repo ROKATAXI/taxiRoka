@@ -24,6 +24,7 @@
     flex-direction: column;
     gap: 10px;
     flex: 1;
+    margin-bottom: 50px;
 }
 
 #chat-log::-webkit-scrollbar {
@@ -97,6 +98,8 @@
     background-color: #f3f3f3;
     display: flex;
     justify-content: space-between;
+    position: fixed;
+    bottom: 62px;
 }
 #chat-message-input {
     border: none;
@@ -134,4 +137,13 @@
 } 
 .report-modal .modal-footer {
     border-top: none;
+}
+@media (min-width: 768px) {
+    #chat-field {
+        position: static;
+        bottom: 0;
+    }
+    #chat-log {
+	margin-bottom: 0;
+}
 }
