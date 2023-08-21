@@ -87,22 +87,10 @@ class ChatConsumer(WebsocketConsumer):
 
 
     def get_anon(self, room_uuid, user):
-        anon_name = self.scope['session'].get(room_uuid, '') # 익명 또는 ''
-
-        if anon_name != '':
-            return anon_name
-        
-        return self.get_anon_from_db(room_uuid, user)
-
-
-    def get_anon_from_db(self, room_uuid, user):
         matching_room = MatchingRoom.objects.get(uuid = room_uuid)
         matching = Matching.objects.get(matching_room_id = matching_room, user_id = user)
         anon_name = matching.anon_name
         
-        self.scope['session'][room_uuid] = anon_name
-        self.scope['session'].save()
-
         return anon_name
 
 

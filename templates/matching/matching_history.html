@@ -106,7 +106,7 @@
             <div class="modal-footer">
                 <form action="{% url 'matching:delete' matching.id %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-secondary">나가기</button>
+                    <button type="submit" class="btn btn-secondary" value="{{ matching.matching_room_id.uuid }}" onclick="leaveRoom(this.value)">나가기</button>
                 </form>
             <a href="/matching/history/"><button type="button" class="btn btn-primary">취소</button></a>
             </div>
@@ -115,4 +115,20 @@
     </div>
     {% endfor %}
 </div>
+<script>
+    function leaveRoom(roomUuid) {
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + roomUuid
+            + '/?type=recon'
+        );
+
+        chatSocket.onopen = function(e) {
+            // 클라이언트에서 WebSocket 연결 끊기 -> 클라이언트와 서버 간의 WebSocket 연결 종료
+            chatSocket.close();
+        }
+    }
+</script>
 {% endblock %}

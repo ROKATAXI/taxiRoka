@@ -58,8 +58,12 @@ def get_anon(request, room_uuid, msg_sender):
 
 def get_anon_from_db(request, room_uuid, msg_sender):
     matching_room = MatchingRoom.objects.get(uuid = room_uuid)
-    matching = Matching.objects.get(matching_room_id = matching_room, user_id = msg_sender)
-    anon_name = matching.anon_name
+    matching = Matching.objects.filter(matching_room_id = matching_room, user_id = msg_sender)
+
+    if matching.exists():
+        anon_name = matching[0].anon_name   
+    else:
+        anon_name = '(알수없음)'
 
     request.session[msg_sender.id] = anon_name
 
