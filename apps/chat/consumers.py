@@ -75,11 +75,10 @@ class ChatConsumer(WebsocketConsumer):
 
         # 클라이언트가 '방 나가기' 버튼 클릭
         if close_code == None:
-            user = self.scope['user']
-            anon_name = self.get_anon(self.get_uuid_from_path(self.scope['path']), user)
+            anon_name = self.get_anon(self.get_uuid_from_path(self.scope['path']), self.scope['user'])
             content = anon_name + " 님이 퇴장하였습니다."
 
-            self.save_msg(content, user, None)
+            self.save_msg(content, None, None)
 
             async_to_sync(self.channel_layer.group_send)( 
                 self.room_group_name, {"type": "chat.message", "message": content}
