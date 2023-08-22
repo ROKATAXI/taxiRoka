@@ -79,4 +79,6 @@ def get_sent_time(hour, minute):
     if hour > 12:
         am_pm = "오후"
         hour -= 12
+    elif hour == 12:
+        am_pm = "오후"
     return f"{am_pm} {hour}:{minute}"
