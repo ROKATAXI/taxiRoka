@@ -94,7 +94,7 @@ def matching_create(request):
         return render(request, "matching/createroom.html", {'create_limit': True})
 
     if request.method == 'POST':
-        print("create요청성공")
+        # print("create요청성공")
 
         departure_area = request.POST.get("departure_area")
         destination_area = request.POST.get("destination_area")
@@ -118,7 +118,7 @@ def matching_create(request):
             end_yn =True,
             uuid =uuid.uuid4(),
         )
-        print("방생성 룸아이디:", matching_room.id)
+        # print("방생성 룸아이디:", matching_room.id)
 
         Matching.objects.create(
             matching_room_id=matching_room,
@@ -389,7 +389,7 @@ def alarm_activate(matching_room, alarm_type, *args):
         content = "내 채팅방에서 누군가 나갔습니다."
         matchings = Matching.objects.filter(matching_room_id=matching_room)
         for matching in matchings:
-            print("delete matchings:", matchings)
+            # print("delete matchings:", matchings)
             Alarm.objects.create(
                 user_id = matching.user_id,
                 matching_room_id = matching.matching_room_id,
@@ -410,7 +410,7 @@ def alarm_activate(matching_room, alarm_type, *args):
         content = "방 정보가 수정되었습니다. 확인하세요!"
         matchings = Matching.objects.filter(matching_room_id=matching_room)
         for matching in matchings:
-            print("delete matchings:", matchings)
+            # print("delete matchings:", matchings)
             Alarm.objects.create(
                 user_id = matching.user_id,
                 matching_room_id = matching.matching_room_id,
