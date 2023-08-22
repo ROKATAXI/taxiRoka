@@ -29,4 +29,4 @@ class Alarm(models.Model):
     # 알림식별자, 유저 외래키, 알림 내용, 매칭방 외래키
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE) 
     matching_room_id = models.ForeignKey(MatchingRoom, on_delete=models.CASCADE)
-    content = models.CharField(max_length=20)
+    content = models.CharField(max_length=30)
