@@ -68,7 +68,7 @@
 }
 .msg-div .msg {
     width: max-content;
-    max-width: 200px;
+    max-width: 75%;
     padding: 10px;
     margin: 0;
     border-radius: 15px;
@@ -91,7 +91,7 @@
 }
 
 #chat-field {
-    height: 50px;
+    height: 60px;
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: #f3f3f3;
@@ -100,7 +100,7 @@
 }
 #chat-message-input {
     border: none;
-    padding: 0;
+    padding: 10px;
     outline: none;
     resize: none;
     overflow: hidden;
@@ -114,6 +114,7 @@
     padding-right: 10px;
 }
 #chat-message-submit {
+    margin: 4px 0;
     background-color: #D9D9D9;
     color: rgb(163, 162, 162);
 }
